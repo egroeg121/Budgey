@@ -5,7 +5,7 @@
     android:layout_height="match_parent">
 
     <ListView
-        android:id="@+id/TransactionList"
+        android:id="@+id/CategoryList"
         android:layout_width="fill_parent"
         android:layout_height="0dp"
         android:layout_weight=".90" />
@@ -17,26 +17,18 @@
         android:gravity="center"
         android:orientation="horizontal" >
 
-        <Button
-            android:id="@+id/addButton"
-            android:layout_width="120dp"
-            android:layout_height="fill_parent"
-            android:text="Add Item" />
 
         <Button
-            android:id="@+id/clearButton"
-            android:layout_width="120dp"
-            android:layout_height="fill_parent"
-            android:text="Clear List"/>
+        android:id="@+id/addButton"
+        android:layout_width="120dp"
+        android:layout_height="fill_parent"
+        android:text="Add Category" />
 
         <Button
-            android:id="@+id/GotoCategories"
+            android:id="@+id/BackToMain"
             android:layout_width="120dp"
             android:layout_height="fill_parent"
-            android:text="Categories"/>
-
-
-
+            android:text="Done" />
 
     </LinearLayout>
 

@@ -1,6 +1,89 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="match_parent"
-    android:layout_height="match_parent">
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent">
 
-</LinearLayout>
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:orientation="vertical"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true">
+
+        <!-- Notes text and field -->
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:orientation="horizontal" >
+
+            <TextView
+                android:id="@+id/NoteTextView"
+                android:text="Note: "
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+
+            <EditText
+                android:id="@+id/NoteEditText"
+                android:layout_height="wrap_content"
+                android:layout_width="fill_parent"
+                android:inputType="text"/>
+
+
+        </LinearLayout>
+
+        <!-- Amounts text and field -->
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:orientation="horizontal" >
+
+            <TextView
+                android:id="@+id/AmountTextView"
+                android:text="Amount: "
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+
+            <EditText
+                android:id="@+id/AmountEdit"
+                android:layout_height="wrap_content"
+                android:layout_width="fill_parent"
+                android:inputType="numberDecimal"/>
+        </LinearLayout>
+
+        <!-- Categories text and field -->
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:orientation="horizontal" >
+
+            <TextView
+                android:id="@+id/CategoryTextView"
+                android:text="Category: "
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+
+            <EditText
+                android:id="@+id/CategoryEdit"
+                android:layout_height="wrap_content"
+                android:layout_width="fill_parent"
+                android:inputType="text"/>
+        </LinearLayout>
+
+        <!-- Add Done Button -->
+        <Button
+            android:id="@+id/AddDone"
+            android:layout_width="100dp"
+            android:layout_height="50dp"
+            android:text="Add Item"
+            android:layout_alignParentBottom="true" />
+
+
+    </LinearLayout>
+
+
+
+</RelativeLayout>
