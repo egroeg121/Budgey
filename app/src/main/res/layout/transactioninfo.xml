@@ -1,15 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="fill_parent"
-    android:layout_height="fill_parent">
+    android:layout_height="fill_parent"
+    android:orientation="vertical" >
 
-    <LinearLayout
-        android:layout_width="fill_parent"
-        android:layout_height="fill_parent"
-        android:orientation="vertical"
-        android:layout_alignParentTop="true"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true">
 
         <!-- Notes text and field -->
         <LinearLayout
@@ -73,17 +67,36 @@
                 android:inputType="text"/>
         </LinearLayout>
 
-        <!-- Add Done Button -->
-        <Button
-            android:id="@+id/AddDone"
-            android:layout_width="100dp"
-            android:layout_height="50dp"
-            android:text="Add Item"
-            android:layout_alignParentBottom="true" />
+        <!-- Add, Cancel, Remove Buttons -->
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:orientation="horizontal" >
 
+            <!-- Add Add Button -->
+            <Button
+                android:id="@+id/DoneButton"
+                android:layout_width="100dp"
+                android:layout_height="50dp"
+                android:text="Add"
+                android:layout_alignParentBottom="true" />
 
-    </LinearLayout>
+            <!-- Add Cancel Button -->
+            <Button
+                android:id="@+id/CancelButton"
+                android:layout_width="100dp"
+                android:layout_height="50dp"
+                android:text="Cancel"
+                android:layout_alignParentBottom="true" />
 
+            <!-- Add Remove Button -->
+            <Button
+                android:id="@+id/RemoveButton"
+                android:layout_width="100dp"
+                android:layout_height="50dp"
+                android:text="Remove"
+                android:layout_alignParentBottom="true" />
+        </LinearLayout>
 
-
-</RelativeLayout>
+</LinearLayout>

@@ -111,6 +111,7 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View v) {
                 Notes.clear();
                 Amounts.clear();
+                Categories.clear();
 
                 ArrayAdapter adapter = new ArrayAdapter(MainActivity.this, android.R.layout.simple_list_item_2, android.R.id.text1, Notes) {
                     @Override
@@ -133,6 +134,7 @@ public class MainActivity extends AppCompatActivity {
         addButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 Intent intent = new Intent(MainActivity.this, TransactionInfo.class);
+                Bundle BundleOut = new Bundle();
                 startActivityForResult(intent, 1);
             }
         });
@@ -150,6 +152,7 @@ public class MainActivity extends AppCompatActivity {
                 BundleOut.putDouble("Amount",Amounts.get(position));
                 BundleOut.putInt("Position", position);
                 BundleOut.putString("Category",Categories.get(position));
+                BundleOut.putBoolean("AddOrPrevious",false);
 
                 intent.putExtras(BundleOut);
                 startActivityForResult(intent, 1);
@@ -160,52 +163,63 @@ public class MainActivity extends AppCompatActivity {
 
     // After Saving New Item
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if (requestCode == 1){ // from TransactionInfo
-            Bundle NewTransaction = data.getExtras();
+        if (resultCode == RESULT_OK){
+            if (requestCode == 1){ // from TransactionInfo
+                Bundle NewTransaction = data.getExtras();
 
-            if(NewTransaction.getInt("Position") < 0){                                              // check if a previous item or a new item
-                // Creates new transaction on all the lists
-                Amounts.add(NewTransaction.getDouble("Amount"));
-                Notes.add(NewTransaction.getString("Note"));
-                Categories.add(NewTransaction.getString("Category"));
-            }else{
-                // Edits a previous Transaction with new info from intent
-                Amounts.set(NewTransaction.getInt("Position"), NewTransaction.getDouble("Amount"));
-                Notes.set(NewTransaction.getInt("Position"), NewTransaction.getString("Note"));
-                Categories.set(NewTransaction.getInt("Position"), NewTransaction.getString("Category"));
-            }
+                if(NewTransaction.getInt("Position") < 0){                                              // check if a previous item or a new item
+                    // Creates new transaction on all the lists
+                    Amounts.add(NewTransaction.getDouble("Amount"));
+                    Notes.add(NewTransaction.getString("Note"));
+                    Categories.add(NewTransaction.getString("Category"));
+                }else{
+                    if (NewTransaction.getBoolean("RemoveBoolean")){
+                        // Removes Previous Transaction
+                        Amounts.remove(NewTransaction.getInt("Position"));
+                        Notes.remove(NewTransaction.getInt("Position"));
+                        Categories.remove(NewTransaction.getInt("Position"));
+                    }else{
+                        // Edits a previous Transaction with new info from intent
+                        Amounts.set(NewTransaction.getInt("Position"), NewTransaction.getDouble("Amount"));
+                        Notes.set(NewTransaction.getInt("Position"), NewTransaction.getString("Note"));
+                        Categories.set(NewTransaction.getInt("Position"), NewTransaction.getString("Category"));
+                    }
 
-
-            // Check for new categories
-            boolean NewCategory = true;
-            for (int i = 0; i < CategoryList.size(); i++) {                                         // loops through category list
-                if (NewTransaction.getString("Category").equals(CategoryList.get(i)) ){             // checks if the string from bundle equals a category list entry
-                    NewCategory = false;
                 }
-            }
 
-            // if it is a new category, add to category list
-            if (NewCategory){
-                CategoryList.add(NewTransaction.getString("Category"));
-            }
 
-            ArrayAdapter adapter = new ArrayAdapter(MainActivity.this, android.R.layout.simple_list_item_2, android.R.id.text1, Notes) {
-                @Override
-                public View getView(int position, View convertView, ViewGroup parent) {
-                    View view = super.getView(position, convertView, parent);
-                    TextView text1 = (TextView) view.findViewById(android.R.id.text1);
-                    TextView text2 = (TextView) view.findViewById(android.R.id.text2);
-
-                    text1.setText(Notes.get(position) + "(" + Categories.get(position) + ")");
-                    text2.setText(Amounts.get(position).toString());
-                    return view;
+                // Check for new categories
+                boolean NewCategory = true;
+                for (int i = 0; i < CategoryList.size(); i++) {                                         // loops through category list
+                    if (NewTransaction.getString("Category").equals(CategoryList.get(i)) ){             // checks if the string from bundle equals a category list entry
+                        NewCategory = false;
+                    }
                 }
-            };
-            adapter.notifyDataSetChanged();
-        }
-        if (requestCode == 2){ // from CategoryManager
 
+                // if it is a new category, add to category list
+                if (NewCategory){
+                    CategoryList.add(NewTransaction.getString("Category"));
+                }
+
+                ArrayAdapter adapter = new ArrayAdapter(MainActivity.this, android.R.layout.simple_list_item_2, android.R.id.text1, Notes) {
+                    @Override
+                    public View getView(int position, View convertView, ViewGroup parent) {
+                        View view = super.getView(position, convertView, parent);
+                        TextView text1 = (TextView) view.findViewById(android.R.id.text1);
+                        TextView text2 = (TextView) view.findViewById(android.R.id.text2);
+
+                        text1.setText(Notes.get(position) + "(" + Categories.get(position) + ")");
+                        text2.setText(Amounts.get(position).toString());
+                        return view;
+                    }
+                };
+                adapter.notifyDataSetChanged();
+            }
+            if (requestCode == 2){ // from CategoryManager
+
+            }
         }
+
 
 
     }
