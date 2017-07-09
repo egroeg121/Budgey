@@ -29,8 +29,8 @@ public class MainActivity extends AppCompatActivity {
     // Initialise all lists: Notes, Amounts, CategoryList, Categories
     List<String> Notes = new ArrayList<String>();
     List<Double> Amounts = new ArrayList<Double>();
-    List<String> CategoryList = new ArrayList<String>();                                            // Contains the list of possible categories
-    List<String> Categories = new ArrayList<String>();                                              // The actual categories of the transactions
+    List<String> CategoryList = new ArrayList<String>();                                                 // Contains the list of possible categories
+    List<String> Categories = new ArrayList<String>();                                                  // The actual categories of the transactions
 
     // Initialsie Buttons: addButton, clearButton,GotoCategories
     Button addButton;
@@ -54,7 +54,7 @@ public class MainActivity extends AppCompatActivity {
 
         // Turn String into List
         if (CategoriesString != null && CategoriesString != "") {
-            String[] retrievedStringArray = CategoriesString.split(","); // Split string into array
+            String[] retrievedStringArray = CategoriesString.split(",");                            // Split string into array
 
             // Don't quite understand why i have to make a temporary list, something to do with sizing of the array?
             List<String> templist = new ArrayList<String>(Arrays.asList(retrievedStringArray));
@@ -93,8 +93,8 @@ public class MainActivity extends AppCompatActivity {
             }
         };
         adapter.notifyDataSetChanged();
-
         listView.setAdapter(adapter);
+
 
         GotoCategories.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
@@ -102,7 +102,7 @@ public class MainActivity extends AppCompatActivity {
                 Bundle BundleOut = new Bundle();
                 BundleOut.putStringArrayList("CategoryList", (ArrayList<String>) CategoryList);
                 IntentOut.putExtras(BundleOut);
-                startActivityForResult(IntentOut, 2);
+                startActivityForResult(IntentOut, 02);
             }
         });
 
@@ -130,12 +130,12 @@ public class MainActivity extends AppCompatActivity {
         });
 
 
-        // Button to to Transaction Info screen
+
         addButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 Intent intent = new Intent(MainActivity.this, TransactionInfo.class);
                 Bundle BundleOut = new Bundle();
-                startActivityForResult(intent, 1);
+                startActivityForResult(intent, 01);
             }
         });
 
@@ -161,12 +161,10 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
-    // After Saving New Item
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (resultCode == RESULT_OK){
-            if (requestCode == 1){ // from TransactionInfo
-                Bundle NewTransaction = data.getExtras();
-
+            Bundle NewTransaction = data.getExtras();
+            if (requestCode == 01){ // from TransactionInfo
                 if(NewTransaction.getInt("Position") < 0){                                              // check if a previous item or a new item
                     // Creates new transaction on all the lists
                     Amounts.add(NewTransaction.getDouble("Amount"));
@@ -188,18 +186,7 @@ public class MainActivity extends AppCompatActivity {
                 }
 
 
-                // Check for new categories
-                boolean NewCategory = true;
-                for (int i = 0; i < CategoryList.size(); i++) {                                         // loops through category list
-                    if (NewTransaction.getString("Category").equals(CategoryList.get(i)) ){             // checks if the string from bundle equals a category list entry
-                        NewCategory = false;
-                    }
-                }
 
-                // if it is a new category, add to category list
-                if (NewCategory){
-                    CategoryList.add(NewTransaction.getString("Category"));
-                }
 
                 ArrayAdapter adapter = new ArrayAdapter(MainActivity.this, android.R.layout.simple_list_item_2, android.R.id.text1, Notes) {
                     @Override
@@ -215,8 +202,19 @@ public class MainActivity extends AppCompatActivity {
                 };
                 adapter.notifyDataSetChanged();
             }
-            if (requestCode == 2){ // from CategoryManager
+            if (requestCode == 02){ // from CategoryManager
+                // Check for new categories
+                boolean NewCategory = true;
+                for (int i = 0; i < CategoryList.size(); i++) {                                         // loops through category list
+                    if (NewTransaction.getString("Category").equals(CategoryList.get(i)) ){             // checks if the string from bundle equals a category list entry
+                        NewCategory = false;
+                    }
+                }
 
+                // if it is a new category, add to category list
+                if (NewCategory){
+                    CategoryList.add(NewTransaction.getString("Category"));
+                }
             }
         }
 

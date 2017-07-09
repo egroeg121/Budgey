@@ -36,6 +36,15 @@
             </intent-filter>
         </activity>
 
+        <activity
+            android:label="Add Category"
+            android:name=".AddCategory" >
+            <intent-filter>
+                <action android:name="barnett.george.budgey.CategoryManager" />
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
+
     </application>
 
 </manifest>

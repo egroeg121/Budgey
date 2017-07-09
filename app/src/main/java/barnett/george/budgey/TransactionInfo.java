@@ -67,14 +67,6 @@ public class TransactionInfo extends Activity {
             public void onClick(View v) {
                 Intent IntentOut = new Intent();
                 setResult(Activity.RESULT_CANCELED, IntentOut);
-            }
-        });
-
-        // Cancel Button
-        CancelButton.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View v) {
-                Intent IntentOut = new Intent();
-                setResult(Activity.RESULT_CANCELED, IntentOut);
                 finish();
             }
         });
@@ -93,7 +85,7 @@ public class TransactionInfo extends Activity {
             }
         });
 
-        // Add Button
+        // Done Button
         DoneButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 if (AmountEdit.getText().toString().isEmpty() || NoteEditText.getText().toString().isEmpty()){

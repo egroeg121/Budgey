@@ -4,10 +4,12 @@ import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.ArrayList;
@@ -30,7 +32,7 @@ public class CategoryManager extends Activity {
 
         ListView listView = (ListView) findViewById(R.id.CategoryList);
         BackToMain = (Button) findViewById(R.id.BackToMain);
-
+        addButton = (Button) findViewById(R.id.addButton);
 
         Intent intent = getIntent();
 
@@ -51,8 +53,38 @@ public class CategoryManager extends Activity {
             }
         });
 
+        addButton.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                Intent IntentOut = new Intent();
+                Bundle BundleOut = new Bundle();
+                BundleOut.putStringArrayList("CategoryName", (ArrayList<String>) CategoryList);
+                IntentOut.putExtras(BundleOut);
+                startActivityForResult(IntentOut, 10);
+            }
+        });
+
+
 
 
     }
+
+    public void onActivityResult(int requestCode, int resultCode, Intent IntentIn) {
+        if (resultCode == RESULT_OK){
+
+            Bundle NewCategory = IntentIn.getExtras();
+            if (requestCode == 10){ // from AddCategory
+
+
+
+                arrayAdapter.notifyDataSetChanged();
+            }
+
+
+        }
+
+
+
+    }
+
 
 }
