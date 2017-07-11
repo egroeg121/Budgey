@@ -101,6 +101,7 @@ public class MainActivity extends AppCompatActivity {
                 Intent IntentOut = new Intent(MainActivity.this, CategoryManager.class);
                 Bundle BundleOut = new Bundle();
                 BundleOut.putStringArrayList("CategoryList", (ArrayList<String>) CategoryList);
+                BundleOut.putStringArrayList("Categories",(ArrayList<String>) Categories);
                 IntentOut.putExtras(BundleOut);
                 startActivityForResult(IntentOut, 02);
             }
@@ -152,7 +153,6 @@ public class MainActivity extends AppCompatActivity {
                 BundleOut.putDouble("Amount",Amounts.get(position));
                 BundleOut.putInt("Position", position);
                 BundleOut.putString("Category",Categories.get(position));
-                BundleOut.putBoolean("AddOrPrevious",false);
 
                 intent.putExtras(BundleOut);
                 startActivityForResult(intent, 1);
@@ -203,18 +203,9 @@ public class MainActivity extends AppCompatActivity {
                 adapter.notifyDataSetChanged();
             }
             if (requestCode == 02){ // from CategoryManager
-                // Check for new categories
-                boolean NewCategory = true;
-                for (int i = 0; i < CategoryList.size(); i++) {                                         // loops through category list
-                    if (NewTransaction.getString("Category").equals(CategoryList.get(i)) ){             // checks if the string from bundle equals a category list entry
-                        NewCategory = false;
-                    }
-                }
-
-                // if it is a new category, add to category list
-                if (NewCategory){
-                    CategoryList.add(NewTransaction.getString("Category"));
-                }
+                // Update lists
+                CategoryList = NewTransaction.getStringArrayList("CategoryList");
+                Categories = NewTransaction.getStringArrayList("Categories");
             }
         }
 

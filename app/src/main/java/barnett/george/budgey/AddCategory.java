@@ -26,7 +26,7 @@ public class AddCategory extends Activity {
     //@Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.transactioninfo);
+        setContentView(R.layout.addcategory);
 
         // Attach Buttons and text edit
         DoneButton  = (Button) findViewById(R.id.DoneButton);
@@ -43,7 +43,9 @@ public class AddCategory extends Activity {
         // Edit Text/ Show Remove Button
         if (PreviousPosition == -1){
             RemoveButton.setVisibility(View.GONE);
-            DoneButton.setText("Done");
+            DoneButton.setText("Add");
+        }else{
+            CategoryEdit.setText(CategoryName);
         }
 
         // Onclick Add Button
@@ -69,8 +71,13 @@ public class AddCategory extends Activity {
 
 
         // Onclick Cancel Button
-
-
+        CancelButton.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                Intent IntentOut = new Intent();
+                setResult(Activity.RESULT_CANCELED, IntentOut);
+                finish();
+            }
+        });
 
     }
 
