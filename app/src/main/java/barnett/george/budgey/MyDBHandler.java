@@ -94,7 +94,7 @@ public class MyDBHandler extends SQLiteOpenHelper{
     }
 
 
-
+    // This is for the database manager. Make sure you delete it when making a proper version
     public ArrayList<Cursor> getData(String Query){
         //get writable database
         SQLiteDatabase sqlDB = this.getWritableDatabase();
