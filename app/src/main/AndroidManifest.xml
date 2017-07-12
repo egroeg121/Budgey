@@ -18,33 +18,8 @@
             </intent-filter>
         </activity>
 
-        <activity
-            android:label="Transaction Info"
-            android:name=".TransactionInfo" >
-            <intent-filter>
-                <action android:name="barnett.george.budgey.TransactionInfo" />
-                <category android:name="android.intent.category.DEFAULT" />
-            </intent-filter>
-        </activity>
-
-        <activity
-            android:label="Category Manager"
-            android:name=".CategoryManager" >
-            <intent-filter>
-                <action android:name="barnett.george.budgey.CategoryManager" />
-                <category android:name="android.intent.category.DEFAULT" />
-            </intent-filter>
-        </activity>
-
-        <activity
-            android:label="Add Category"
-            android:name=".AddCategory" >
-            <intent-filter>
-                <action android:name="barnett.george.budgey.CategoryManager" />
-                <category android:name="android.intent.category.DEFAULT" />
-            </intent-filter>
-        </activity>
-
+        <activity android:name="barnett.george.budgey.AndroidDatabaseManager"
+            android:label="@string/app_name" />
     </application>
 
 </manifest>
