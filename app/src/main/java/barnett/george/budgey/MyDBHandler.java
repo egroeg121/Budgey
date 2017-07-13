@@ -48,10 +48,10 @@ public class MyDBHandler extends SQLiteOpenHelper{
     }
 
     // Add a new row to the database
-    public void addTransaction(Transactions transaction){
+    public void addTransaction(String note){
         // Add to multiple columns at once
         ContentValues values = new ContentValues();
-        values.put(COLUMN_NOTE, transaction.get_note());
+        values.put(COLUMN_NOTE, note);
         // the database we are going to write to
         SQLiteDatabase db = getWritableDatabase();
         db.insert(TABLE_TRANSACTIONS, null, values);

@@ -3,39 +3,42 @@
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <EditText
-        android:id="@+id/NoteField"
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:ems="10"
-        android:inputType="textPersonName"
-        android:text="Name" />
+        android:orientation="horizontal">
 
-    <Button
-        android:id="@+id/addButton"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:onClick="addButtonClicked"
-        android:text="Add" />
+        <Button
+            android:id="@+id/addButton"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:onClick="addButtonClicked"
+            android:text="Add" />
 
-    <Button
-        android:id="@+id/deleteButton"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:onClick="deleteButtonClicked"
-        android:text="Delete" />
+        <Button
+            android:id="@+id/refreshButton"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:onClick="refreshButton"
+            android:text="Refresh" />
 
-    <Button
-        android:id="@+id/databasemanager"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:onClick="databasemanager"
-        android:text="database" />
+        <Button
+            android:id="@+id/databasemanager"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:onClick="databasemanager"
+            android:text="database" />
+
+    </LinearLayout>
 
     <TextView
         android:id="@+id/DatabaseText"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_weight="1"
         android:text="TextView"
         android:textAppearance="@style/TextAppearance.AppCompat.Large" />
 

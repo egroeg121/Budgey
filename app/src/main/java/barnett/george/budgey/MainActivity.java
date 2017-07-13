@@ -24,11 +24,7 @@ import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
 
-    EditText NoteField;
     TextView DatabaseText;
-    Button addButton;
-    Button deleteButton;
-    Button databaseManager;
     MyDBHandler dbHandler;
 
 
@@ -37,28 +33,27 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        NoteField = (EditText) findViewById(R.id.NoteField);
         DatabaseText = (TextView) findViewById(R.id.DatabaseText);
-        databaseManager = (Button) findViewById(R.id.databasemanager);
-
         dbHandler = new MyDBHandler(this,null,null,1);
         printDatabase();
     }
 
+    @Override
+    public void onResume(){
+        super.onResume();
+        printDatabase();
+    }
+
+
     // Add a transaction to the database
     public void addButtonClicked(View view){
-
         //
         Intent intent = new Intent(MainActivity.this, AddTransactionActivity.class);
         startActivity(intent);
-
-
+        printDatabase();
     }
 
-    // Delete button
-    public void deleteButtonClicked(View view){
-        String inputText = NoteField.getText().toString();
-        dbHandler.deleteTransaction(inputText);
+    public void refreshButton(View view){
         printDatabase();
     }
 
@@ -73,7 +68,6 @@ public class MainActivity extends AppCompatActivity {
     public void printDatabase(){
         String dbString = dbHandler.databasetoString();
         DatabaseText.setText(dbString);
-        NoteField.setText("");
     }
 
 
