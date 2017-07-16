@@ -11,6 +11,7 @@ import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class MyDBHandler extends SQLiteOpenHelper{
 
@@ -21,6 +22,7 @@ public class MyDBHandler extends SQLiteOpenHelper{
     // Add Columms
     public static final String COLUMN_ID = "_id"; // always use underscore id
     public static final String COLUMN_NOTE = "note";
+    public static final String COLUMN_AMOUNT = "amount";
 
     // For android to work with
     public MyDBHandler(Context context, String name, SQLiteDatabase.CursorFactory factory, int version) {
@@ -34,7 +36,8 @@ public class MyDBHandler extends SQLiteOpenHelper{
         // SQL Query
         String query = "CREATE TABLE " + TABLE_TRANSACTIONS + "(" +
                 COLUMN_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
-                COLUMN_NOTE + " TEXT " +
+                COLUMN_NOTE + " TEXT, " +
+                COLUMN_AMOUNT + " REAL " +
                 ");";
 
         // Executes table from above SQL
@@ -48,10 +51,11 @@ public class MyDBHandler extends SQLiteOpenHelper{
     }
 
     // Add a new row to the database
-    public void addTransaction(String note){
+    public void addTransaction(String note, Double amount){
         // Add to multiple columns at once
         ContentValues values = new ContentValues();
         values.put(COLUMN_NOTE, note);
+        values.put(COLUMN_AMOUNT, amount);
         // the database we are going to write to
         SQLiteDatabase db = getWritableDatabase();
         db.insert(TABLE_TRANSACTIONS, null, values);
@@ -84,6 +88,7 @@ public class MyDBHandler extends SQLiteOpenHelper{
         while (!c.isAfterLast()){
             if(c.getString(c.getColumnIndex("note"))!= null){     // don't know what this does
                 dbString += c.getString(c.getColumnIndex("note")); // adds to dbString
+                dbString += "(" + c.getString(c.getColumnIndex("amount")) + ")";
                 dbString += "\n"; // next entry is on a new line
             }
             c.moveToNext();
@@ -91,6 +96,10 @@ public class MyDBHandler extends SQLiteOpenHelper{
 
         db.close();
         return dbString;
+    }
+
+    public List databasetoList(){
+        A
     }
 
 

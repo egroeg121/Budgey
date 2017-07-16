@@ -57,7 +57,7 @@ public class AddTransactionActivity extends Activity {
         // enter into database
         dbHandler = new MyDBHandler(this,null,null,1);
         if (ID == -1){
-            dbHandler.addTransaction(Note);
+            dbHandler.addTransaction(Note,Amount);
         }else{
 
         }
