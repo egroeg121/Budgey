@@ -65,6 +65,29 @@ public class MyDBHandler extends SQLiteOpenHelper{
 
     }
 
+    // Add a new row to the database
+    public void editTransaction(Bundle data){
+
+        // Get info in from bundle
+        String note = data.getString("Note");
+        Double amount = data.getDouble("Amount");
+        int row = data.getInt("Row");
+
+        // get the id of the transaction to be editted
+        String _id = RowtoID(row);
+
+        // make the values to enter
+        ContentValues values = new ContentValues();
+        values.put(COLUMN_NOTE, note);
+        values.put(COLUMN_AMOUNT, amount);
+
+        // work with the database
+        SQLiteDatabase db = getWritableDatabase();
+        db.update(TABLE_TRANSACTIONS, values, "_id="+_id, null);
+        db.close(); // close database
+
+    }
+
     // Delete a transaction from the database
     public void deleteTransaction(String note){
         SQLiteDatabase db = getWritableDatabase();
@@ -73,25 +96,28 @@ public class MyDBHandler extends SQLiteOpenHelper{
     }
 
     public Bundle getRow(int row){
-        SQLiteDatabase db = getWritableDatabase();
+        SQLiteDatabase db = getReadableDatabase();
 
         // select all columns (Select *) and all rows (where 1)
         String query = "SELECT * FROM " + TABLE_TRANSACTIONS + " WHERE 1";
 
         // Cursor point to a location in your reults
-        Cursor c = db.rawQuery(query, null);
+        Cursor c = db.rawQuery(query,null);
+
         // Move curser to row
+        c.moveToFirst(); // makes sure curser is at the start
         c.move(row);
         // getColumnIndex gets the int of the column for the get String/Double
-        String note = c.getString(c.getColumnIndex("note"));
-        Double amount = c.getDouble(c.getColumnIndex("amount"));
 
+        Double amount = c.getDouble(c.getColumnIndex("amount"));
+        String note = c.getString(c.getColumnIndex("note"));
         // Create Bundle of Transaction Info
         Bundle TransactionInfo = new Bundle();
         TransactionInfo.putString("Note", note);
         TransactionInfo.putDouble("Amount",amount);
 
 
+        db.close();
         return TransactionInfo;
     }
 
@@ -145,6 +171,18 @@ public class MyDBHandler extends SQLiteOpenHelper{
 
         db.close();
         return dbList;
+    }
+
+
+    public String RowtoID(int row){
+        // Find the id of the
+        SQLiteDatabase db = getWritableDatabase();
+        String query = "SELECT * FROM " + TABLE_TRANSACTIONS + " WHERE 1";
+        Cursor c = db.rawQuery(query,null);
+        c.moveToFirst();
+        c.move(row);
+        String _id = c.getString(c.getColumnIndex("_id"));
+        return _id;
     }
 
 

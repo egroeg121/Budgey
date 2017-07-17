@@ -38,14 +38,17 @@ public class AddTransactionActivity extends Activity {
             // if previous transaction get id
         ListPosition = getIntent().getIntExtra("ListPosition",-1);
 
+
         if (ListPosition != -1){
             // Get data from previous transaction
             Bundle TransactionInfo = new Bundle();
             TransactionInfo = dbHandler.getRow(ListPosition);
+            Amount = TransactionInfo.getDouble("Amount");
+            Note = TransactionInfo.getString("Note");
 
-            NoteEdit.setText( TransactionInfo.getString("Note") );
-            AmountEdit test = Double.toString( TransactionInfo.getDouble("Amount") );
             // Put data in text fields
+            NoteEdit.setText( Note );
+            AmountEdit.setText( Double.toString( Amount) );
         }
 
 
@@ -62,7 +65,11 @@ public class AddTransactionActivity extends Activity {
         if (ListPosition == -1){
             dbHandler.addTransaction(Note,Amount);
         }else{
-
+            Bundle data = new Bundle();
+            data.putString("Note",Note);
+            data.putDouble("Amount",Amount);
+            data.putInt("Row",ListPosition);
+            dbHandler.editTransaction(data);
         }
             // If previous transaction, edit database
             // If new one, add to database
