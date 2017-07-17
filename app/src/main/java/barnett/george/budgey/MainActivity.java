@@ -24,18 +24,37 @@ import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
 
-    TextView DatabaseText;
+    ListView TransactionList;
     MyDBHandler dbHandler;
-
+    ArrayList<String> dbList = new ArrayList<String>();
+    ArrayAdapter<String> arrayAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        DatabaseText = (TextView) findViewById(R.id.DatabaseText);
+        TransactionList = (ListView) findViewById(R.id.TransactionList);
         dbHandler = new MyDBHandler(this,null,null,1);
-        printDatabase();
+
+        dbList = dbHandler.databasetoList();
+
+        // create and attach array adapter for the listview
+        arrayAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, dbList);
+        ListView listView = (ListView) findViewById(R.id.TransactionList); // produce listview from infomation list
+        listView.setAdapter(arrayAdapter);
+
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapter, View v,
+                                    int position, long id) {
+                Intent intent = new Intent(MainActivity.this, AddTransactionActivity.class);
+                intent.putExtra("ListPosition",position);
+                startActivity(intent);
+                printDatabase();
+            }
+        });
+
     }
 
     @Override
@@ -50,8 +69,9 @@ public class MainActivity extends AppCompatActivity {
         //
         Intent intent = new Intent(MainActivity.this, AddTransactionActivity.class);
         startActivity(intent);
-        printDatabase();
     }
+
+
 
     public void refreshButton(View view){
         printDatabase();
@@ -66,8 +86,15 @@ public class MainActivity extends AppCompatActivity {
 
 
     public void printDatabase(){
-        String dbString = dbHandler.databasetoString();
-        DatabaseText.setText(dbString);
+
+        // For some reason have to create a templist for the array adapter to change
+        ArrayList<String> templist = new ArrayList<String>();
+        templist = dbHandler.databasetoList();
+        dbList.clear();
+        dbList.addAll(templist);
+
+        // Update adapter
+        arrayAdapter.notifyDataSetChanged();
     }
 
 

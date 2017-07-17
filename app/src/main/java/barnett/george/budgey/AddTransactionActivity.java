@@ -18,7 +18,7 @@ public class AddTransactionActivity extends Activity {
     Button deleteButton;
     MyDBHandler dbHandler;
 
-    int ID;
+    int ListPosition;
     double Amount;
     String Note;
 
@@ -32,16 +32,20 @@ public class AddTransactionActivity extends Activity {
         AmountEdit = (EditText) findViewById(R.id.AmountEdit);
         addButton = (Button) findViewById(R.id.addButton);
         deleteButton = (Button) findViewById(R.id.deleteButton);
+        dbHandler = new MyDBHandler(this,null,null,1);
 
         // check if previoustransaction or not
             // if previous transaction get id
-        ID = getIntent().getIntExtra("id",-1);
+        ListPosition = getIntent().getIntExtra("ListPosition",-1);
 
-        if (ID == -1){
+        if (ListPosition != -1){
             // Get data from previous transaction
+            Bundle TransactionInfo = new Bundle();
+            TransactionInfo = dbHandler.getRow(ListPosition);
 
+            NoteEdit.setText( TransactionInfo.getString("Note") );
+            AmountEdit test = Double.toString( TransactionInfo.getDouble("Amount") );
             // Put data in text fields
-
         }
 
 
@@ -55,8 +59,7 @@ public class AddTransactionActivity extends Activity {
 
 
         // enter into database
-        dbHandler = new MyDBHandler(this,null,null,1);
-        if (ID == -1){
+        if (ListPosition == -1){
             dbHandler.addTransaction(Note,Amount);
         }else{
 

@@ -8,6 +8,7 @@ import android.database.MatrixCursor;
 import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.os.Bundle;
 import android.util.Log;
 
 import java.util.ArrayList;
@@ -29,6 +30,7 @@ public class MyDBHandler extends SQLiteOpenHelper{
         super(context, DATABASE_NAME, factory, DATABASE_VERSION);
 
     }
+
 
     @Override
     public void onCreate(SQLiteDatabase db) {
@@ -70,6 +72,28 @@ public class MyDBHandler extends SQLiteOpenHelper{
 
     }
 
+    public Bundle getRow(int row){
+        SQLiteDatabase db = getWritableDatabase();
+
+        // select all columns (Select *) and all rows (where 1)
+        String query = "SELECT * FROM " + TABLE_TRANSACTIONS + " WHERE 1";
+
+        // Cursor point to a location in your reults
+        Cursor c = db.rawQuery(query, null);
+        // Move curser to row
+        c.move(row);
+        // getColumnIndex gets the int of the column for the get String/Double
+        String note = c.getString(c.getColumnIndex("note"));
+        Double amount = c.getDouble(c.getColumnIndex("amount"));
+
+        // Create Bundle of Transaction Info
+        Bundle TransactionInfo = new Bundle();
+        TransactionInfo.putString("Note", note);
+        TransactionInfo.putDouble("Amount",amount);
+
+
+        return TransactionInfo;
+    }
 
     // Print out database as a String
     public String databasetoString(){
@@ -98,8 +122,29 @@ public class MyDBHandler extends SQLiteOpenHelper{
         return dbString;
     }
 
-    public List databasetoList(){
-        A
+    public ArrayList databasetoList(){
+        ArrayList<String> dbList = new ArrayList<String>();
+
+        SQLiteDatabase db = getWritableDatabase();
+
+        // select all columns (Select *) and all rows (where 1)
+        String query = "SELECT * FROM " + TABLE_TRANSACTIONS + " WHERE 1";
+
+        // Cursor point to a location in your reults
+        Cursor c = db.rawQuery(query, null);
+        // Move to the first row in your results
+        c.moveToFirst();
+
+        // loop through each row to the big string
+        while (!c.isAfterLast()){
+            if(c.getString(c.getColumnIndex("note"))!= null){     // don't know what this does
+                dbList.add(c.getString(c.getColumnIndex("note")) + "(" + c.getString(c.getColumnIndex("amount")) + ")");
+            }
+            c.moveToNext();
+        }
+
+        db.close();
+        return dbList;
     }
 
 
