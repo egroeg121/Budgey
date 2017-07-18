@@ -46,7 +46,7 @@ public class AddTransactionActivity extends Activity {
         if (ListPosition != -1){
             // Get data from previous transaction
             Bundle TransactionInfo = new Bundle();
-            TransactionInfo = dbHandler.getRow(ListPosition);
+            TransactionInfo = dbHandler.getTransactionRow(ListPosition);
             Amount = TransactionInfo.getDouble("Amount");
             Note = TransactionInfo.getString("Note");
 
@@ -97,7 +97,7 @@ public class AddTransactionActivity extends Activity {
             finish();
         }else{
             // If previous transaction get id from position
-            String id = dbHandler.RowtoID(ListPosition);
+            String id = dbHandler.RowtoID(ListPosition,0);
 
             // delete in database
             dbHandler.deleteTransaction(id);

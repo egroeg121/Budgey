@@ -1,6 +1,5 @@
 package barnett.george.budgey;
 
-
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
@@ -17,15 +16,17 @@ import java.util.List;
 public class MyDBHandler extends SQLiteOpenHelper{
 
     public static final int DATABASE_VERSION = 1; // database number, if changing the database like adding new categories etc increase this number
-    public static final String DATABASE_NAME = "transactions.db"; // name of database file
+    public static final String DATABASE_NAME = "budgey.db"; // name of database file
     public static final String TABLE_TRANSACTIONS = "transactions"; // Name of table
+    public static final String TABLE_CATEGORIES = "categories"; // Name of category table
 
     // Add Columms
-    public static final String COLUMN_ID = "_id"; // always use underscore id
-    public static final String COLUMN_NOTE = "note";
-    public static final String COLUMN_AMOUNT = "amount";
-    public static final String COLUMN_DATE = "date";
-    public static final String COLUMN_CATEGORY = "category";
+    public static final String COLUMN_ID = "_id"; // always use underscore id. For all tables
+    public static final String COLUMN_NOTE = "note"; // for transactions
+    public static final String COLUMN_AMOUNT = "amount"; // for transactions
+    public static final String COLUMN_DATE = "date"; // for transactions
+    public static final String COLUMN_CATEGORY = "category"; // for transactions
+    public static final String COLUMN_CATEGORYNAME = "categoryname"; // for categories
 
     // For android to work with
     public MyDBHandler(Context context, String name, SQLiteDatabase.CursorFactory factory, int version) {
@@ -37,18 +38,27 @@ public class MyDBHandler extends SQLiteOpenHelper{
     @Override
     public void onCreate(SQLiteDatabase db) {
 
-        // SQL Query     REMEBER TO ADD COMMA FOR NEW COLUMNS
-        String query = "CREATE TABLE " + TABLE_TRANSACTIONS + "(" +
+        // Create Transaction query     REMEBER TO ADD COMMA FOR NEW COLUMNS
+        String transactionquery = "CREATE TABLE " + TABLE_TRANSACTIONS + "(" +
                 COLUMN_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
                 COLUMN_NOTE + " TEXT, " +
                 COLUMN_AMOUNT + " REAL, " +
                 COLUMN_DATE + " TEXT, " +
                 COLUMN_CATEGORY + " TEXT " +
+                ");";
 
+
+
+        // Create Category query
+        String categoryquery = "CREATE TABLE " + TABLE_CATEGORIES + "(" +
+                COLUMN_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
+                COLUMN_CATEGORYNAME + " TEXT " +
                 ");";
 
         // Executes table from above SQL
-        db.execSQL(query);
+        db.execSQL(transactionquery);
+        db.execSQL(categoryquery);
+
     }
 
     @Override
@@ -84,7 +94,7 @@ public class MyDBHandler extends SQLiteOpenHelper{
         int row = data.getInt("Row");
 
         // get the id of the transaction to be editted
-        String _id = RowtoID(row);
+        String _id = RowtoID(row,0);
 
         // make the values to enter
         ContentValues values = new ContentValues();
@@ -106,7 +116,7 @@ public class MyDBHandler extends SQLiteOpenHelper{
     }
 
     // Gets all data on row, puts into bundle
-    public Bundle getRow(int row){
+    public Bundle getTransactionRow(int row){
         SQLiteDatabase db = getReadableDatabase();
 
         // select all columns (Select *) and all rows (where 1)
@@ -185,17 +195,54 @@ public class MyDBHandler extends SQLiteOpenHelper{
         return dbList;
     }
 
+    public ArrayList CategoriesDatabasetoList(){
+        ArrayList<String> dbList = new ArrayList<String>();
 
-    public String RowtoID(int row){
+        SQLiteDatabase db = getWritableDatabase();
+
+        // select all columns (Select *) and all rows (where 1)
+        String query = "SELECT * FROM " + TABLE_CATEGORIES + " WHERE 1";
+
+        // Cursor point to a location in your reults
+        Cursor c = db.rawQuery(query, null);
+        // Move to the first row in your results
+        c.moveToFirst();
+
+        // loop through each row to the big string
+        while (!c.isAfterLast()){
+            if(c.getString(c.getColumnIndex("note"))!= null){     // don't know what this does
+                dbList.add(c.getString( c.getColumnIndex("note")) );
+            }
+            c.moveToNext();
+        }
+
+        db.close();
+        return dbList;
+    }
+
+    public String RowtoID(int row, int tablenum){
         // Find the id of the
         SQLiteDatabase db = getWritableDatabase();
-        String query = "SELECT * FROM " + TABLE_TRANSACTIONS + " WHERE 1";
+
+        // Check which table to go to
+        String table = "";
+        switch(tablenum){
+            case 0:
+                table = TABLE_TRANSACTIONS;
+                break;
+            case 1:
+                table = TABLE_CATEGORIES;
+                break;
+        }
+        String query = "SELECT * FROM " + table + " WHERE 1";
         Cursor c = db.rawQuery(query,null);
         c.moveToFirst();
         c.move(row);
         String _id = c.getString(c.getColumnIndex("_id"));
         return _id;
     }
+
+    public void addCategory(String category){}
 
 
     // This is for the database manager. Make sure you delete it when making a proper version

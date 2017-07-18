@@ -34,4 +34,9 @@ public class MainActivity extends AppCompatActivity {
         startActivity(intent);
     }
 
+    public void CategoriesPageButtonClicked(View view){
+        Intent intent = new Intent(MainActivity.this, CategoriesPage.class);
+        startActivity(intent);
+    }
+
 }

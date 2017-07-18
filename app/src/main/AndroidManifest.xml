@@ -26,6 +26,9 @@
 
         <activity android:name="barnett.george.budgey.TransactionsPage"
             android:label="Budget" />
+
+        <activity android:name="barnett.george.budgey.CategoriesPage"
+            android:label="Budget" />
     </application>
 
 </manifest>
