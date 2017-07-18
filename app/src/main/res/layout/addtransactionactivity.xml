@@ -38,7 +38,7 @@
             android:layout_toEndOf="@+id/NoteEdit"
             android:layout_weight="1"
             android:onClick="addButtonClicked"
-            android:text="Add" />
+            android:text="Done" />
 
         <Button
             android:id="@+id/deleteButton"

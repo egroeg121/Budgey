@@ -24,79 +24,29 @@ import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
 
-    ListView TransactionList;
-    MyDBHandler dbHandler;
-    ArrayList<String> dbList = new ArrayList<String>();
-    ArrayAdapter<String> arrayAdapter;
+    Button PageButton;
+    Button CategoriesPageButton;
+    Button BudgetsPageButton;
+    Button TransactionsPageButton;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        TransactionList = (ListView) findViewById(R.id.TransactionList);
-        dbHandler = new MyDBHandler(this,null,null,1);
+        // Initisalise Buttons
+        PageButton = (Button) findViewById(R.id.PageButton);
+        CategoriesPageButton = (Button) findViewById(R.id.CategoriesPageButton);
+        BudgetsPageButton = (Button) findViewById(R.id.BudgetsPageButton);
+        TransactionsPageButton = (Button) findViewById(R.id.TransactionsPageButton);
 
-        dbList = dbHandler.databasetoList();
-
-        // create and attach array adapter for the listview
-        arrayAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, dbList);
-        ListView listView = (ListView) findViewById(R.id.TransactionList); // produce listview from infomation list
-        listView.setAdapter(arrayAdapter);
-
-        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> adapter, View v,
-                                    int position, long id) {
-                Intent intent = new Intent(MainActivity.this, AddTransactionActivity.class);
-                intent.putExtra("ListPosition",position);
-                startActivity(intent);
-                printDatabase();
-            }
-        });
 
     }
 
-    @Override
-    public void onResume(){
-        super.onResume();
-        printDatabase();
-    }
-
-
-    // Add a transaction to the database
-    public void addButtonClicked(View view){
-        //
-        Intent intent = new Intent(MainActivity.this, AddTransactionActivity.class);
+    public void TransactionsPageButtonClicked(View view){
+        Intent intent = new Intent(MainActivity.this, TransactionsPage.class);
         startActivity(intent);
     }
-
-
-
-    public void refreshButton(View view){
-        printDatabase();
-    }
-
-    // Database manager
-    public void databasemanager(View view){
-        Intent intent = new Intent(MainActivity.this, AndroidDatabaseManager.class);
-        startActivity(intent);
-
-    }
-
-
-    public void printDatabase(){
-
-        // For some reason have to create a templist for the array adapter to change
-        ArrayList<String> templist = new ArrayList<String>();
-        templist = dbHandler.databasetoList();
-        dbList.clear();
-        dbList.addAll(templist);
-
-        // Update adapter
-        arrayAdapter.notifyDataSetChanged();
-    }
-
-
 
 }

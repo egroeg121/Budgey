@@ -9,34 +9,45 @@
         android:orientation="horizontal">
 
         <Button
-            android:id="@+id/addButton"
+            android:id="@+id/PageButton"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:onClick="addButtonClicked"
-            android:text="Add" />
+            android:text="EXTRA BUTTON" />
+            android:onClick="PageButtonClicked"
 
         <Button
-            android:id="@+id/refreshButton"
+            android:id="@+id/CategoriesPageButton"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:onClick="refreshButton"
-            android:text="Refresh" />
-
-        <Button
-            android:id="@+id/databasemanager"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:onClick="databasemanager"
-            android:text="database" />
+            android:text="Categories" />
+            android:onClick="CategoriesPageButtonClicked"
 
     </LinearLayout>
 
-    <ListView
-        android:id="@+id/TransactionList"
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <Button
+            android:id="@+id/BudgetsPageButton"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="Budgets" />
+            android:onClick="BudgetsPageButtonClicked"
+
+        <Button
+            android:id="@+id/TransactionsPageButton"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:onClick="TransactionsPageButtonClicked"
+            android:text="Transactions" />
+
+
+    </LinearLayout>
 
 </LinearLayout>

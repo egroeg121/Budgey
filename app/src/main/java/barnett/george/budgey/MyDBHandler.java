@@ -89,9 +89,9 @@ public class MyDBHandler extends SQLiteOpenHelper{
     }
 
     // Delete a transaction from the database
-    public void deleteTransaction(String note){
+    public void deleteTransaction(String _id){
         SQLiteDatabase db = getWritableDatabase();
-        db.execSQL("DELETE FROM " + TABLE_TRANSACTIONS + " WHERE " + COLUMN_NOTE + "=\"" + note + "\";");
+        db.execSQL("DELETE FROM " + TABLE_TRANSACTIONS + " WHERE " + COLUMN_ID + "=\"" + _id + "\";");
 
     }
 
