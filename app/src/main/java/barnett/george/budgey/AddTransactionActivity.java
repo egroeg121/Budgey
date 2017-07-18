@@ -9,6 +9,8 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import java.util.List;
+
 
 public class AddTransactionActivity extends Activity {
 
@@ -53,6 +55,8 @@ public class AddTransactionActivity extends Activity {
             // Put data in text fields
             NoteEdit.setText( Note );
             AmountEdit.setText( Double.toString( Amount) );
+
+
         }else{
             // change buttons to say cancel/Done
             deleteButton.setText("Cancel");
@@ -77,11 +81,17 @@ public class AddTransactionActivity extends Activity {
             data.putDouble("Amount",Amount);
             dbHandler.addTransaction(data);
         }else{
+
+            // Get ID for edit transaction
+            String _ID = dbHandler.RowtoID(ListPosition,0);
+
             // previous transaction so enter in database
             Bundle data = new Bundle();
             data.putString("Note",Note);
             data.putDouble("Amount",Amount);
-            data.putInt("Row",ListPosition);
+            data.putString("ID",_ID);
+
+
             dbHandler.editTransaction(data);
         }
 
@@ -101,11 +111,9 @@ public class AddTransactionActivity extends Activity {
 
             // delete in database
             dbHandler.deleteTransaction(id);
+
             // finish
+            finish();
         }
-
-
-
-        finish();
     }
 }

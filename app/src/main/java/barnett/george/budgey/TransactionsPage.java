@@ -51,7 +51,6 @@ public class TransactionsPage extends Activity {
                 Intent intent = new Intent(TransactionsPage.this, AddTransactionActivity.class);
                 intent.putExtra("ListPosition",position);
                 startActivity(intent);
-                printDatabase();
             }
         });
 
@@ -73,8 +72,8 @@ public class TransactionsPage extends Activity {
 
 
 
-    public void refreshButton(View view){
-        printDatabase();
+    public void backButtonClicked(View view){
+        finish();
     }
 
     // Database manager

@@ -43,17 +43,34 @@ public class CategoriesPage extends Activity {
         arrayAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, dbList);
         ListView listView = (ListView) findViewById(R.id.CategoriesList); // produce listview from infomation list
         listView.setAdapter(arrayAdapter);
+
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapter, View v,
+                                    int position, long id) {
+                Intent intent = new Intent(CategoriesPage.this, AddCategoryPage.class);
+                intent.putExtra("ListPosition",position);
+                startActivity(intent);
+            }
+        });
+    }
+
+    @Override
+    public void onResume(){
+        super.onResume();
+        printDatabase();
     }
 
     // Add a transaction to the database
     public void addButtonClicked(View view){
-
+        Intent intent = new Intent(CategoriesPage.this, AddCategoryPage.class);
+        startActivity(intent);
     }
 
 
 
-    public void refreshButton(View view){
-        printDatabase();
+    public void backButtonClicked(View view){
+        finish();
     }
 
     // Database manager

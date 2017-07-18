@@ -82,19 +82,15 @@ public class MyDBHandler extends SQLiteOpenHelper{
         SQLiteDatabase db = getWritableDatabase();
         db.insert(TABLE_TRANSACTIONS, null, values);
         db.close(); // close database
-
     }
 
-    // Add a new row to the database
+    // Edit row from Transaction database
     public void editTransaction(Bundle data){
 
         // Get info in from bundle
         String note = data.getString("Note");
         Double amount = data.getDouble("Amount");
-        int row = data.getInt("Row");
-
-        // get the id of the transaction to be editted
-        String _id = RowtoID(row,0);
+        String _id = data.getString("ID");
 
         // make the values to enter
         ContentValues values = new ContentValues();
@@ -112,7 +108,7 @@ public class MyDBHandler extends SQLiteOpenHelper{
     public void deleteTransaction(String _id){
         SQLiteDatabase db = getWritableDatabase();
         db.execSQL("DELETE FROM " + TABLE_TRANSACTIONS + " WHERE " + COLUMN_ID + "=\"" + _id + "\";");
-
+        db.close();
     }
 
     // Gets all data on row, puts into bundle
@@ -130,8 +126,8 @@ public class MyDBHandler extends SQLiteOpenHelper{
         c.move(row);
         // getColumnIndex gets the int of the column for the get String/Double
 
-        Double amount = c.getDouble(c.getColumnIndex("amount"));
-        String note = c.getString(c.getColumnIndex("note"));
+        Double amount = c.getDouble(c.getColumnIndex(COLUMN_AMOUNT));
+        String note = c.getString(c.getColumnIndex(COLUMN_NOTE));
         // Create Bundle of Transaction Info
         Bundle TransactionInfo = new Bundle();
         TransactionInfo.putString("Note", note);
@@ -169,7 +165,7 @@ public class MyDBHandler extends SQLiteOpenHelper{
         return dbString;
     }
 
-    // Get transaction list data and turn into list for listview
+    // Get transaction list data and turn into list
     public ArrayList TransactionDatabasetoList(){
         ArrayList<String> dbList = new ArrayList<String>();
 
@@ -195,6 +191,7 @@ public class MyDBHandler extends SQLiteOpenHelper{
         return dbList;
     }
 
+    // Get category data and turns into a list
     public ArrayList CategoriesDatabasetoList(){
         ArrayList<String> dbList = new ArrayList<String>();
 
@@ -210,8 +207,8 @@ public class MyDBHandler extends SQLiteOpenHelper{
 
         // loop through each row to the big string
         while (!c.isAfterLast()){
-            if(c.getString(c.getColumnIndex("note"))!= null){     // don't know what this does
-                dbList.add(c.getString( c.getColumnIndex("note")) );
+            if(c.getString(c.getColumnIndex(COLUMN_CATEGORYNAME))!= null){     // don't know what this does
+                dbList.add(c.getString( c.getColumnIndex(COLUMN_CATEGORYNAME)) );
             }
             c.moveToNext();
         }
@@ -242,7 +239,56 @@ public class MyDBHandler extends SQLiteOpenHelper{
         return _id;
     }
 
-    public void addCategory(String category){}
+    public void addCategory(String category){
+        ContentValues values = new ContentValues();
+        values.put(COLUMN_CATEGORYNAME, category);
+
+        SQLiteDatabase db = getWritableDatabase();
+        db.insert(TABLE_CATEGORIES,null,values);
+        db.close();
+    }
+
+    // Delete a category from the database
+    public void deleteCategory(String _id){
+        SQLiteDatabase db = getWritableDatabase();
+        db.execSQL("DELETE FROM " + TABLE_CATEGORIES + " WHERE " + COLUMN_ID + "=\"" + _id + "\";");
+        db.close();
+    }
+
+    // update category row
+    public void editCategory(String CategoryName, String _id){
+
+        // make the values to enter
+        ContentValues values = new ContentValues();
+        values.put(COLUMN_CATEGORYNAME, CategoryName);
+
+        // work with the database
+        SQLiteDatabase db = getWritableDatabase();
+        db.update(TABLE_CATEGORIES, values, "_id="+_id, null);
+        db.close(); // close database
+
+    }
+
+    public String getCategory(int row){
+
+        SQLiteDatabase db = getReadableDatabase();
+
+        // select all columns (Select *) and all rows (where 1)
+        String query = "SELECT * FROM " + TABLE_CATEGORIES + " WHERE 1";
+
+        // Cursor point to a location in your reults
+        Cursor c = db.rawQuery(query,null);
+
+        // Move curser to correct row
+        c.moveToFirst(); // makes sure curser is at the start
+        c.move(row);
+
+        // getColumnIndex gets the int of the column for the get String/Double
+        String CategoryName = c.getString(c.getColumnIndex(COLUMN_CATEGORYNAME));
+
+        db.close();
+        return CategoryName;
+    }
 
 
     // This is for the database manager. Make sure you delete it when making a proper version
