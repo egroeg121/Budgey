@@ -37,7 +37,7 @@ public class TransactionsPage extends Activity {
         TransactionList = (ListView) findViewById(R.id.TransactionList);
         dbHandler = new MyDBHandler(this,null,null,1);
 
-        dbList = dbHandler.databasetoList();
+        dbList = dbHandler.TransactionDatabasetoList();
 
         // create and attach array adapter for the listview
         arrayAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, dbList);
@@ -89,7 +89,7 @@ public class TransactionsPage extends Activity {
 
         // For some reason have to create a templist for the array adapter to change
         ArrayList<String> templist = new ArrayList<String>();
-        templist = dbHandler.databasetoList();
+        templist = dbHandler.TransactionDatabasetoList();
         dbList.clear();
         dbList.addAll(templist);
 

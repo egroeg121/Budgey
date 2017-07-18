@@ -24,6 +24,8 @@ public class MyDBHandler extends SQLiteOpenHelper{
     public static final String COLUMN_ID = "_id"; // always use underscore id
     public static final String COLUMN_NOTE = "note";
     public static final String COLUMN_AMOUNT = "amount";
+    public static final String COLUMN_DATE = "date";
+    public static final String COLUMN_CATEGORY = "category";
 
     // For android to work with
     public MyDBHandler(Context context, String name, SQLiteDatabase.CursorFactory factory, int version) {
@@ -35,11 +37,14 @@ public class MyDBHandler extends SQLiteOpenHelper{
     @Override
     public void onCreate(SQLiteDatabase db) {
 
-        // SQL Query
+        // SQL Query     REMEBER TO ADD COMMA FOR NEW COLUMNS
         String query = "CREATE TABLE " + TABLE_TRANSACTIONS + "(" +
                 COLUMN_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
                 COLUMN_NOTE + " TEXT, " +
-                COLUMN_AMOUNT + " REAL " +
+                COLUMN_AMOUNT + " REAL, " +
+                COLUMN_DATE + " TEXT, " +
+                COLUMN_CATEGORY + " TEXT " +
+
                 ");";
 
         // Executes table from above SQL
@@ -53,11 +58,16 @@ public class MyDBHandler extends SQLiteOpenHelper{
     }
 
     // Add a new row to the database
-    public void addTransaction(String note, Double amount){
+    public void addTransaction(Bundle data){
+        // Unpack Bundle
+        String note = data.getString("Note");
+        Double amount = data.getDouble("Amount");
+
         // Add to multiple columns at once
         ContentValues values = new ContentValues();
         values.put(COLUMN_NOTE, note);
         values.put(COLUMN_AMOUNT, amount);
+        values.put(COLUMN_DATE, "1997-01-21");
         // the database we are going to write to
         SQLiteDatabase db = getWritableDatabase();
         db.insert(TABLE_TRANSACTIONS, null, values);
@@ -95,6 +105,7 @@ public class MyDBHandler extends SQLiteOpenHelper{
 
     }
 
+    // Gets all data on row, puts into bundle
     public Bundle getRow(int row){
         SQLiteDatabase db = getReadableDatabase();
 
@@ -148,7 +159,8 @@ public class MyDBHandler extends SQLiteOpenHelper{
         return dbString;
     }
 
-    public ArrayList databasetoList(){
+    // Get transaction list data and turn into list for listview
+    public ArrayList TransactionDatabasetoList(){
         ArrayList<String> dbList = new ArrayList<String>();
 
         SQLiteDatabase db = getWritableDatabase();

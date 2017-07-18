@@ -25,9 +25,29 @@
         android:hint="Amount"
         android:inputType="numberDecimal" />
 
+    <EditText
+        android:id="@+id/DateEdit"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:ems="10"
+        android:hint="Date"
+        android:inputType="date" />
+
+    <EditText
+        android:id="@+id/CategoryEdit"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:ems="10"
+        android:hint="Category"
+        android:inputType="text" />
+
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         android:orientation="horizontal">
 
         <Button

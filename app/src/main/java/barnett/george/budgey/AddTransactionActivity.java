@@ -14,6 +14,8 @@ public class AddTransactionActivity extends Activity {
 
     EditText NoteEdit;
     EditText AmountEdit;
+    EditText DateEdit;
+    EditText CategoryEdit;
     Button addButton;
     Button deleteButton;
     MyDBHandler dbHandler;
@@ -30,6 +32,9 @@ public class AddTransactionActivity extends Activity {
         // initialise layout items
         NoteEdit = (EditText) findViewById(R.id.NoteEdit);
         AmountEdit = (EditText) findViewById(R.id.AmountEdit);
+        DateEdit = (EditText) findViewById(R.id.DateEdit);
+        CategoryEdit = (EditText) findViewById(R.id.CategoryEdit);
+
         addButton = (Button) findViewById(R.id.addButton);
         deleteButton = (Button) findViewById(R.id.deleteButton);
         dbHandler = new MyDBHandler(this,null,null,1);
@@ -67,7 +72,10 @@ public class AddTransactionActivity extends Activity {
         // enter into database
         if (ListPosition == -1){
             // new transaction
-            dbHandler.addTransaction(Note,Amount);
+            Bundle data = new Bundle();
+            data.putString("Note",Note);
+            data.putDouble("Amount",Amount);
+            dbHandler.addTransaction(data);
         }else{
             // previous transaction so enter in database
             Bundle data = new Bundle();
