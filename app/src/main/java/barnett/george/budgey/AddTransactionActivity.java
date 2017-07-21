@@ -23,7 +23,7 @@ public class AddTransactionActivity extends Activity {
     MyDBHandler dbHandler;
 
     int ListPosition;
-    double Amount;
+    double Amougint;
     String Note;
 
     @Override

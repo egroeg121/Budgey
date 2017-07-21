@@ -26,7 +26,7 @@ public class CategoriesPage extends Activity {
 
     ListView CategoriesList;
     MyDBHandler dbHandler;
-    ArrayList<String> dbList = new ArrayList<String>();
+    ArrayList<String> displaylist = new ArrayList<String>();
     ArrayAdapter<String> arrayAdapter;
 
     @Override
@@ -37,10 +37,10 @@ public class CategoriesPage extends Activity {
         CategoriesList = (ListView) findViewById(R.id.CategoriesList);
         dbHandler = new MyDBHandler(this,null,null,1);
 
-        dbList = dbHandler.CategoriesDatabasetoList();
+        displaylist = dbHandler.getCategoriesList();
 
         // create and attach array adapter for the listview
-        arrayAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, dbList);
+        arrayAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, displaylist);
         ListView listView = (ListView) findViewById(R.id.CategoriesList); // produce listview from infomation list
         listView.setAdapter(arrayAdapter);
 
@@ -58,7 +58,7 @@ public class CategoriesPage extends Activity {
     @Override
     public void onResume(){
         super.onResume();
-        printDatabase();
+        refreshDisplayList();
     }
 
     // Add a transaction to the database
@@ -81,13 +81,13 @@ public class CategoriesPage extends Activity {
     }
 
 
-    public void printDatabase(){
+    public void refreshDisplayList(){
 
         // For some reason have to create a templist for the array adapter to change
         ArrayList<String> templist = new ArrayList<String>();
-        templist = dbHandler.CategoriesDatabasetoList();
-        dbList.clear();
-        dbList.addAll(templist);
+        templist = dbHandler.getCategoriesList();
+        displaylist.clear();
+        displaylist.addAll(templist);
 
         // Update adapter
         arrayAdapter.notifyDataSetChanged();

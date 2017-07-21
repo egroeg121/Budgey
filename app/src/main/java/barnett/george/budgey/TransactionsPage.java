@@ -26,7 +26,7 @@ public class TransactionsPage extends Activity {
 
     ListView TransactionList;
     MyDBHandler dbHandler;
-    ArrayList<String> dbList = new ArrayList<String>();
+    ArrayList<String> displaylist = new ArrayList<String>();
     ArrayAdapter<String> arrayAdapter;
 
     @Override
@@ -37,10 +37,10 @@ public class TransactionsPage extends Activity {
         TransactionList = (ListView) findViewById(R.id.TransactionList);
         dbHandler = new MyDBHandler(this,null,null,1);
 
-        dbList = dbHandler.TransactionDatabasetoList();
+        // Don't need printDatabse becuase OnResume runs after OnCreate
 
         // create and attach array adapter for the listview
-        arrayAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, dbList);
+        arrayAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, displaylist);
         ListView listView = (ListView) findViewById(R.id.TransactionList); // produce listview from infomation list
         listView.setAdapter(arrayAdapter);
 
@@ -71,7 +71,6 @@ public class TransactionsPage extends Activity {
     }
 
 
-
     public void backButtonClicked(View view){
         finish();
     }
@@ -86,11 +85,15 @@ public class TransactionsPage extends Activity {
 
     public void printDatabase(){
 
-        // For some reason have to create a templist for the array adapter to change
-        ArrayList<String> templist = new ArrayList<String>();
-        templist = dbHandler.TransactionDatabasetoList();
-        dbList.clear();
-        dbList.addAll(templist);
+        displaylist.clear();
+
+        ArrayList<String> amountlist = new ArrayList<String>();
+        amountlist = dbHandler.getTransactionList("amount");
+        ArrayList<String> notelist = new ArrayList<String>();
+        notelist = dbHandler.getTransactionList("note");
+        for (int i = 0; i < amountlist.size(); i++) {
+            displaylist.add(notelist.get(i) + " (" + amountlist.get(i) + ")");
+        }
 
         // Update adapter
         arrayAdapter.notifyDataSetChanged();

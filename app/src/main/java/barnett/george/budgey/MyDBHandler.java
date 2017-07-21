@@ -31,7 +31,6 @@ public class MyDBHandler extends SQLiteOpenHelper{
     // For android to work with
     public MyDBHandler(Context context, String name, SQLiteDatabase.CursorFactory factory, int version) {
         super(context, DATABASE_NAME, factory, DATABASE_VERSION);
-
     }
 
 
@@ -191,8 +190,35 @@ public class MyDBHandler extends SQLiteOpenHelper{
         return dbList;
     }
 
+    public ArrayList getTransactionList(String column){
+        ArrayList<String> dbList = new ArrayList<String>();
+
+        SQLiteDatabase db = getReadableDatabase();
+
+        // select all columns (Select *) and all rows (where 1)
+        String query = "SELECT "+ column +" FROM " + TABLE_TRANSACTIONS + " WHERE 1";
+
+        // Cursor point to a location in your reults
+        Cursor c = db.rawQuery(query, null);
+        // Move to the first row in your results
+        c.moveToFirst();
+
+        // loop through each row to the big string
+        while (!c.isAfterLast()){
+            if(c.getString(c.getColumnIndex(column))!= null){     // don't know what this does
+                dbList.add( c.getString(c.getColumnIndex(column)) );
+            }
+            c.moveToNext();
+        }
+
+        db.close();
+
+
+        return dbList;
+    }
+
     // Get category data and turns into a list
-    public ArrayList CategoriesDatabasetoList(){
+    public ArrayList getCategoriesList(){
         ArrayList<String> dbList = new ArrayList<String>();
 
         SQLiteDatabase db = getWritableDatabase();
@@ -290,6 +316,21 @@ public class MyDBHandler extends SQLiteOpenHelper{
         return CategoryName;
     }
 
+    public Boolean StringExistInCategories(String string){
+        ArrayList<String> comparelist = new ArrayList<String>();
+        Boolean StringExists = false;
+        comparelist = getCategoriesList();
+        for (int i = 0; i < comparelist.size(); i++) {
+            if (comparelist.get(i).equals(string)){
+                StringExists = true;
+                break;
+            }
+        }
+
+
+
+        return StringExists;
+    }
 
     // This is for the database manager. Make sure you delete it when making a proper version
     public ArrayList<Cursor> getData(String Query){
