@@ -48,9 +48,23 @@ public class CategoriesPage extends Activity {
             @Override
             public void onItemClick(AdapterView<?> adapter, View v,
                                     int position, long id) {
-                Intent intent = new Intent(CategoriesPage.this, AddCategoryPage.class);
-                intent.putExtra("ListPosition",position);
-                startActivity(intent);
+
+                // Can come from Add Transaction or from the Select Category Page
+                if(getIntent().getBooleanExtra("SelectCategory",false) == true){
+
+                    Intent intent = new Intent();
+                    String temp = displaylist.get(position);
+                    intent.putExtra("Category", displaylist.get(position));
+
+                    setResult(RESULT_OK, intent);
+                    finish();
+                }else{
+                    Intent intent = new Intent(CategoriesPage.this, AddCategoryPage.class);
+                    intent.putExtra("ListPosition",position);
+                    startActivity(intent);
+                }
+
+
             }
         });
     }

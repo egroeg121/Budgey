@@ -68,15 +68,18 @@ public class MyDBHandler extends SQLiteOpenHelper{
 
     // Add a new row to the database
     public void addTransaction(Bundle data){
+
         // Unpack Bundle
         String note = data.getString("Note");
         Double amount = data.getDouble("Amount");
+        String category = data.getString("Category");
 
         // Add to multiple columns at once
         ContentValues values = new ContentValues();
         values.put(COLUMN_NOTE, note);
         values.put(COLUMN_AMOUNT, amount);
         values.put(COLUMN_DATE, "1997-01-21");
+        values.put(COLUMN_CATEGORY, category);
         // the database we are going to write to
         SQLiteDatabase db = getWritableDatabase();
         db.insert(TABLE_TRANSACTIONS, null, values);
@@ -89,12 +92,15 @@ public class MyDBHandler extends SQLiteOpenHelper{
         // Get info in from bundle
         String note = data.getString("Note");
         Double amount = data.getDouble("Amount");
+        String category = data.getString("Category");
         String _id = data.getString("ID");
 
         // make the values to enter
         ContentValues values = new ContentValues();
         values.put(COLUMN_NOTE, note);
         values.put(COLUMN_AMOUNT, amount);
+        values.put(COLUMN_CATEGORY, category);
+
 
         // work with the database
         SQLiteDatabase db = getWritableDatabase();
@@ -127,10 +133,12 @@ public class MyDBHandler extends SQLiteOpenHelper{
 
         Double amount = c.getDouble(c.getColumnIndex(COLUMN_AMOUNT));
         String note = c.getString(c.getColumnIndex(COLUMN_NOTE));
+        String category = c.getString( c.getColumnIndex(COLUMN_CATEGORY) );
         // Create Bundle of Transaction Info
         Bundle TransactionInfo = new Bundle();
         TransactionInfo.putString("Note", note);
         TransactionInfo.putDouble("Amount",amount);
+        TransactionInfo.putString("Category",category);
 
 
         db.close();

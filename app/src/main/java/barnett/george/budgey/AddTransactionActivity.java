@@ -17,14 +17,15 @@ public class AddTransactionActivity extends Activity {
     EditText NoteEdit;
     EditText AmountEdit;
     EditText DateEdit;
-    EditText CategoryEdit;
+    EditText Categorytext;
     Button addButton;
     Button deleteButton;
     MyDBHandler dbHandler;
 
     int ListPosition;
-    double Amougint;
+    double Amount;
     String Note;
+    String Category;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,7 +36,8 @@ public class AddTransactionActivity extends Activity {
         NoteEdit = (EditText) findViewById(R.id.NoteEdit);
         AmountEdit = (EditText) findViewById(R.id.AmountEdit);
         DateEdit = (EditText) findViewById(R.id.DateEdit);
-        CategoryEdit = (EditText) findViewById(R.id.CategoryEdit);
+        Categorytext = (EditText) findViewById(R.id.CategoryText);
+
 
         addButton = (Button) findViewById(R.id.addButton);
         deleteButton = (Button) findViewById(R.id.deleteButton);
@@ -51,16 +53,19 @@ public class AddTransactionActivity extends Activity {
             TransactionInfo = dbHandler.getTransactionRow(ListPosition);
             Amount = TransactionInfo.getDouble("Amount");
             Note = TransactionInfo.getString("Note");
+            Category = TransactionInfo.getString("Category");
 
             // Put data in text fields
             NoteEdit.setText( Note );
             AmountEdit.setText( Double.toString( Amount) );
+            Categorytext.setText( Category );
 
 
         }else{
             // change buttons to say cancel/Done
             deleteButton.setText("Cancel");
             addButton.setText("Add");
+            Categorytext.setText("");
         }
 
 
@@ -79,6 +84,7 @@ public class AddTransactionActivity extends Activity {
             Bundle data = new Bundle();
             data.putString("Note",Note);
             data.putDouble("Amount",Amount);
+            data.putString("Category",Category);
             dbHandler.addTransaction(data);
         }else{
 
@@ -90,14 +96,21 @@ public class AddTransactionActivity extends Activity {
             data.putString("Note",Note);
             data.putDouble("Amount",Amount);
             data.putString("ID",_ID);
-
+            data.putString("Category",Category);
 
             dbHandler.editTransaction(data);
         }
 
 
+
         // finish
         finish();
+    }
+
+    public void categoryButtonClicked(View view){
+        Intent intent = new Intent(AddTransactionActivity.this, CategoriesPage.class);
+        intent.putExtra("SelectCategory", true);
+        startActivityForResult(intent, 1);
     }
 
     public void deleteButtonClicked(View view){
@@ -116,4 +129,16 @@ public class AddTransactionActivity extends Activity {
             finish();
         }
     }
+
+
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (resultCode == RESULT_OK && requestCode == 1) {
+            // Request Code 1 is from Category Button
+            Category = data.getStringExtra("Category");
+            Categorytext.setText( Category );
+        }
+
+    }
+
+
 }

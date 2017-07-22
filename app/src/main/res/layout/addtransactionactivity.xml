@@ -3,7 +3,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    android:weightSum="1">
 
     <EditText
         android:id="@+id/NoteEdit"
@@ -35,15 +36,33 @@
         android:hint="Date"
         android:inputType="date" />
 
-    <EditText
-        android:id="@+id/CategoryEdit"
-        android:layout_width="wrap_content"
+    <LinearLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentTop="true"
-        android:ems="10"
-        android:hint="Category"
-        android:inputType="text" />
+        android:orientation="horizontal"
+        android:layout_weight="0.99">
+
+        <Button
+            android:id="@+id/categoryButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_toStartOf="@+id/addButton"
+            android:layout_weight="1.64"
+            android:onClick="categoryButtonClicked"
+            android:text="Category" />
+
+        <EditText
+            android:id="@+id/CategoryText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentTop="true"
+            android:ems="10"
+            android:hint="Category"
+            android:inputType="none" />
+
+    </LinearLayout>
 
     <LinearLayout
         android:layout_width="match_parent"
