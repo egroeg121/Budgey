@@ -117,7 +117,7 @@ public class MyDBHandler extends SQLiteOpenHelper{
     }
 
     // Gets all data on row, puts into bundle
-    public Bundle getTransactionRow(int row){
+    public Bundle getTransactionInfoFromRow(int row){
         SQLiteDatabase db = getReadableDatabase();
 
         // select all columns (Select *) and all rows (where 1)
@@ -145,57 +145,64 @@ public class MyDBHandler extends SQLiteOpenHelper{
         return TransactionInfo;
     }
 
-    // Print out database as a String
-    public String databasetoString(){
-        String dbString = "";
-        SQLiteDatabase db = getWritableDatabase();
+    // Get all transaction data that match a category
+    public Bundle getTransactionInfoByCategory(String Category ){
+        Bundle data = new Bundle();
+        ArrayList<String> Amounts = new ArrayList<>();
+        ArrayList<String> Notes = new ArrayList<>();
 
-        // select all columns (Select *) and all rows (where 1)
+        SQLiteDatabase db = getReadableDatabase();
         String query = "SELECT * FROM " + TABLE_TRANSACTIONS + " WHERE 1";
-
-        // Cursor point to a location in your reults
         Cursor c = db.rawQuery(query, null);
-        // Move to the first row in your results
         c.moveToFirst();
 
         // loop through each row to the big string
         while (!c.isAfterLast()){
-            if(c.getString(c.getColumnIndex("note"))!= null){     // don't know what this does
-                dbString += c.getString(c.getColumnIndex("note")); // adds to dbString
-                dbString += "(" + c.getString(c.getColumnIndex("amount")) + ")";
-                dbString += "\n"; // next entry is on a new line
+            if ( c.getString( c.getColumnIndex(COLUMN_CATEGORY) ).equals(Category) ){
+                Amounts.add(c.getString( c.getColumnIndex(COLUMN_AMOUNT)) );
+                Notes.add(c.getString( c.getColumnIndex(COLUMN_NOTE)) );
             }
             c.moveToNext();
         }
-
         db.close();
-        return dbString;
+
+        data.putStringArrayList("Amounts", Amounts);
+        data.putStringArrayList("Notes", Notes);
+        return data;
     }
 
-    // Get transaction list data and turn into list
-    public ArrayList TransactionDatabasetoList(){
-        ArrayList<String> dbList = new ArrayList<String>();
-
-        SQLiteDatabase db = getWritableDatabase();
+    // Gets all data on row, puts into bundle
+    public Bundle getTransactionInfoFromID(int _id){
+        SQLiteDatabase db = getReadableDatabase();
 
         // select all columns (Select *) and all rows (where 1)
         String query = "SELECT * FROM " + TABLE_TRANSACTIONS + " WHERE 1";
 
         // Cursor point to a location in your reults
-        Cursor c = db.rawQuery(query, null);
-        // Move to the first row in your results
-        c.moveToFirst();
+        Cursor c = db.rawQuery(query,null);
 
-        // loop through each row to the big string
+        // Move curser to row
+        c.moveToFirst(); // makes sure curser is at the start
+
         while (!c.isAfterLast()){
-            if(c.getString(c.getColumnIndex("note"))!= null){     // don't know what this does
-                dbList.add(c.getString(c.getColumnIndex("note")) + "(" + c.getString(c.getColumnIndex("amount")) + ")");
+            if(c.getString(c.getColumnIndex(COLUMN_ID)).equals(Integer.toString(_id))){     // Checks whether id in row is equal to proper wanted id
+
             }
             c.moveToNext();
         }
 
+        Double amount = c.getDouble(c.getColumnIndex(COLUMN_AMOUNT));
+        String note = c.getString(c.getColumnIndex(COLUMN_NOTE));
+        String category = c.getString( c.getColumnIndex(COLUMN_CATEGORY) );
+        // Create Bundle of Transaction Info
+        Bundle TransactionInfo = new Bundle();
+        TransactionInfo.putString("Note", note);
+        TransactionInfo.putDouble("Amount",amount);
+        TransactionInfo.putString("Category",category);
+
+
         db.close();
-        return dbList;
+        return TransactionInfo;
     }
 
     public ArrayList getTransactionList(String column){
@@ -229,7 +236,7 @@ public class MyDBHandler extends SQLiteOpenHelper{
     public ArrayList getCategoriesList(){
         ArrayList<String> dbList = new ArrayList<String>();
 
-        SQLiteDatabase db = getWritableDatabase();
+        SQLiteDatabase db = getReadableDatabase();
 
         // select all columns (Select *) and all rows (where 1)
         String query = "SELECT * FROM " + TABLE_CATEGORIES + " WHERE 1";
@@ -290,19 +297,29 @@ public class MyDBHandler extends SQLiteOpenHelper{
     }
 
     // update category row
-    public void editCategory(String CategoryName, String _id){
+    public void editCategory(String CategoryName,String OldName , String _id){
 
         // make the values to enter
-        ContentValues values = new ContentValues();
-        values.put(COLUMN_CATEGORYNAME, CategoryName);
+        ContentValues categoryvalues = new ContentValues();
+        categoryvalues.put(COLUMN_CATEGORYNAME, CategoryName);
 
         // work with the database
         SQLiteDatabase db = getWritableDatabase();
-        db.update(TABLE_CATEGORIES, values, "_id="+_id, null);
-        db.close(); // close database
+        db.update(TABLE_CATEGORIES, categoryvalues, "_id="+_id, null);
+
+        // Change all transactions to new category
+        ContentValues transactionvalues = new ContentValues();
+        transactionvalues.put(COLUMN_CATEGORY, CategoryName);
+
+        String[] selectionArgs = { OldName };
+        db.update(TABLE_TRANSACTIONS, transactionvalues,"category=?",selectionArgs);
+
+
+        db.close();
 
     }
 
+    // Get category from row number
     public String getCategory(int row){
 
         SQLiteDatabase db = getReadableDatabase();
@@ -324,21 +341,7 @@ public class MyDBHandler extends SQLiteOpenHelper{
         return CategoryName;
     }
 
-    public Boolean StringExistInCategories(String string){
-        ArrayList<String> comparelist = new ArrayList<String>();
-        Boolean StringExists = false;
-        comparelist = getCategoriesList();
-        for (int i = 0; i < comparelist.size(); i++) {
-            if (comparelist.get(i).equals(string)){
-                StringExists = true;
-                break;
-            }
-        }
 
-
-
-        return StringExists;
-    }
 
     // This is for the database manager. Make sure you delete it when making a proper version
     public ArrayList<Cursor> getData(String Query){

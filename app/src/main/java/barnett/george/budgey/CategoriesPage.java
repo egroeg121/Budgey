@@ -44,6 +44,10 @@ public class CategoriesPage extends Activity {
         ListView listView = (ListView) findViewById(R.id.CategoriesList); // produce listview from infomation list
         listView.setAdapter(arrayAdapter);
 
+
+
+
+
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapter, View v,

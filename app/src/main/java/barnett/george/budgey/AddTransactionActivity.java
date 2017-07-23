@@ -17,7 +17,7 @@ public class AddTransactionActivity extends Activity {
     EditText NoteEdit;
     EditText AmountEdit;
     EditText DateEdit;
-    EditText Categorytext;
+    TextView Categorytext;
     Button addButton;
     Button deleteButton;
     MyDBHandler dbHandler;
@@ -36,7 +36,7 @@ public class AddTransactionActivity extends Activity {
         NoteEdit = (EditText) findViewById(R.id.NoteEdit);
         AmountEdit = (EditText) findViewById(R.id.AmountEdit);
         DateEdit = (EditText) findViewById(R.id.DateEdit);
-        Categorytext = (EditText) findViewById(R.id.CategoryText);
+        Categorytext = (TextView) findViewById(R.id.CategoryText);
 
 
         addButton = (Button) findViewById(R.id.addButton);
@@ -50,7 +50,7 @@ public class AddTransactionActivity extends Activity {
         if (ListPosition != -1){
             // Get data from previous transaction
             Bundle TransactionInfo = new Bundle();
-            TransactionInfo = dbHandler.getTransactionRow(ListPosition);
+            TransactionInfo = dbHandler.getTransactionInfoFromRow(ListPosition);
             Amount = TransactionInfo.getDouble("Amount");
             Note = TransactionInfo.getString("Note");
             Category = TransactionInfo.getString("Category");

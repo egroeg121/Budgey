@@ -5,10 +5,13 @@ import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ListView;
 import android.widget.TextView;
 
+import java.util.ArrayList;
 import java.util.List;
 
 
@@ -17,10 +20,15 @@ public class AddCategoryPage extends Activity {
     EditText CategoryNameEdit;
     Button addButton;
     Button deleteButton;
+    ListView transactionList;
+    ArrayAdapter<String> arrayAdapter;
+
     MyDBHandler dbHandler;
+    ArrayList<String> displaylist = new ArrayList<String>();
 
     int ListPosition;
     String CategoryName;
+    String OldCategoryName;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -31,16 +39,41 @@ public class AddCategoryPage extends Activity {
         CategoryNameEdit = (EditText) findViewById(R.id.CategoryNameEdit);
         addButton = (Button) findViewById(R.id.addButton);
         deleteButton = (Button) findViewById(R.id.deleteButton);
+        transactionList = (ListView) findViewById(R.id.transactionList);
+
+        // create and attach array adapter for the listview
+        arrayAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, displaylist);
+        ListView listView = (ListView) findViewById(R.id.transactionList); // produce listview from infomation list
+        listView.setAdapter(arrayAdapter);
+
         dbHandler = new MyDBHandler(this,null,null,1);
+
 
         // Get position from list click. if from add button position is -1
         ListPosition = getIntent().getIntExtra("ListPosition",-1);
 
 
-        if (ListPosition != -1){
+        if (ListPosition != -1){ // If from previous transaction
             // Get data from previous transaction
             CategoryName = dbHandler.getCategory(ListPosition);
+            OldCategoryName = CategoryName;
             CategoryNameEdit.setText( CategoryName );
+
+            Bundle data = new Bundle();
+            data = dbHandler.getTransactionInfoByCategory( CategoryName );
+
+            displaylist.clear();
+            ArrayList<String> amountlist;
+            amountlist = data.getStringArrayList("Amounts");
+            ArrayList<String> notelist;
+            notelist = data.getStringArrayList("Notes");
+            for (int i = 0; i < amountlist.size(); i++) {
+                displaylist.add(notelist.get(i) + " (" + amountlist.get(i) + ")");
+            }
+
+            // Update adapter
+            arrayAdapter.notifyDataSetChanged();
+
         }else{
             // change buttons to say cancel/Done
             deleteButton.setText("Cancel");
@@ -65,7 +98,7 @@ public class AddCategoryPage extends Activity {
             String _id = dbHandler.RowtoID(ListPosition,1);
 
             // add data to database
-            dbHandler.editCategory(CategoryName, _id);
+            dbHandler.editCategory(CategoryName,OldCategoryName, _id);
         }
 
 
