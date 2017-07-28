@@ -290,9 +290,11 @@ public class MyDBHandler extends SQLiteOpenHelper{
     }
 
     // Delete a category from the database
-    public void deleteCategory(String _id){
+    public void deleteCategory(String OldName){
         SQLiteDatabase db = getWritableDatabase();
-        db.execSQL("DELETE FROM " + TABLE_CATEGORIES + " WHERE " + COLUMN_ID + "=\"" + _id + "\";");
+        db.execSQL("DELETE FROM " + TABLE_CATEGORIES + " WHERE " + COLUMN_CATEGORYNAME + "=\"" + OldName + "\";");
+
+        db.execSQL("DELETE FROM " + TABLE_TRANSACTIONS + " WHERE " + COLUMN_CATEGORY + "=\"" + OldName + "\";");
         db.close();
     }
 
