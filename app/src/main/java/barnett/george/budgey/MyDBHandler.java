@@ -19,14 +19,18 @@ public class MyDBHandler extends SQLiteOpenHelper{
     public static final String DATABASE_NAME = "budgey.db"; // name of database file
     public static final String TABLE_TRANSACTIONS = "transactions"; // Name of table
     public static final String TABLE_CATEGORIES = "categories"; // Name of category table
+    public static final String TABLE_RECURRING = "recurring"; // Name of Recurring Transactions Table
 
     // Add Columms
     public static final String COLUMN_ID = "_id"; // always use underscore id. For all tables
-    public static final String COLUMN_NOTE = "note"; // for transactions
-    public static final String COLUMN_AMOUNT = "amount"; // for transactions
+    public static final String COLUMN_NOTE = "note"; // for transactions, recurring
+    public static final String COLUMN_AMOUNT = "amount"; // for transactions, recurring
     public static final String COLUMN_DATE = "date"; // for transactions
-    public static final String COLUMN_CATEGORY = "category"; // for transactions
+    public static final String COLUMN_NEXTDATE = "nextdate"; // for recurring
+    public static final String COLUMN_CATEGORY = "category"; // for transactions, recurring
     public static final String COLUMN_CATEGORYNAME = "categoryname"; // for categories
+    public static final String COLUMN_UNITOFTIME = "unitoftime";
+    public static final String COLUMN_NUMBEROFUNIT= "numberofunit";
 
     // For android to work with
     public MyDBHandler(Context context, String name, SQLiteDatabase.CursorFactory factory, int version) {
@@ -42,7 +46,7 @@ public class MyDBHandler extends SQLiteOpenHelper{
                 COLUMN_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
                 COLUMN_NOTE + " TEXT, " +
                 COLUMN_AMOUNT + " REAL, " +
-                COLUMN_DATE + " TEXT, " +
+                COLUMN_DATE + " Real, " +
                 COLUMN_CATEGORY + " TEXT " +
                 ");";
 
@@ -54,10 +58,21 @@ public class MyDBHandler extends SQLiteOpenHelper{
                 COLUMN_CATEGORYNAME + " TEXT " +
                 ");";
 
+        // Create Recurring Transactions query
+        String recurringquery = "CREATE TABLE " + TABLE_RECURRING + "(" +
+                COLUMN_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
+                COLUMN_NOTE + " TEXT, " +
+                COLUMN_AMOUNT + " REAL, " +
+                COLUMN_NEXTDATE+ " Real, " +
+                COLUMN_CATEGORY + " TEXT, " +
+                COLUMN_UNITOFTIME + " TEXT, " +
+                COLUMN_NUMBEROFUNIT + " REAL " +
+                ");";
+
         // Executes table from above SQL
         db.execSQL(transactionquery);
         db.execSQL(categoryquery);
-
+        db.execSQL(recurringquery);
     }
 
     @Override
@@ -73,12 +88,13 @@ public class MyDBHandler extends SQLiteOpenHelper{
         String note = data.getString("Note");
         Double amount = data.getDouble("Amount");
         String category = data.getString("Category");
+        Long date = data.getLong("Date");
 
         // Add to multiple columns at once
         ContentValues values = new ContentValues();
         values.put(COLUMN_NOTE, note);
         values.put(COLUMN_AMOUNT, amount);
-        values.put(COLUMN_DATE, "1997-01-21");
+        values.put(COLUMN_DATE, date);
         values.put(COLUMN_CATEGORY, category);
         // the database we are going to write to
         SQLiteDatabase db = getWritableDatabase();
@@ -93,6 +109,7 @@ public class MyDBHandler extends SQLiteOpenHelper{
         String note = data.getString("Note");
         Double amount = data.getDouble("Amount");
         String category = data.getString("Category");
+        Long date = data.getLong("Date");
         String _id = data.getString("ID");
 
         // make the values to enter
@@ -100,6 +117,7 @@ public class MyDBHandler extends SQLiteOpenHelper{
         values.put(COLUMN_NOTE, note);
         values.put(COLUMN_AMOUNT, amount);
         values.put(COLUMN_CATEGORY, category);
+        values.put(COLUMN_DATE, date);
 
 
         // work with the database
@@ -134,12 +152,13 @@ public class MyDBHandler extends SQLiteOpenHelper{
         Double amount = c.getDouble(c.getColumnIndex(COLUMN_AMOUNT));
         String note = c.getString(c.getColumnIndex(COLUMN_NOTE));
         String category = c.getString( c.getColumnIndex(COLUMN_CATEGORY) );
+        Long date = c.getLong( c.getColumnIndex(COLUMN_DATE) );
         // Create Bundle of Transaction Info
         Bundle TransactionInfo = new Bundle();
         TransactionInfo.putString("Note", note);
         TransactionInfo.putDouble("Amount",amount);
         TransactionInfo.putString("Category",category);
-
+        TransactionInfo.putLong("Date",date);
 
         db.close();
         return TransactionInfo;
@@ -191,14 +210,16 @@ public class MyDBHandler extends SQLiteOpenHelper{
             c.moveToNext();
         }
 
-        Double amount = c.getDouble(c.getColumnIndex(COLUMN_AMOUNT));
+        double amount = c.getDouble(c.getColumnIndex(COLUMN_AMOUNT));
         String note = c.getString(c.getColumnIndex(COLUMN_NOTE));
         String category = c.getString( c.getColumnIndex(COLUMN_CATEGORY) );
+        long date = c.getLong(( c.getColumnIndex(COLUMN_DATE ) ));
         // Create Bundle of Transaction Info
         Bundle TransactionInfo = new Bundle();
         TransactionInfo.putString("Note", note);
         TransactionInfo.putDouble("Amount",amount);
         TransactionInfo.putString("Category",category);
+        TransactionInfo.putLong("Date",date);
 
 
         db.close();
@@ -343,6 +364,32 @@ public class MyDBHandler extends SQLiteOpenHelper{
         return CategoryName;
     }
 
+    public ArrayList getReucrringList(String column){
+        ArrayList<String> dbList = new ArrayList<String>();
+
+        SQLiteDatabase db = getReadableDatabase();
+
+        // select all columns (Select *) and all rows (where 1)
+        String query = "SELECT "+ column +" FROM " + TABLE_RECURRING + " WHERE 1";
+
+        // Cursor point to a location in your reults
+        Cursor c = db.rawQuery(query, null);
+        // Move to the first row in your results
+        c.moveToFirst();
+
+        // loop through each row to the big string
+        while (!c.isAfterLast()){
+            if(c.getString(c.getColumnIndex(column))!= null){     // don't know what this does
+                dbList.add( c.getString(c.getColumnIndex(column)) );
+            }
+            c.moveToNext();
+        }
+
+        db.close();
+
+
+        return dbList;
+    }
 
 
     // This is for the database manager. Make sure you delete it when making a proper version

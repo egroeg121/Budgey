@@ -9,7 +9,7 @@ import android.widget.Button;
 
 public class MainActivity extends AppCompatActivity {
 
-    Button PageButton;
+    Button RecurringButton;
     Button CategoriesPageButton;
     Button BudgetsPageButton;
     Button TransactionsPageButton;
@@ -21,7 +21,7 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         // Initisalise Buttons
-        PageButton = (Button) findViewById(R.id.PageButton);
+        RecurringButton = (Button) findViewById(R.id.RecurringButton);
         CategoriesPageButton = (Button) findViewById(R.id.CategoriesPageButton);
         BudgetsPageButton = (Button) findViewById(R.id.BudgetsPageButton);
         TransactionsPageButton = (Button) findViewById(R.id.TransactionsPageButton);
@@ -39,4 +39,8 @@ public class MainActivity extends AppCompatActivity {
         startActivity(intent);
     }
 
+    public void RecurringButtonClicked(View view) {
+        Intent intent = new Intent(MainActivity.this, RecurringPage.class);
+        startActivity(intent);
+    }
 }

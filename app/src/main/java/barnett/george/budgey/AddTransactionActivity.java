@@ -36,12 +36,15 @@ public class AddTransactionActivity extends Activity {
     int ListPosition;
     double Amount;
     String Note;
-    String Category;
+    String Category = "None";
 
     Calendar date;
     int day;
     int month;
     int year;
+    String DateString;
+    Long DateMilli;
+    int[] DateArray;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -75,11 +78,20 @@ public class AddTransactionActivity extends Activity {
             Amount = TransactionInfo.getDouble("Amount");
             Note = TransactionInfo.getString("Note");
             Category = TransactionInfo.getString("Category");
+            DateMilli = TransactionInfo.getLong("Date");
+
+            //
+            DateString = datehandler.MillitoDateString( DateMilli );
+            DateArray = datehandler.DateStringtoArray( DateString );
+            year = DateArray[0]; month = DateArray[1]; day = DateArray[2];
 
             // Put data in text fields
             NoteEdit.setText( Note );
             AmountEdit.setText( Double.toString( Amount) );
             Categorytext.setText( Category );
+            DateDayEdit.setText( Integer.toString(day) );
+            DateMonthEdit.setText( Integer.toString(month) );
+            DateYearEdit.setText( Integer.toString(year) );
 
 
         }else{
@@ -103,7 +115,8 @@ public class AddTransactionActivity extends Activity {
         month = Integer.parseInt( DateMonthEdit.getText().toString() );
         year = Integer.parseInt( DateYearEdit.getText().toString() );
 
-
+        DateString = year + "-" + month + "-" + day;
+        DateMilli = datehandler.DatetoMilliString(DateString);
 
         // enter into database
         if (ListPosition == -1){
@@ -112,6 +125,7 @@ public class AddTransactionActivity extends Activity {
             data.putString("Note",Note);
             data.putDouble("Amount",Amount);
             data.putString("Category",Category);
+            data.putLong("Date",DateMilli);
             dbHandler.addTransaction(data);
         }else{
 
@@ -124,6 +138,7 @@ public class AddTransactionActivity extends Activity {
             data.putDouble("Amount",Amount);
             data.putString("ID",_ID);
             data.putString("Category",Category);
+            data.putLong("Date",DateMilli);
 
             dbHandler.editTransaction(data);
         }
@@ -163,6 +178,30 @@ public class AddTransactionActivity extends Activity {
 
         // Convert into Simple Date Format
         String DateString = datehandler.MillitoDateString(currentMilli);
+
+        // change day, month and year
+        int[] DateArray = datehandler.DateStringtoArray(DateString);
+        day = DateArray[2];
+        month = DateArray[1];
+        year = DateArray[0];
+
+        // Input into fields
+
+        DateDayEdit.setText( String.valueOf(day));
+        DateMonthEdit.setText( String.valueOf(month));
+        DateYearEdit.setText( String.valueOf(year));
+
+    }
+
+    public void dateYesterdayButtonClicked(View view){
+        // Get current time into milliseconds
+        long currentMilli = datehandler.currentTimeMilli();
+
+        // Add one day to Millisecond Time
+        long AddedMilli = datehandler.AddNumDays(currentMilli,-1);
+
+        // Convert into Simple Date Format
+        String DateString = datehandler.MillitoDateString(AddedMilli);
 
         // change day, month and year
         int[] DateArray = datehandler.DateStringtoArray(DateString);
