@@ -91,8 +91,21 @@ public class TransactionsPage extends Activity {
         amountlist = dbHandler.getTransactionList("amount");
         ArrayList<String> notelist = new ArrayList<String>();
         notelist = dbHandler.getTransactionList("note");
+        ArrayList<String> datelist = new ArrayList();
+        ArrayList<String> dateDisplaylist = new ArrayList();
+        datelist = dbHandler.getTransactionList("date");
+
+
+        for (int i = 0; i < datelist.size(); i++) {
+            String test = datelist.get(i);
+            Long date = Long.parseLong( test );
+            DateHandler datehandler = new DateHandler();
+            dateDisplaylist.add( datehandler.MillitoDateString(date) );
+        }
+        // TODO show days/months/years etc instead of long
+
         for (int i = 0; i < amountlist.size(); i++) {
-            displaylist.add(notelist.get(i) + " (" + amountlist.get(i) + ")");
+            displaylist.add(notelist.get(i) + " (" + amountlist.get(i) + ")(" + dateDisplaylist.get(i) + ")" );
         }
 
         // Update adapter

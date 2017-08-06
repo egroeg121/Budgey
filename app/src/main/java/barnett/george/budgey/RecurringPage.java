@@ -44,6 +44,18 @@ public class RecurringPage extends Activity {
         ListView listView = (ListView) findViewById(R.id.RecurringList); // produce listview from infomation list
         listView.setAdapter(arrayAdapter);
 
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapter, View v,
+                                    int position, long id) {
+                Intent intent = new Intent(RecurringPage.this, AddRecurringPage.class);
+                intent.putExtra("ListPosition",position);
+                startActivity(intent);
+            }
+        });
+
+        CheckDates checkdates = new CheckDates(this);
+        checkdates.CheckRecurringDates();
     }
 
     @Override
@@ -52,14 +64,13 @@ public class RecurringPage extends Activity {
         printDatabase();
     }
 
-
     // Add a Recurring to the database
     public void addButtonClicked(View view){
-        //
         Intent intent = new Intent(RecurringPage.this, AddRecurringPage.class);
         startActivity(intent);
     }
 
+    // TODO DELETE BUTTON
 
     public void backButtonClicked(View view){
         finish();
@@ -78,22 +89,40 @@ public class RecurringPage extends Activity {
         displaylist.clear();
 
         ArrayList<String> AmountList = new ArrayList<String>();
-        AmountList = dbHandler.getReucrringList("amount");
+        AmountList = dbHandler.getRecurringList("amount");
         ArrayList<String> NoteList = new ArrayList<String>();
-        NoteList = dbHandler.getReucrringList("note");
-        ArrayList<String> UnitList = new ArrayList<String>();
-        UnitList = dbHandler.getReucrringList("unitoftime");
+        NoteList = dbHandler.getRecurringList("note");
         ArrayList<String> NumUnitsList = new ArrayList<String>();
-        NumUnitsList = dbHandler.getReucrringList("numberofunit");
+        NumUnitsList = dbHandler.getRecurringList("numberofunit");
+
+        ArrayList<String> UnitList = new ArrayList<String>();
+        UnitList = dbHandler.getRecurringList("unitoftime");
+        ArrayList<String> UnitDisplay = new ArrayList<>();
+        for (int i = 0; i < UnitList.size(); i++) {
+            switch (UnitList.get(i)){
+                case "0":
+                    UnitDisplay.add("Days");
+                    break;
+                case "1":
+                    UnitDisplay.add("Weeks");
+                    break;
+                case "2":
+                    UnitDisplay.add("Months");
+                    break;
+                case "3":
+                    UnitDisplay.add("Years");
+                    break;
+            }
+        }
+
         for (int i = 0; i < AmountList.size(); i++) {
-            displaylist.add(NoteList.get(i) + " (" + AmountList.get(i) + ") every " + NumUnitsList.get(i)+ " " + UnitList.get(i) +"s");
+            displaylist.add(NoteList.get(i) + " (" + AmountList.get(i) + ") every " + NumUnitsList.get(i)+ " " + UnitDisplay.get(i));
         }
 
 
         // Update adapter
         arrayAdapter.notifyDataSetChanged();
     }
-
 
 
 }

@@ -17,8 +17,8 @@ public class MyDBHandler extends SQLiteOpenHelper{
 
     public static final int DATABASE_VERSION = 1; // database number, if changing the database like adding new categories etc increase this number
     public static final String DATABASE_NAME = "budgey.db"; // name of database file
-    public static final String TABLE_TRANSACTIONS = "transactions"; // Name of table
-    public static final String TABLE_CATEGORIES = "categories"; // Name of category table
+    public static final String TABLE_TRANSACTIONS = "transactions"; // Name of Transactions table
+    public static final String TABLE_CATEGORIES = "categories"; // Name of Category table
     public static final String TABLE_RECURRING = "recurring"; // Name of Recurring Transactions Table
 
     // Add Columms
@@ -26,11 +26,12 @@ public class MyDBHandler extends SQLiteOpenHelper{
     public static final String COLUMN_NOTE = "note"; // for transactions, recurring
     public static final String COLUMN_AMOUNT = "amount"; // for transactions, recurring
     public static final String COLUMN_DATE = "date"; // for transactions
+    public static final String COLUMN_RECURRINGID = "recurringid"; // for transactions
     public static final String COLUMN_NEXTDATE = "nextdate"; // for recurring
     public static final String COLUMN_CATEGORY = "category"; // for transactions, recurring
     public static final String COLUMN_CATEGORYNAME = "categoryname"; // for categories
-    public static final String COLUMN_UNITOFTIME = "unitoftime";
-    public static final String COLUMN_NUMBEROFUNIT= "numberofunit";
+    public static final String COLUMN_UNITOFTIME = "unitoftime"; // for recurring
+    public static final String COLUMN_NUMBEROFUNIT= "numberofunit"; // for recurring
 
     // For android to work with
     public MyDBHandler(Context context, String name, SQLiteDatabase.CursorFactory factory, int version) {
@@ -46,7 +47,7 @@ public class MyDBHandler extends SQLiteOpenHelper{
                 COLUMN_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
                 COLUMN_NOTE + " TEXT, " +
                 COLUMN_AMOUNT + " REAL, " +
-                COLUMN_DATE + " Real, " +
+                COLUMN_DATE + " INTEGER, " +
                 COLUMN_CATEGORY + " TEXT " +
                 ");";
 
@@ -63,10 +64,10 @@ public class MyDBHandler extends SQLiteOpenHelper{
                 COLUMN_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
                 COLUMN_NOTE + " TEXT, " +
                 COLUMN_AMOUNT + " REAL, " +
-                COLUMN_NEXTDATE+ " Real, " +
+                COLUMN_NEXTDATE+ " INTEGER, " +
                 COLUMN_CATEGORY + " TEXT, " +
-                COLUMN_UNITOFTIME + " TEXT, " +
-                COLUMN_NUMBEROFUNIT + " REAL " +
+                COLUMN_UNITOFTIME + " INTEGER, " +
+                COLUMN_NUMBEROFUNIT + " INTEGER " +
                 ");";
 
         // Executes table from above SQL
@@ -86,9 +87,11 @@ public class MyDBHandler extends SQLiteOpenHelper{
 
         // Unpack Bundle
         String note = data.getString("Note");
-        Double amount = data.getDouble("Amount");
+        double amount = data.getDouble("Amount");
         String category = data.getString("Category");
-        Long date = data.getLong("Date");
+        long date = data.getLong("Date");
+        int RecurringID = data.getInt("RecurringID");
+
 
         // Add to multiple columns at once
         ContentValues values = new ContentValues();
@@ -214,6 +217,7 @@ public class MyDBHandler extends SQLiteOpenHelper{
         String note = c.getString(c.getColumnIndex(COLUMN_NOTE));
         String category = c.getString( c.getColumnIndex(COLUMN_CATEGORY) );
         long date = c.getLong(( c.getColumnIndex(COLUMN_DATE ) ));
+
         // Create Bundle of Transaction Info
         Bundle TransactionInfo = new Bundle();
         TransactionInfo.putString("Note", note);
@@ -292,6 +296,9 @@ public class MyDBHandler extends SQLiteOpenHelper{
             case 1:
                 table = TABLE_CATEGORIES;
                 break;
+            case 2:
+                table = TABLE_RECURRING;
+                break;
         }
         String query = "SELECT * FROM " + table + " WHERE 1";
         Cursor c = db.rawQuery(query,null);
@@ -364,10 +371,102 @@ public class MyDBHandler extends SQLiteOpenHelper{
         return CategoryName;
     }
 
-    public ArrayList getReucrringList(String column){
+    // Add a new Recurring Row to the database
+    public void addRecurring(Bundle data){
+
+        // Unpack Bundle
+        String note = data.getString("Note");
+        Double amount = data.getDouble("Amount");
+        String category = data.getString("Category");
+        Long nextdate = data.getLong("NextDate");
+        int numofunit = data.getInt("NumOfUnit");
+        int unitoftime = data.getInt("UnitOfTime"); //
+
+
+        // Add to multiple columns at once
+        ContentValues values = new ContentValues();
+        values.put(COLUMN_NOTE, note);
+        values.put(COLUMN_AMOUNT, amount);
+        values.put(COLUMN_NEXTDATE, nextdate);
+        values.put(COLUMN_CATEGORY, category);
+        values.put(COLUMN_NUMBEROFUNIT,numofunit);
+        values.put(COLUMN_UNITOFTIME,unitoftime);
+
+        // the database we are going to write to
+        SQLiteDatabase db = getWritableDatabase();
+        db.insert(TABLE_RECURRING, null, values);
+        db.close(); // close database
+    }
+
+    public void addTransactionFromRecurringRow(int row){
+        // Open Database and set up
+        SQLiteDatabase db = getWritableDatabase();
+
+        // get info from recurring
+        String query = "SELECT * FROM " + TABLE_RECURRING + " WHERE 1";
+        Cursor c = db.rawQuery(query,null);
+        c.moveToFirst(); // makes sure curser is at the start
+        c.move(row);
+
+        int RecurringID = c.getInt(c.getColumnIndex(COLUMN_ID));
+        double amount = c.getDouble(c.getColumnIndex(COLUMN_AMOUNT));
+        String note = c.getString(c.getColumnIndex(COLUMN_NOTE));
+        String category = c.getString( c.getColumnIndex(COLUMN_CATEGORY) );
+        long date = c.getLong( c.getColumnIndex(COLUMN_NEXTDATE) );
+        db.close();
+
+        Bundle data = new Bundle();
+        data.putString("Note",note);
+        data.putDouble("Amount",amount);
+        data.putString("Category",category);
+        data.putLong("Date",date);
+        data.putInt("RecurringID",RecurringID);
+        addTransaction(data);
+
+        /*
+        // add transaction
+        ContentValues values = new ContentValues();
+        values.put(COLUMN_NOTE, note);
+        values.put(COLUMN_AMOUNT, amount);
+        values.put(COLUMN_DATE, date);
+        values.put(COLUMN_CATEGORY, category);
+        values.put(COLUMN_RECURRINGID, RecurringID);
+
+        db.insert(TABLE_TRANSACTIONS, null, values);
+        db.close(); // close database
+        */
+    }
+
+    public void editRecurring(Bundle data){
+        // Get info in from bundle
+        String note = data.getString("Note");
+        Double amount = data.getDouble("Amount");
+        String category = data.getString("Category");
+        Long date = data.getLong("NextDate");
+        int NumOfUnit = data.getInt("NumOfUnit");
+        int UnitOfTime = data.getInt("UnitOfTime");
+        String _id = data.getString("RecurringID");
+
+        // make the values to enter
+        ContentValues values = new ContentValues();
+        values.put(COLUMN_NOTE, note);
+        values.put(COLUMN_AMOUNT, amount);
+        values.put(COLUMN_CATEGORY, category);
+        values.put(COLUMN_NEXTDATE, date);
+        values.put(COLUMN_NUMBEROFUNIT,NumOfUnit);
+        values.put(COLUMN_UNITOFTIME,UnitOfTime);
+
+        // work with the database
+        SQLiteDatabase db = getWritableDatabase();
+        db.update(TABLE_RECURRING, values, "_id="+_id, null);
+        db.close(); // close database
+
+    }
+
+    public ArrayList getRecurringList(String column){
         ArrayList<String> dbList = new ArrayList<String>();
 
-        SQLiteDatabase db = getReadableDatabase();
+        SQLiteDatabase db = getWritableDatabase();
 
         // select all columns (Select *) and all rows (where 1)
         String query = "SELECT "+ column +" FROM " + TABLE_RECURRING + " WHERE 1";
@@ -391,6 +490,46 @@ public class MyDBHandler extends SQLiteOpenHelper{
         return dbList;
     }
 
+    // Gets all data on row, puts into bundle
+    public Bundle getRecurringInfoFromRow(int row){
+        SQLiteDatabase db = getReadableDatabase();
+
+        // select all columns (Select *) and all rows (where 1)
+        String query = "SELECT * FROM " + TABLE_RECURRING + " WHERE 1";
+
+        // Cursor point to a location in your reults
+        Cursor c = db.rawQuery(query,null);
+
+        // Move curser to row
+        c.moveToFirst(); // makes sure curser is at the start
+        c.move(row);
+        // getColumnIndex gets the int of the column for the get String/Double
+
+        Double amount = c.getDouble(c.getColumnIndex(COLUMN_AMOUNT));
+        String note = c.getString(c.getColumnIndex(COLUMN_NOTE));
+        String category = c.getString( c.getColumnIndex(COLUMN_CATEGORY) );
+        Long nextdate = c.getLong( c.getColumnIndex(COLUMN_NEXTDATE) );
+        int numofunit = c.getInt( c.getColumnIndex(COLUMN_NUMBEROFUNIT) );
+        int unitoftime = c.getInt( c.getColumnIndex(COLUMN_UNITOFTIME) );
+        int RecurringID = c.getInt( c.getColumnIndex(COLUMN_ID) );
+
+        // Create Bundle of Recurring Info
+        Bundle RecurringInfo = new Bundle();
+        RecurringInfo.putString("Note", note);
+        RecurringInfo.putDouble("Amount",amount);
+        RecurringInfo.putString("Category",category);
+        RecurringInfo.putLong("NextDate",nextdate);
+        RecurringInfo.putInt("NumOfUnit",numofunit);
+        RecurringInfo.putInt("UnitOfTime",unitoftime);
+        RecurringInfo.putInt("RecurringID",RecurringID);
+
+        db.close();
+        return RecurringInfo;
+    }
+
+    // TODO Check Recurring List
+
+    // TODO EditRecurring
 
     // This is for the database manager. Make sure you delete it when making a proper version
     public ArrayList<Cursor> getData(String Query){

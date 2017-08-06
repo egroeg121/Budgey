@@ -1,5 +1,6 @@
 package barnett.george.budgey;
 
+import android.content.Context;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -26,6 +27,8 @@ public class MainActivity extends AppCompatActivity {
         BudgetsPageButton = (Button) findViewById(R.id.BudgetsPageButton);
         TransactionsPageButton = (Button) findViewById(R.id.TransactionsPageButton);
 
+        CheckDates checkdates = new CheckDates(this);
+        checkdates.CheckRecurringDates();
 
     }
 
