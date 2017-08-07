@@ -28,6 +28,7 @@ public class MyDBHandler extends SQLiteOpenHelper{
     public static final String COLUMN_DATE = "date"; // for transactions
     public static final String COLUMN_RECURRINGID = "recurringid"; // for transactions
     public static final String COLUMN_NEXTDATE = "nextdate"; // for recurring
+    public static final String COLUMN_STARTDATE = "startdate"; // for recurring
     public static final String COLUMN_CATEGORY = "category"; // for transactions, recurring
     public static final String COLUMN_CATEGORYNAME = "categoryname"; // for categories
     public static final String COLUMN_UNITOFTIME = "unitoftime"; // for recurring
@@ -48,7 +49,8 @@ public class MyDBHandler extends SQLiteOpenHelper{
                 COLUMN_NOTE + " TEXT, " +
                 COLUMN_AMOUNT + " REAL, " +
                 COLUMN_DATE + " INTEGER, " +
-                COLUMN_CATEGORY + " TEXT " +
+                COLUMN_CATEGORY + " TEXT, " +
+                COLUMN_RECURRINGID + " INTEGER " +
                 ");";
 
 
@@ -65,6 +67,7 @@ public class MyDBHandler extends SQLiteOpenHelper{
                 COLUMN_NOTE + " TEXT, " +
                 COLUMN_AMOUNT + " REAL, " +
                 COLUMN_NEXTDATE+ " INTEGER, " +
+                COLUMN_STARTDATE + " INTEGER, " +
                 COLUMN_CATEGORY + " TEXT, " +
                 COLUMN_UNITOFTIME + " INTEGER, " +
                 COLUMN_NUMBEROFUNIT + " INTEGER " +
@@ -99,6 +102,7 @@ public class MyDBHandler extends SQLiteOpenHelper{
         values.put(COLUMN_AMOUNT, amount);
         values.put(COLUMN_DATE, date);
         values.put(COLUMN_CATEGORY, category);
+        values.put(COLUMN_RECURRINGID,RecurringID);
         // the database we are going to write to
         SQLiteDatabase db = getWritableDatabase();
         db.insert(TABLE_TRANSACTIONS, null, values);
@@ -134,6 +138,12 @@ public class MyDBHandler extends SQLiteOpenHelper{
     public void deleteTransaction(String _id){
         SQLiteDatabase db = getWritableDatabase();
         db.execSQL("DELETE FROM " + TABLE_TRANSACTIONS + " WHERE " + COLUMN_ID + "=\"" + _id + "\";");
+        db.close();
+    }
+
+    public void deleteTransactionFromRecurring(int RecurringID){
+        SQLiteDatabase db = getWritableDatabase();
+        db.execSQL("DELETE FROM " + TABLE_TRANSACTIONS + " WHERE " + COLUMN_RECURRINGID + "=\"" + RecurringID + "\";");
         db.close();
     }
 
@@ -379,6 +389,7 @@ public class MyDBHandler extends SQLiteOpenHelper{
         Double amount = data.getDouble("Amount");
         String category = data.getString("Category");
         Long nextdate = data.getLong("NextDate");
+        Long startdate = data.getLong("StartDate");
         int numofunit = data.getInt("NumOfUnit");
         int unitoftime = data.getInt("UnitOfTime"); //
 
@@ -388,6 +399,7 @@ public class MyDBHandler extends SQLiteOpenHelper{
         values.put(COLUMN_NOTE, note);
         values.put(COLUMN_AMOUNT, amount);
         values.put(COLUMN_NEXTDATE, nextdate);
+        values.put(COLUMN_STARTDATE, startdate);
         values.put(COLUMN_CATEGORY, category);
         values.put(COLUMN_NUMBEROFUNIT,numofunit);
         values.put(COLUMN_UNITOFTIME,unitoftime);
@@ -412,29 +424,17 @@ public class MyDBHandler extends SQLiteOpenHelper{
         double amount = c.getDouble(c.getColumnIndex(COLUMN_AMOUNT));
         String note = c.getString(c.getColumnIndex(COLUMN_NOTE));
         String category = c.getString( c.getColumnIndex(COLUMN_CATEGORY) );
-        long date = c.getLong( c.getColumnIndex(COLUMN_NEXTDATE) );
+        long nextdate = c.getLong( c.getColumnIndex(COLUMN_NEXTDATE) );
         db.close();
 
         Bundle data = new Bundle();
         data.putString("Note",note);
         data.putDouble("Amount",amount);
         data.putString("Category",category);
-        data.putLong("Date",date);
+        data.putLong("Date",nextdate);
         data.putInt("RecurringID",RecurringID);
         addTransaction(data);
 
-        /*
-        // add transaction
-        ContentValues values = new ContentValues();
-        values.put(COLUMN_NOTE, note);
-        values.put(COLUMN_AMOUNT, amount);
-        values.put(COLUMN_DATE, date);
-        values.put(COLUMN_CATEGORY, category);
-        values.put(COLUMN_RECURRINGID, RecurringID);
-
-        db.insert(TABLE_TRANSACTIONS, null, values);
-        db.close(); // close database
-        */
     }
 
     public void editRecurring(Bundle data){
@@ -442,17 +442,19 @@ public class MyDBHandler extends SQLiteOpenHelper{
         String note = data.getString("Note");
         Double amount = data.getDouble("Amount");
         String category = data.getString("Category");
-        Long date = data.getLong("NextDate");
+        Long startdate = data.getLong("StartDate");
+        Long nextdate = data.getLong("NextDate");
         int NumOfUnit = data.getInt("NumOfUnit");
         int UnitOfTime = data.getInt("UnitOfTime");
-        String _id = data.getString("RecurringID");
+        int _id = data.getInt("RecurringID");
 
         // make the values to enter
         ContentValues values = new ContentValues();
         values.put(COLUMN_NOTE, note);
         values.put(COLUMN_AMOUNT, amount);
         values.put(COLUMN_CATEGORY, category);
-        values.put(COLUMN_NEXTDATE, date);
+        values.put(COLUMN_NEXTDATE, nextdate);
+        values.put(COLUMN_STARTDATE, nextdate);
         values.put(COLUMN_NUMBEROFUNIT,NumOfUnit);
         values.put(COLUMN_UNITOFTIME,UnitOfTime);
 
@@ -527,7 +529,6 @@ public class MyDBHandler extends SQLiteOpenHelper{
         return RecurringInfo;
     }
 
-    // TODO Check Recurring List
 
     // TODO EditRecurring
 

@@ -43,6 +43,7 @@ public class AddRecurringPage extends Activity implements OnItemSelectedListener
     double Amount;
     String Note;
     String Category = "None";
+    long StartDate;
     long NextDate;
     int NumOfUnit;
     int UnitOfTime;
@@ -98,6 +99,7 @@ public class AddRecurringPage extends Activity implements OnItemSelectedListener
             Amount = RecurringInfo.getDouble("Amount");
             Note = RecurringInfo.getString("Note");
             Category = RecurringInfo.getString("Category");
+            StartDate = RecurringInfo.getLong("StartDate");
             NextDate = RecurringInfo.getLong("NextDate");
             NumOfUnit = RecurringInfo.getInt("NumOfUnit");
             UnitOfTime = RecurringInfo.getInt("UnitOfTime");
@@ -138,7 +140,7 @@ public class AddRecurringPage extends Activity implements OnItemSelectedListener
         StartYear = Integer.parseInt( StartDateYearEdit.getText().toString() );
 
         DateString = StartYear + "-" + StartMonth + "-" + StartDay;
-        NextDate = datehandler.DatetoMilliString(DateString);
+        StartDate = datehandler.DatetoMilliString(DateString);
 
         // enter into database
         if (ListPosition == -1){
@@ -147,22 +149,26 @@ public class AddRecurringPage extends Activity implements OnItemSelectedListener
             data.putString("Note",Note);
             data.putDouble("Amount",Amount);
             data.putString("Category",Category);
-            data.putLong("NextDate",NextDate);
+            data.putLong("StartDate",StartDate);
+            data.putLong("NextDate",StartDate);
             data.putInt("UnitOfTime",UnitOfTime);
             data.putInt("NumOfUnit",NumOfUnit);
             dbHandler.addRecurring(data);
         }else{
             // Get ID for edit transaction
             String _ID = dbHandler.RowtoID(ListPosition,2);
-
             Bundle data = new Bundle();
+            data.putInt( "RecurringID", Integer.valueOf(_ID) );
             data.putString("Note",Note);
             data.putDouble("Amount",Amount);
             data.putString("Category",Category);
-            data.putLong("NextDate",NextDate);
+            data.putLong("StartDate",StartDate);
+            data.putLong("NextDate",StartDate);
             data.putInt("UnitofTime",UnitOfTime);
-            data.putInt("NumOfUnits",NumOfUnit);
+            data.putInt("NumOfUnit",NumOfUnit);
             dbHandler.editRecurring(data);
+
+            dbHandler.deleteTransactionFromRecurring( Integer.valueOf(_ID) );
         }
 
 

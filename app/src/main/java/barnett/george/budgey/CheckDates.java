@@ -48,10 +48,6 @@ public class CheckDates{
                 switch ( UnitofTime ){
                     case 0: // Days are to be added
                         NewDate = datehandler.AddNumDays(OldDate,NumOfUnit);
-
-                        String CurrentDateString = datehandler.MillitoDateString(CurrentMilli);
-                        String OldDateString = datehandler.MillitoDateString(OldDate);
-                        String NewDateString = datehandler.MillitoDateString(NewDate);
                         break;
 
                     case 1: // Weeks are to be added
@@ -66,10 +62,16 @@ public class CheckDates{
                         NewDate = datehandler.AddNumYears(OldDate,NumOfUnit);
                         break;
                 }
+
+                String CurrentDateString = datehandler.MillitoDateString(CurrentMilli);
+                String OldDateString = datehandler.MillitoDateString(OldDate);
+                String NewDateString = datehandler.MillitoDateString(NewDate);
                 RecurringData.putLong("NextDate",NewDate);
 
                 dbHandler.editRecurring(RecurringData);
 
+                // Update NextDateList
+                NextDateList.set(i, Long.toString(NewDate) ) ;
                 i--;
 
                 // decrease i by 1 (so it re runs this transaction)

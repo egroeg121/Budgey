@@ -165,7 +165,7 @@ public class AddTransactionActivity extends Activity {
             String id = dbHandler.RowtoID(ListPosition,0);
 
             // delete in database
-            dbHandler.deleteTransaction(Category);
+            dbHandler.deleteTransaction(id);
 
             // finish
             finish();
