@@ -105,7 +105,7 @@ public class AddRecurringPage extends Activity implements OnItemSelectedListener
             UnitOfTime = RecurringInfo.getInt("UnitOfTime");
 
             // Get Data String
-            DateString = datehandler.MillitoDateString( NextDate );
+            DateString = datehandler.MillitoDateString( StartDate );
             DateArray = datehandler.DateStringtoArray( DateString );
             StartYear = DateArray[0]; StartMonth = DateArray[1]; StartDay = DateArray[2];
 
@@ -171,7 +171,8 @@ public class AddRecurringPage extends Activity implements OnItemSelectedListener
             dbHandler.deleteTransactionFromRecurring( Integer.valueOf(_ID) );
         }
 
-
+        CheckDates checkdates = new CheckDates(this);
+        checkdates.CheckRecurringDates();
 
         // finish
         finish();
@@ -189,11 +190,11 @@ public class AddRecurringPage extends Activity implements OnItemSelectedListener
             // close page
             finish();
         }else{
-            // If previous transaction get id from position
-            String id = dbHandler.RowtoID(ListPosition,0);
+            // If previous recurring get id from position
+            String id = dbHandler.RowtoID(ListPosition,2);
 
             // delete in database
-            dbHandler.deleteTransaction(Category);
+            dbHandler.deleteRecurring(id);
 
             // finish
             finish();

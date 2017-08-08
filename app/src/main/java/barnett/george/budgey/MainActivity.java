@@ -26,10 +26,14 @@ public class MainActivity extends AppCompatActivity {
         CategoriesPageButton = (Button) findViewById(R.id.CategoriesPageButton);
         BudgetsPageButton = (Button) findViewById(R.id.BudgetsPageButton);
         TransactionsPageButton = (Button) findViewById(R.id.TransactionsPageButton);
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
 
         CheckDates checkdates = new CheckDates(this);
         checkdates.CheckRecurringDates();
-
     }
 
     public void TransactionsPageButtonClicked(View view){
@@ -38,7 +42,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void CategoriesPageButtonClicked(View view){
-        Intent intent = new Intent(MainActivity.this, CategoriesPage.class);
+        Intent intent = new Intent(MainActivity.this, CheckedCategoriesClass.class);
         startActivity(intent);
     }
 
@@ -46,4 +50,5 @@ public class MainActivity extends AppCompatActivity {
         Intent intent = new Intent(MainActivity.this, RecurringPage.class);
         startActivity(intent);
     }
+
 }

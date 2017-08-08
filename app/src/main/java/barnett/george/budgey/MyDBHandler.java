@@ -454,7 +454,7 @@ public class MyDBHandler extends SQLiteOpenHelper{
         values.put(COLUMN_AMOUNT, amount);
         values.put(COLUMN_CATEGORY, category);
         values.put(COLUMN_NEXTDATE, nextdate);
-        values.put(COLUMN_STARTDATE, nextdate);
+        values.put(COLUMN_STARTDATE, startdate);
         values.put(COLUMN_NUMBEROFUNIT,NumOfUnit);
         values.put(COLUMN_UNITOFTIME,UnitOfTime);
 
@@ -463,6 +463,13 @@ public class MyDBHandler extends SQLiteOpenHelper{
         db.update(TABLE_RECURRING, values, "_id="+_id, null);
         db.close(); // close database
 
+    }
+
+    public void deleteRecurring(String _id){
+        SQLiteDatabase db = getWritableDatabase();
+        db.execSQL("DELETE FROM " + TABLE_RECURRING + " WHERE " + COLUMN_ID + "=\"" + _id + "\";");
+        db.execSQL("DELETE FROM " + TABLE_TRANSACTIONS + " WHERE " + COLUMN_RECURRINGID + "=\"" + _id + "\";");
+        db.close();
     }
 
     public ArrayList getRecurringList(String column){
@@ -511,6 +518,7 @@ public class MyDBHandler extends SQLiteOpenHelper{
         String note = c.getString(c.getColumnIndex(COLUMN_NOTE));
         String category = c.getString( c.getColumnIndex(COLUMN_CATEGORY) );
         Long nextdate = c.getLong( c.getColumnIndex(COLUMN_NEXTDATE) );
+        Long startdate = c.getLong( c.getColumnIndex(COLUMN_STARTDATE) );
         int numofunit = c.getInt( c.getColumnIndex(COLUMN_NUMBEROFUNIT) );
         int unitoftime = c.getInt( c.getColumnIndex(COLUMN_UNITOFTIME) );
         int RecurringID = c.getInt( c.getColumnIndex(COLUMN_ID) );
@@ -520,6 +528,7 @@ public class MyDBHandler extends SQLiteOpenHelper{
         RecurringInfo.putString("Note", note);
         RecurringInfo.putDouble("Amount",amount);
         RecurringInfo.putString("Category",category);
+        RecurringInfo.putLong("StartDate",startdate);
         RecurringInfo.putLong("NextDate",nextdate);
         RecurringInfo.putInt("NumOfUnit",numofunit);
         RecurringInfo.putInt("UnitOfTime",unitoftime);

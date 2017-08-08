@@ -39,6 +39,9 @@
         <activity android:name="barnett.george.budgey.AddRecurringPage"
             android:label="Budget" />
 
+        <activity android:name="barnett.george.budgey.CheckedCategoriesClass"
+            android:label="Budget" />
+
     </application>
 
 </manifest>
