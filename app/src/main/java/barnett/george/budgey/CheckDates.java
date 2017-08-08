@@ -35,7 +35,6 @@ public class CheckDates{
                 // Add transaction to database
                 dbHandler.addTransactionFromRecurringRow( i );
 
-                // TODO Update Next date
                 // Update new nextdate
                     // Get info from transaction
                 Bundle RecurringData = dbHandler.getRecurringInfoFromRow( i );
@@ -86,4 +85,10 @@ public class CheckDates{
 
     }
 
+    public ArrayList getBudgetTimes(int BudgetID){
+        ArrayList<String> TimesList = new ArrayList<String>();
+
+
+        return TimesList;
+    }
 }

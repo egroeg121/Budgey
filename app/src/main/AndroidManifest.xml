@@ -9,7 +9,6 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-
         <activity android:name=".MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -18,29 +17,42 @@
             </intent-filter>
         </activity>
 
-        <activity android:name="barnett.george.budgey.AndroidDatabaseManager"
+        <activity
+            android:name="barnett.george.budgey.AndroidDatabaseManager"
             android:label="@string/app_name" />
-
-        <activity android:name="barnett.george.budgey.AddTransactionActivity"
+        <activity
+            android:name="barnett.george.budgey.AddTransactionActivity"
             android:label="Budgey" />
-
-        <activity android:name="barnett.george.budgey.TransactionsPage"
-            android:label="Budget" />
-
-        <activity android:name="barnett.george.budgey.CategoriesPage"
-            android:label="Budget" />
-
-        <activity android:name="barnett.george.budgey.AddCategoryPage"
-            android:label="Budget" />
-
-        <activity android:name="barnett.george.budgey.RecurringPage"
-            android:label="Budget" />
-
-        <activity android:name="barnett.george.budgey.AddRecurringPage"
-            android:label="Budget" />
+        <activity
+            android:name="barnett.george.budgey.TransactionsPage"
+            android:label="Budgey" />
+        <activity
+            android:name="barnett.george.budgey.CategoriesPage"
+            android:label="Budgey" />
+        <activity
+            android:name="barnett.george.budgey.AddCategoryPage"
+            android:label="Budgey" />
+        <activity
+            android:name="barnett.george.budgey.RecurringPage"
+            android:label="Budgey" />
+        <activity
+            android:name="barnett.george.budgey.AddRecurringPage"
+            android:label="Budgey" />
 
         <activity android:name="barnett.george.budgey.CheckedCategoriesClass"
             android:label="Budget" />
+
+        <activity
+            android:name="barnett.george.budgey.Budgets"
+            android:label="Budgey" />
+
+        <activity
+            android:name="barnett.george.budgey.BudgetTimesPage"
+            android:label="Budgey" />
+
+        <activity
+            android:name="barnett.george.budgey.BudgetInfoPage"
+            android:label="Budgey" />
 
     </application>
 

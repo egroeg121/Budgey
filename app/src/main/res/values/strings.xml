@@ -1,4 +1,5 @@
 <resources>
     <string name="app_name">Budgey</string>
+    <string name="title_activity_budgets">Budgets</string>
 
 </resources>

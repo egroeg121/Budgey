@@ -20,19 +20,21 @@ public class MyDBHandler extends SQLiteOpenHelper{
     public static final String TABLE_TRANSACTIONS = "transactions"; // Name of Transactions table
     public static final String TABLE_CATEGORIES = "categories"; // Name of Category table
     public static final String TABLE_RECURRING = "recurring"; // Name of Recurring Transactions Table
+    public static final String TABLE_BUDGETS = "budgets"; // Name of Budgets Tabel
 
     // Add Columms
     public static final String COLUMN_ID = "_id"; // always use underscore id. For all tables
-    public static final String COLUMN_NOTE = "note"; // for transactions, recurring
-    public static final String COLUMN_AMOUNT = "amount"; // for transactions, recurring
+    public static final String COLUMN_NOTE = "note"; // for transactions, recurring, budgets
+    public static final String COLUMN_AMOUNT = "amount"; // for transactions, recurring,
     public static final String COLUMN_DATE = "date"; // for transactions
     public static final String COLUMN_RECURRINGID = "recurringid"; // for transactions
-    public static final String COLUMN_NEXTDATE = "nextdate"; // for recurring
+    public static final String COLUMN_NEXTDATE = "nextdate"; // for recurring, budgets
     public static final String COLUMN_STARTDATE = "startdate"; // for recurring
     public static final String COLUMN_CATEGORY = "category"; // for transactions, recurring
+    public static final String COLUMN_BUDGETCATEGORIES = "categorys"; // for budget
     public static final String COLUMN_CATEGORYNAME = "categoryname"; // for categories
-    public static final String COLUMN_UNITOFTIME = "unitoftime"; // for recurring
-    public static final String COLUMN_NUMBEROFUNIT= "numberofunit"; // for recurring
+    public static final String COLUMN_UNITOFTIME = "unitoftime"; // for recurring, budget
+    public static final String COLUMN_NUMBEROFUNIT= "numberofunit"; // for recurring, budget
 
     // For android to work with
     public MyDBHandler(Context context, String name, SQLiteDatabase.CursorFactory factory, int version) {
@@ -84,6 +86,10 @@ public class MyDBHandler extends SQLiteOpenHelper{
         db.execSQL("DROP TABLE IF EXISTS" + TABLE_TRANSACTIONS);
         onCreate(db);
     }
+
+
+    // TRANSACTIONS
+
 
     // Add a new row to the database
     public void addTransaction(Bundle data){
@@ -267,6 +273,9 @@ public class MyDBHandler extends SQLiteOpenHelper{
         return dbList;
     }
 
+
+    // CATEGORIES
+
     // Get category data and turns into a list
     public ArrayList getCategoriesList(){
         ArrayList<String> dbList = new ArrayList<String>();
@@ -381,6 +390,9 @@ public class MyDBHandler extends SQLiteOpenHelper{
         return CategoryName;
     }
 
+
+    // RECURRING
+
     // Add a new Recurring Row to the database
     public void addRecurring(Bundle data){
 
@@ -475,7 +487,7 @@ public class MyDBHandler extends SQLiteOpenHelper{
     public ArrayList getRecurringList(String column){
         ArrayList<String> dbList = new ArrayList<String>();
 
-        SQLiteDatabase db = getWritableDatabase();
+        SQLiteDatabase db = getReadableDatabase();
 
         // select all columns (Select *) and all rows (where 1)
         String query = "SELECT "+ column +" FROM " + TABLE_RECURRING + " WHERE 1";
@@ -539,7 +551,35 @@ public class MyDBHandler extends SQLiteOpenHelper{
     }
 
 
-    // TODO EditRecurring
+    // BUDGETS
+
+    public ArrayList getBudgets(){
+        ArrayList<String> dbList = new ArrayList<String>();
+
+        SQLiteDatabase db = getReadableDatabase();
+
+        // select all columns (Select *) and all rows (where 1)
+        String query = "SELECT "+ COLUMN_NOTE + " FROM " + TABLE_RECURRING + " WHERE 1";
+
+        // Cursor point to a location in your reults
+        Cursor c = db.rawQuery(query, null);
+        // Move to the first row in your results
+        c.moveToFirst();
+
+        // loop through each row to the big string
+        while (!c.isAfterLast()){
+            if(c.getString(c.getColumnIndex(COLUMN_NOTE))!= null){
+                dbList.add( c.getString(c.getColumnIndex(COLUMN_NOTE)) );
+            }
+            c.moveToNext();
+        }
+
+        db.close();
+
+
+        return dbList;
+    }
+
 
     // This is for the database manager. Make sure you delete it when making a proper version
     public ArrayList<Cursor> getData(String Query){

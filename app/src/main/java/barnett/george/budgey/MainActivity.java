@@ -51,4 +51,9 @@ public class MainActivity extends AppCompatActivity {
         startActivity(intent);
     }
 
+    public void BudgetsPageButtonClicked(View view){
+        Intent intent = new Intent(MainActivity.this, Budgets.class);
+        startActivity(intent);
+    }
+
 }

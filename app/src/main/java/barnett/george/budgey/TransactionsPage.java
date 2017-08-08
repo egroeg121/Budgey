@@ -22,7 +22,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-public class TransactionsPage extends Activity {
+public class TransactionsPage extends AppCompatActivity {
 
     ListView TransactionList;
     MyDBHandler dbHandler;
@@ -102,7 +102,6 @@ public class TransactionsPage extends Activity {
             DateHandler datehandler = new DateHandler();
             dateDisplaylist.add( datehandler.MillitoDateString(date) );
         }
-        // TODO show days/months/years etc instead of long
 
         for (int i = 0; i < amountlist.size(); i++) {
             displaylist.add(notelist.get(i) + " (" + amountlist.get(i) + ")(" + dateDisplaylist.get(i) + ")" );

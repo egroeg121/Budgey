@@ -70,8 +70,6 @@ public class RecurringPage extends Activity {
         startActivity(intent);
     }
 
-    // TODO DELETE BUTTON
-
     public void backButtonClicked(View view){
         finish();
     }
