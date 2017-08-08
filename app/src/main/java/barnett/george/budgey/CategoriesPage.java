@@ -41,14 +41,13 @@ public class CategoriesPage extends Activity {
 
         // create and attach array adapter for the listview
         arrayAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, displaylist);
-        ListView listView = (ListView) findViewById(R.id.CategoriesList); // produce listview from infomation list
-        listView.setAdapter(arrayAdapter);
+        CategoriesList.setAdapter(arrayAdapter);
 
 
 
 
 
-        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+        CategoriesList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapter, View v,
                                     int position, long id) {

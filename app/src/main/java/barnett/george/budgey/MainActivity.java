@@ -42,7 +42,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void CategoriesPageButtonClicked(View view){
-        Intent intent = new Intent(MainActivity.this, CheckedCategoriesClass.class);
+        Intent intent = new Intent(MainActivity.this, CategoriesPage.class);
         startActivity(intent);
     }
 

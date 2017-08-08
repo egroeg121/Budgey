@@ -10,6 +10,7 @@ import android.database.sqlite.SQLiteOpenHelper;
 import android.os.Bundle;
 import android.util.Log;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -580,6 +581,11 @@ public class MyDBHandler extends SQLiteOpenHelper{
         return dbList;
     }
 
+    public ArrayList getBudgetCategories(int BudgetID){
+        ArrayList<String> categorylist = new ArrayList<String>();
+
+        return categorylist;
+    }
 
     // This is for the database manager. Make sure you delete it when making a proper version
     public ArrayList<Cursor> getData(String Query){

@@ -83,7 +83,7 @@ public class AddRecurringPage extends Activity implements OnItemSelectedListener
         dbHandler = new MyDBHandler(this,null,null,1);
         datehandler = new DateHandler();
 
-        // Get position from list click. if from add button position is -1
+
         ListPosition = getIntent().getIntExtra("ListPosition",-1);
 
         // Set Up Spinner/Spinner Array Adapter
@@ -222,7 +222,7 @@ public class AddRecurringPage extends Activity implements OnItemSelectedListener
     }
 
     public void onItemSelected(AdapterView<?> parent, View v, int position, long id) {
-        String test = parent.getItemAtPosition(position).toString(); // days=1,weeks=2,months=3,Years=4
+        // days=1,weeks=2,months=3,Years=4
         UnitOfTime = position;
     }
 

@@ -28,6 +28,8 @@ public class Budgets extends AppCompatActivity {
     ArrayList<String> displaylist = new ArrayList<String>();
     ArrayAdapter<String> arrayAdapter;
 
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
