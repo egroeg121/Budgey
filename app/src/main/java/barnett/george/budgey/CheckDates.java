@@ -43,24 +43,8 @@ public class CheckDates{
                 int UnitofTime = RecurringData.getInt("UnitOfTime");
 
 
-                long NewDate = CurrentMilli;
-                switch ( UnitofTime ){
-                    case 0: // Days are to be added
-                        NewDate = datehandler.AddNumDays(OldDate,NumOfUnit);
-                        break;
 
-                    case 1: // Weeks are to be added
-                        NewDate = datehandler.AddNumWeeks(OldDate,NumOfUnit);
-                        break;
-
-                    case 2: // Months are to Added
-                        NewDate = datehandler.AddNumMonths(OldDate,NumOfUnit);
-                        break;
-
-                    case 3: // Years are Added
-                        NewDate = datehandler.AddNumYears(OldDate,NumOfUnit);
-                        break;
-                }
+                long NewDate = datehandler.nextDate(UnitofTime,NumOfUnit,CurrentMilli);
 
                 String CurrentDateString = datehandler.MillitoDateString(CurrentMilli);
                 String OldDateString = datehandler.MillitoDateString(OldDate);

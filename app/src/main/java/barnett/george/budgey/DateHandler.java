@@ -51,6 +51,29 @@ public class DateHandler {
         return DateIntArray;
     }
 
+    public long nextDate(int UnitofTime,int NumOfUnit,long StartDate){
+        long NextDate = 0;
+        switch ( UnitofTime ){ // 0 = days, 1 = weeks, 2 = months, 3 = years
+            case 0: // Days are to be added
+                NextDate = AddNumDays(StartDate,NumOfUnit);
+                break;
+
+            case 1: // Weeks are to be added
+                NextDate = AddNumWeeks(StartDate,NumOfUnit);
+                break;
+
+            case 2: // Months are to Added
+                NextDate = AddNumMonths(StartDate,NumOfUnit);
+                break;
+
+            case 3: // Years are Added
+                NextDate = AddNumYears(StartDate,NumOfUnit);
+                break;
+        }
+
+        return NextDate;
+    }
+
     // adds inputted number of Days to Millisecond Time
     public long AddNumDays(long MilliTime,int days){
         Calendar calendar = Calendar.getInstance();

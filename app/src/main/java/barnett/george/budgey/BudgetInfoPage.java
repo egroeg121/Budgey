@@ -90,6 +90,7 @@ public class BudgetInfoPage extends Activity implements OnItemSelectedListener {
         ListView listView = (ListView) findViewById(R.id.CategoriesList);
         listView.setAdapter(arrayAdapter);
 
+        ListPosition = getIntent().getIntExtra("ListPosition",-1);
     }
     public void addButtonClicked(View view){
         // Read amount from text views
@@ -103,7 +104,12 @@ public class BudgetInfoPage extends Activity implements OnItemSelectedListener {
         StartYear = Integer.parseInt( StartDateYearEdit.getText().toString() );
 
         DateString = StartYear + "-" + StartMonth + "-" + StartDay;
-        StartDate = datehandler.DatetoMilliString(DateString);
+        NextDate = datehandler.DatetoMilliString(DateString);
+
+        currentMilli = datehandler.currentTimeMilli();
+        while (NextDate < currentMilli){
+            NextDate = datehandler.nextDate(UnitOfTime,NumOfUnit,NextDate);
+        }
 
         // enter into database
         if (ListPosition == -1){

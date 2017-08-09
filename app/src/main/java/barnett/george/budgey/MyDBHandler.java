@@ -554,6 +554,32 @@ public class MyDBHandler extends SQLiteOpenHelper{
 
     // BUDGETS
 
+    public void addBudget(Bundle data){
+
+        // Unpack Bundle
+        String note = data.getString("Note");
+        Double amount = data.getDouble("Amount");
+        String category = data.getString("CategoryString");
+        Long nextdate = data.getLong("NextDate");
+        int numofunit = data.getInt("NumOfUnit");
+        int unitoftime = data.getInt("UnitOfTime"); //
+
+
+        // Add to multiple columns at once
+        ContentValues values = new ContentValues();
+        values.put(COLUMN_NOTE, note);
+        values.put(COLUMN_AMOUNT, amount);
+        values.put(COLUMN_NEXTDATE, nextdate);
+        values.put(COLUMN_CATEGORY, category);
+        values.put(COLUMN_NUMBEROFUNIT,numofunit);
+        values.put(COLUMN_UNITOFTIME,unitoftime);
+
+        // the database we are going to write to
+        SQLiteDatabase db = getWritableDatabase();
+        db.insert(TABLE_BUDGETS, null, values);
+        db.close(); // close database
+    }
+
     public ArrayList getBudgets(){
         ArrayList<String> dbList = new ArrayList<String>();
 
