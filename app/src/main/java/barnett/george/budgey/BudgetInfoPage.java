@@ -28,7 +28,7 @@ import java.util.Locale;
 public class BudgetInfoPage extends Activity implements OnItemSelectedListener {
 
     EditText NoteEdit;
-    EditText AmountEdit;
+    EditText TotalAmountEdit;
     EditText NumOfUnitEdit;
     EditText StartDateDayEdit;
     EditText StartDateMonthEdit;
@@ -44,14 +44,15 @@ public class BudgetInfoPage extends Activity implements OnItemSelectedListener {
 
     int ListPosition;
     int BudgetID;
-    double Amount;
+    double TotalAmount;
     String Note;
     String Category = "None";
     long StartDate;
     long NextDate;
     int NumOfUnit;
     int UnitOfTime;
-    ArrayList<String> categorylist;
+
+    ArrayList<String> categorylist = new ArrayList<>();
 
     Calendar date;
     int StartDay;
@@ -69,13 +70,12 @@ public class BudgetInfoPage extends Activity implements OnItemSelectedListener {
 
         // initialise layout items
         NoteEdit = (EditText) findViewById(R.id.NoteEdit);
-        AmountEdit = (EditText) findViewById(R.id.AmountEdit);
+        TotalAmountEdit = (EditText) findViewById(R.id.TotalAmountEdit);
         NumOfUnitEdit = (EditText) findViewById(R.id.NumOfUnitEdit);
         StartDateDayEdit = (EditText) findViewById(R.id.StartDateDayEdit);
         StartDateMonthEdit = (EditText) findViewById(R.id.StartDateMonthEdit);
         StartDateYearEdit = (EditText) findViewById(R.id.StartDateYearEdit);
         UnitOfTimeSpinner = (Spinner) findViewById(R.id.UnitOfTimeSpinner);
-        CategoriesList = (ListView) findViewById(R.id.CategoriesList);
 
         dbHandler = new MyDBHandler(this,null,null,1);
         datehandler = new DateHandler();
@@ -86,13 +86,58 @@ public class BudgetInfoPage extends Activity implements OnItemSelectedListener {
         UnitOfTimeSpinner.setOnItemSelectedListener(this);
         UnitOfTimeSpinner.setAdapter(SpinnerAdapter);
 
-        ArrayList<String> categorylist = new ArrayList<String>();
         arrayAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, categorylist);
         ListView listView = (ListView) findViewById(R.id.CategoriesList);
         listView.setAdapter(arrayAdapter);
 
     }
+    public void addButtonClicked(View view){
+        // Read amount from text views
+        TotalAmount = Double.parseDouble(TotalAmountEdit.getText().toString());
+        Note = NoteEdit.getText().toString();
+        NumOfUnit = Integer.parseInt(NumOfUnitEdit.getText().toString());
 
+        // Get Dates
+        StartDay = Integer.parseInt( StartDateDayEdit.getText().toString() );
+        StartMonth = Integer.parseInt( StartDateMonthEdit.getText().toString() );
+        StartYear = Integer.parseInt( StartDateYearEdit.getText().toString() );
+
+        DateString = StartYear + "-" + StartMonth + "-" + StartDay;
+        StartDate = datehandler.DatetoMilliString(DateString);
+
+        // enter into database
+        if (ListPosition == -1){
+            // new transaction
+            Bundle data = new Bundle();
+            data.putString("Note",Note);
+            data.putDouble("TotalAmount",TotalAmount);
+            data.putLong("StartDate",StartDate);
+            data.putLong("NextDate",StartDate);
+            data.putInt("UnitOfTime",UnitOfTime);
+            data.putInt("NumOfUnit",NumOfUnit);
+            dbHandler.addRecurring(data);
+        }else{
+            // Get ID for edit transaction
+            String _ID = dbHandler.RowtoID(ListPosition,2);
+            Bundle data = new Bundle();
+            data.putInt( "RecurringID", Integer.valueOf(_ID) );
+            data.putString("Note",Note);
+            data.putDouble("Amount",TotalAmount);
+            data.putLong("StartDate",StartDate);
+            data.putLong("NextDate",StartDate);
+            data.putInt("UnitofTime",UnitOfTime);
+            data.putInt("NumOfUnit",NumOfUnit);
+            dbHandler.editRecurring(data);
+
+            dbHandler.deleteTransactionFromRecurring( Integer.valueOf(_ID) );
+        }
+
+        CheckDates checkdates = new CheckDates(this);
+        checkdates.CheckRecurringDates();
+
+        // finish
+        finish();
+    }
 
     public void dateNowButtonClicked(View view){
         // Get current time into milliseconds
@@ -119,6 +164,17 @@ public class BudgetInfoPage extends Activity implements OnItemSelectedListener {
         UnitOfTime = position;
     }
 
+    public void addCategoryButtonClicked(View view){
+        Intent intent = new Intent(this, CategoriesPage.class);
+        intent.putExtra("SelectCategory", true);
+        startActivityForResult(intent, 1);
+    }
+
+    public void clearCategoryButtonClicked(View view){
+        categorylist.clear();
+        arrayAdapter.notifyDataSetChanged();
+    }
+
     public void onNothingSelected(AdapterView<?> arg0) {}
 
     private void MilliToDisplay(long Milli){
@@ -138,16 +194,17 @@ public class BudgetInfoPage extends Activity implements OnItemSelectedListener {
         StartDateYearEdit.setText( String.valueOf(StartYear));
     }
 
-    // TODO get cateogries list working
-    public void getCategoriesList(){
-        categorylist.clear();
-        categorylist = dbHandler.getBudgetCategories(BudgetID);
 
-        // if existing
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (resultCode == RESULT_OK && requestCode == 1) {
+            // Request Code 1 is from Category Button
+            String string = data.getStringExtra("Category");
 
+            categorylist.add(string);
 
-        // Update adapter
-        arrayAdapter.notifyDataSetChanged();
+            arrayAdapter.notifyDataSetChanged();
+        }
+
     }
 
 }
