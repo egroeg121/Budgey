@@ -4,6 +4,7 @@ package barnett.george.budgey;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
@@ -46,7 +47,7 @@ public class BudgetInfoPage extends Activity implements OnItemSelectedListener {
     int BudgetID;
     double TotalAmount;
     String Note;
-    String Category = "None";
+    String CategoryString = "None";
     long StartDate;
     long NextDate;
     int NumOfUnit;
@@ -86,7 +87,7 @@ public class BudgetInfoPage extends Activity implements OnItemSelectedListener {
         UnitOfTimeSpinner.setOnItemSelectedListener(this);
         UnitOfTimeSpinner.setAdapter(SpinnerAdapter);
 
-        arrayAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, categorylist);
+        arrayAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1,categorylist);
         ListView listView = (ListView) findViewById(R.id.CategoriesList);
         listView.setAdapter(arrayAdapter);
 
@@ -111,36 +112,25 @@ public class BudgetInfoPage extends Activity implements OnItemSelectedListener {
             NextDate = datehandler.nextDate(UnitOfTime,NumOfUnit,NextDate);
         }
 
+        // Get Category String
+        String CategoryString = TextUtils.join("; ", categorylist);
+
+
         // enter into database
         if (ListPosition == -1){
             // new transaction
             Bundle data = new Bundle();
             data.putString("Note",Note);
-            data.putDouble("TotalAmount",TotalAmount);
-            data.putLong("StartDate",StartDate);
-            data.putLong("NextDate",StartDate);
-            data.putInt("UnitOfTime",UnitOfTime);
-            data.putInt("NumOfUnit",NumOfUnit);
-            dbHandler.addRecurring(data);
-        }else{
-            // Get ID for edit transaction
-            String _ID = dbHandler.RowtoID(ListPosition,2);
-            Bundle data = new Bundle();
-            data.putInt( "RecurringID", Integer.valueOf(_ID) );
-            data.putString("Note",Note);
             data.putDouble("Amount",TotalAmount);
-            data.putLong("StartDate",StartDate);
-            data.putLong("NextDate",StartDate);
-            data.putInt("UnitofTime",UnitOfTime);
+            data.putString("CategoryString",CategoryString);
+            data.putLong("NextDate", NextDate);
             data.putInt("NumOfUnit",NumOfUnit);
-            dbHandler.editRecurring(data);
+            data.putInt("UnitOfTime",UnitOfTime);
 
-            dbHandler.deleteTransactionFromRecurring( Integer.valueOf(_ID) );
+            dbHandler.addBudget(data);
+        }else{
+
         }
-
-        CheckDates checkdates = new CheckDates(this);
-        checkdates.CheckRecurringDates();
-
         // finish
         finish();
     }

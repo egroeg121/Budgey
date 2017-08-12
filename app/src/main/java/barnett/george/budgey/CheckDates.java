@@ -69,6 +69,19 @@ public class CheckDates{
 
     }
 
+    public long[] getBudgetTimes(int Arraysize,long StartDate, int NumOfUnit, int UnitOfTime){
+        long TimesArray[] = new long[Arraysize];
+                datehandler = new DateHandler();
+
+        for (int i = 1; i < Arraysize; i++) {
+            int inversei = -1*i;
+            long testlong = datehandler.nextDate(UnitOfTime,inversei,StartDate);
+            TimesArray[i] = testlong;
+        }
+
+        return TimesArray;
+    }
+
     public ArrayList getBudgetTimes(int BudgetID){
         ArrayList<String> TimesList = new ArrayList<String>();
 

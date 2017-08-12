@@ -7,6 +7,7 @@ import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
@@ -29,7 +30,6 @@ public class Budgets extends AppCompatActivity {
     ArrayAdapter<String> arrayAdapter;
 
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -41,6 +41,16 @@ public class Budgets extends AppCompatActivity {
         arrayAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, displaylist);
         ListView listView = (ListView) findViewById(R.id.BudgetsList);
         listView.setAdapter(arrayAdapter);
+
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapter, View v,
+                                    int position, long id) {
+                Intent intent = new Intent(Budgets.this, BudgetTimesPage.class);
+                intent.putExtra("ListPosition",position);
+                startActivity(intent);
+            }
+        });
     }
 
     @Override

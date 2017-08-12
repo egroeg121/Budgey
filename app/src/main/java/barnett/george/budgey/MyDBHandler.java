@@ -76,10 +76,22 @@ public class MyDBHandler extends SQLiteOpenHelper{
                 COLUMN_NUMBEROFUNIT + " INTEGER " +
                 ");";
 
+        // Create Budget query
+        String budgetquery = "CREATE TABLE " + TABLE_BUDGETS + "(" +
+                COLUMN_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
+                COLUMN_NOTE + " TEXT, " +
+                COLUMN_AMOUNT + " REAL, " +
+                COLUMN_NEXTDATE+ " INTEGER, " +
+                COLUMN_BUDGETCATEGORIES + " TEXT, " +
+                COLUMN_UNITOFTIME + " INTEGER, " +
+                COLUMN_NUMBEROFUNIT + " INTEGER " +
+                ");";
+
         // Executes table from above SQL
         db.execSQL(transactionquery);
         db.execSQL(categoryquery);
         db.execSQL(recurringquery);
+        db.execSQL(budgetquery);
     }
 
     @Override
@@ -89,8 +101,37 @@ public class MyDBHandler extends SQLiteOpenHelper{
     }
 
 
-    // TRANSACTIONS
+    // General
 
+    public String RowtoID(int row, int tablenum){
+        // Find the id of the
+        SQLiteDatabase db = getWritableDatabase();
+
+        // Check which table to go to
+        String table = "";
+        switch(tablenum){
+            case 0:
+                table = TABLE_TRANSACTIONS;
+                break;
+            case 1:
+                table = TABLE_CATEGORIES;
+                break;
+            case 2:
+                table = TABLE_RECURRING;
+                break;
+            case 3:
+                table = TABLE_BUDGETS;
+                break;
+        }
+        String query = "SELECT * FROM " + table + " WHERE 1";
+        Cursor c = db.rawQuery(query,null);
+        c.moveToFirst();
+        c.move(row);
+        String _id = c.getString(c.getColumnIndex("_id"));
+        return _id;
+    }
+
+    // TRANSACTIONS
 
     // Add a new row to the database
     public void addTransaction(Bundle data){
@@ -189,62 +230,26 @@ public class MyDBHandler extends SQLiteOpenHelper{
         Bundle data = new Bundle();
         ArrayList<String> Amounts = new ArrayList<>();
         ArrayList<String> Notes = new ArrayList<>();
+        ArrayList<String> Dates = new ArrayList<>();
 
         SQLiteDatabase db = getReadableDatabase();
-        String query = "SELECT * FROM " + TABLE_TRANSACTIONS + " WHERE 1";
+        String query = "SELECT * FROM " + TABLE_TRANSACTIONS + " WHERE " + COLUMN_CATEGORY + "=\"" + Category + "\";";
         Cursor c = db.rawQuery(query, null);
         c.moveToFirst();
 
         // loop through each row to the big string
         while (!c.isAfterLast()){
-            if ( c.getString( c.getColumnIndex(COLUMN_CATEGORY) ).equals(Category) ){
                 Amounts.add(c.getString( c.getColumnIndex(COLUMN_AMOUNT)) );
                 Notes.add(c.getString( c.getColumnIndex(COLUMN_NOTE)) );
-            }
+                Dates.add(c.getString( c.getColumnIndex(COLUMN_DATE)) );
             c.moveToNext();
         }
         db.close();
 
         data.putStringArrayList("Amounts", Amounts);
         data.putStringArrayList("Notes", Notes);
+        data.putStringArrayList("Dates", Dates);
         return data;
-    }
-
-    // Gets all data on row, puts into bundle
-    public Bundle getTransactionInfoFromID(int _id){
-        SQLiteDatabase db = getReadableDatabase();
-
-        // select all columns (Select *) and all rows (where 1)
-        String query = "SELECT * FROM " + TABLE_TRANSACTIONS + " WHERE 1";
-
-        // Cursor point to a location in your reults
-        Cursor c = db.rawQuery(query,null);
-
-        // Move curser to row
-        c.moveToFirst(); // makes sure curser is at the start
-
-        while (!c.isAfterLast()){
-            if(c.getString(c.getColumnIndex(COLUMN_ID)).equals(Integer.toString(_id))){     // Checks whether id in row is equal to proper wanted id
-
-            }
-            c.moveToNext();
-        }
-
-        double amount = c.getDouble(c.getColumnIndex(COLUMN_AMOUNT));
-        String note = c.getString(c.getColumnIndex(COLUMN_NOTE));
-        String category = c.getString( c.getColumnIndex(COLUMN_CATEGORY) );
-        long date = c.getLong(( c.getColumnIndex(COLUMN_DATE ) ));
-
-        // Create Bundle of Transaction Info
-        Bundle TransactionInfo = new Bundle();
-        TransactionInfo.putString("Note", note);
-        TransactionInfo.putDouble("Amount",amount);
-        TransactionInfo.putString("Category",category);
-        TransactionInfo.putLong("Date",date);
-
-
-        db.close();
-        return TransactionInfo;
     }
 
     public ArrayList getTransactionList(String column){
@@ -301,31 +306,6 @@ public class MyDBHandler extends SQLiteOpenHelper{
 
         db.close();
         return dbList;
-    }
-
-    public String RowtoID(int row, int tablenum){
-        // Find the id of the
-        SQLiteDatabase db = getWritableDatabase();
-
-        // Check which table to go to
-        String table = "";
-        switch(tablenum){
-            case 0:
-                table = TABLE_TRANSACTIONS;
-                break;
-            case 1:
-                table = TABLE_CATEGORIES;
-                break;
-            case 2:
-                table = TABLE_RECURRING;
-                break;
-        }
-        String query = "SELECT * FROM " + table + " WHERE 1";
-        Cursor c = db.rawQuery(query,null);
-        c.moveToFirst();
-        c.move(row);
-        String _id = c.getString(c.getColumnIndex("_id"));
-        return _id;
     }
 
     public void addCategory(String category){
@@ -562,7 +542,7 @@ public class MyDBHandler extends SQLiteOpenHelper{
         String category = data.getString("CategoryString");
         Long nextdate = data.getLong("NextDate");
         int numofunit = data.getInt("NumOfUnit");
-        int unitoftime = data.getInt("UnitOfTime"); //
+        int unitoftime = data.getInt("UnitOfTime");
 
 
         // Add to multiple columns at once
@@ -570,7 +550,7 @@ public class MyDBHandler extends SQLiteOpenHelper{
         values.put(COLUMN_NOTE, note);
         values.put(COLUMN_AMOUNT, amount);
         values.put(COLUMN_NEXTDATE, nextdate);
-        values.put(COLUMN_CATEGORY, category);
+        values.put(COLUMN_BUDGETCATEGORIES, category);
         values.put(COLUMN_NUMBEROFUNIT,numofunit);
         values.put(COLUMN_UNITOFTIME,unitoftime);
 
@@ -586,7 +566,7 @@ public class MyDBHandler extends SQLiteOpenHelper{
         SQLiteDatabase db = getReadableDatabase();
 
         // select all columns (Select *) and all rows (where 1)
-        String query = "SELECT "+ COLUMN_NOTE + " FROM " + TABLE_RECURRING + " WHERE 1";
+        String query = "SELECT "+ COLUMN_NOTE + " FROM " + TABLE_BUDGETS + " WHERE 1";
 
         // Cursor point to a location in your reults
         Cursor c = db.rawQuery(query, null);
@@ -605,6 +585,41 @@ public class MyDBHandler extends SQLiteOpenHelper{
 
 
         return dbList;
+    }
+
+    public Bundle getBudgetInfoFromRow(int row){
+        SQLiteDatabase db = getReadableDatabase();
+
+        // select all columns (Select *) and all rows (where 1)
+        String query = "SELECT * FROM " + TABLE_BUDGETS + " WHERE 1";
+
+        // Cursor point to a location in your reults
+        Cursor c = db.rawQuery(query,null);
+
+        // Move curser to row
+        c.moveToFirst(); // makes sure curser is at the start
+        c.move(row);
+        // getColumnIndex gets the int of the column for the get String/Double
+
+        Double amount = c.getDouble(c.getColumnIndex(COLUMN_AMOUNT));
+        String note = c.getString(c.getColumnIndex(COLUMN_NOTE));
+        String categorystring = c.getString( c.getColumnIndex(COLUMN_BUDGETCATEGORIES) );
+        Long nextdate = c.getLong( c.getColumnIndex(COLUMN_NEXTDATE) );
+        int numofunit = c.getInt( c.getColumnIndex(COLUMN_NUMBEROFUNIT) );
+        int unitoftime = c.getInt( c.getColumnIndex(COLUMN_UNITOFTIME) );
+
+        // Create Bundle of Recurring Info
+        Bundle RecurringInfo = new Bundle();
+        RecurringInfo.putString("Note", note);
+        RecurringInfo.putDouble("Amount",amount);
+        RecurringInfo.putString("CategoryString",categorystring);
+        RecurringInfo.putLong("NextDate",nextdate);
+        RecurringInfo.putInt("NumOfUnit",numofunit);
+        RecurringInfo.putInt("UnitOfTime",unitoftime);
+
+        db.close();
+        return RecurringInfo;
+
     }
 
     public ArrayList getBudgetCategories(int BudgetID){
