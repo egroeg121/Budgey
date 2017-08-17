@@ -24,6 +24,7 @@ public class MainActivity extends FragmentActivity {
         viewPager = (ViewPager) findViewById(R.id.pager); // Find the ID of the ViewPage (The background page)
         FragmentManager fragmentManager=getSupportFragmentManager(); // Adapter needs fragment manager object
         viewPager.setAdapter( new MyAdapter(fragmentManager) );
+        viewPager.setCurrentItem( 2 );
     }
 
 
@@ -84,7 +85,7 @@ class MyAdapter extends FragmentPagerAdapter{
                 title = "Transactions";
                 break;
             case 4:
-                title = "Recurring Transactions";
+                title = "Recurring";
                 break;
         }
         return title;
