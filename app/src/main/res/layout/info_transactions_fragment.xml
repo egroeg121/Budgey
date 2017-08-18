@@ -104,7 +104,7 @@
             android:layout_below="@+id/NameText"
             android:layout_toEndOf="@+id/AmountText"
             android:ems="10"
-            android:inputType="textPersonName"
+            android:inputType="numberDecimal"
             android:layout_alignStart="@+id/NameEdit" />
 
         <TextView
@@ -129,6 +129,7 @@
             android:layout_below="@+id/AmountText"
             android:layout_toEndOf="@+id/DateText"
             android:ems="2"
+            android:gravity="center"
             android:hint="DD"
             android:inputType="number"
             android:maxLength="2" />
@@ -141,6 +142,7 @@
             android:layout_below="@+id/AmountEdit"
             android:layout_toEndOf="@+id/DateDayEdit"
             android:ems="2"
+            android:gravity="center"
             android:hint="MM"
             android:inputType="number"
             android:maxLength="2" />
@@ -153,6 +155,7 @@
             android:layout_below="@+id/AmountEdit"
             android:layout_toEndOf="@+id/DateMonthEdit"
             android:ems="3"
+            android:gravity="center"
             android:hint="YYYY"
             android:inputType="number"
             android:maxEms="3"
@@ -183,7 +186,7 @@
             app:layout_anchorGravity="bottom|right" />
 
         <Button
-            android:id="@+id/button"
+            android:id="@+id/TodayDateButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:background="@color/MainWhite"
