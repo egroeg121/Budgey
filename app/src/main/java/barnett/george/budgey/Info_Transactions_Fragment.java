@@ -17,6 +17,7 @@ public class Info_Transactions_Fragment extends Fragment implements View.OnClick
 
     // Classes
     DateHandler dateHandler;
+    DBHandler dbHandler;
     Transaction transaction;
 
     // Layout Items
@@ -43,6 +44,7 @@ public class Info_Transactions_Fragment extends Fragment implements View.OnClick
         View view = inflater.inflate(R.layout.info_transactions_fragment, container, false);
 
         dateHandler = new DateHandler();
+        dbHandler = new DBHandler(getContext(),null,null,1);
         transaction = new Transaction(0,null,0,0,null,0); // Set up empty transaction
 
         // Initialising Layout Items
@@ -80,6 +82,12 @@ public class Info_Transactions_Fragment extends Fragment implements View.OnClick
 
                 // put variables in transaction object
                 transaction = new Transaction(ID,name,amount,date,category,recurringID);
+
+                // Put into Database
+                dbHandler.OpenDatabase();
+                dbHandler.addTransaction(transaction);
+                dbHandler.CloseDatabase();
+
 
                 getActivity().finish();
                 break;

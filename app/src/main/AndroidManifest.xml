@@ -19,6 +19,9 @@
 
         <activity android:name=".Info_Activity">
         </activity>
+
+        <activity android:name="barnett.george.budgey.AndroidDatabaseManager"
+            android:theme="@style/Theme.AppCompat.Light"/>
     </application>
 
 </manifest>
