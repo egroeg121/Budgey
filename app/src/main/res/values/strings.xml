@@ -3,4 +3,14 @@
     <string name="title_activity_budgets">Budgets</string>
     <string name="title_activity_main2">Main2Activity</string>
 
+    <string name="Settings">Settings</string>
+    <string name="Budgets">Budgets</string>
+    <string name="Categories">Categories</string>
+    <string name="Transactions">Transactions</string>
+    <string name="Recurring">Recurring</string>
+
+    <string name="TransactionInfo">Transaction Info</string>
+    <string name="BudgetInfo">Budget Info</string>
+    <string name="CategoriesInfo">Categories Info</string>
+    <string name="RecurringInfo">Recurring Info</string>
 </resources>

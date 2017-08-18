@@ -1,5 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <color name="MainGreen">#008000</color>
-    <color name="MainWhite">#ffffff</color>
+    <color name="MainWhite">#FFFFFF</color>
+    <color name="DarkGrey">#565656</color>
+    <color name="Transparent">#000000</color>
+
 </resources>

@@ -13,59 +13,59 @@ import android.view.View;
 import android.widget.Button;
 
 
-public class MainActivity extends FragmentActivity {
+public class Info_Activity extends FragmentActivity {
 
     ViewPager viewPager=null;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.info_activity);
 
         viewPager = (ViewPager) findViewById(R.id.pager); // Find the ID of the ViewPage (The background page)
         FragmentManager fragmentManager=getSupportFragmentManager(); // Adapter needs fragment manager object
-        viewPager.setAdapter( new MyAdapter(fragmentManager) );
+        viewPager.setAdapter( new InfoAdapter(fragmentManager,this) );
         viewPager.setCurrentItem( 2 );
     }
 
 
 }
+class InfoAdapter extends FragmentPagerAdapter {
 
-// Make Adapter to turn Fragments into Views
-class MyAdapter extends FragmentPagerAdapter{
-
-    public MyAdapter(FragmentManager fm) {
+    // Get context so can us resources
+    private Context context;
+    public InfoAdapter(FragmentManager fm,Context context) {
         super(fm);
+        this.context=context;
     }
+
+
 
     // Get which fragment to load
     @Override
     public Fragment getItem(int pageposition) {
         Fragment fragment=null; // Fragment Object
-        switch (pageposition){
+        switch (pageposition) {
             case 0:
-                fragment = new Settings_Fragment();
+                fragment = new Info_Categories_Fragment();
                 break;
             case 1:
-                fragment = new Categories_Overview_Fragment();
+                fragment = new Info_Budgets_Fragment();
                 break;
             case 2:
-                fragment = new Budgets_Overview_Fragment();
+                fragment = new Info_Transactions_Fragment();
                 break;
             case 3:
-                fragment = new Transactions_Overview_Fragment();
-                break;
-            case 4:
-                fragment = new Recurring_Overview_Fragment();
+                fragment = new Info_Recurring_Fragment();
                 break;
         }
         return fragment;
     }
 
 
-    // Gets the number of pages to scroll between (5)
+    // Gets the number of pages to scroll between (4)
     @Override
     public int getCount() {
-        return 5;
+        return 4;
     }
 
     @Override
@@ -73,21 +73,20 @@ class MyAdapter extends FragmentPagerAdapter{
         String title=new String();
         switch (pageposition){
             case 0:
-                title = "Settings";
+                title = context.getResources().getString(R.string.Categories) ;
                 break;
             case 1:
-                title = "Categories";
+                title = context.getResources().getString(R.string.Budgets) ;
                 break;
             case 2:
-                title = "Budgets";
+                title = context.getResources().getString(R.string.Transactions) ;
                 break;
             case 3:
-                title = "Transactions";
-                break;
-            case 4:
-                title = "Recurring";
+                title = context.getResources().getString(R.string.Recurring) ;
                 break;
         }
         return title;
     }
+
+
 }
