@@ -1,0 +1,174 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.design.widget.CoordinatorLayout xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main_content"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <View
+            android:id="@+id/TopGreyBar"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentTop="true"
+            android:background="@android:color/darker_gray"
+            android:paddingEnd="20dp"
+            android:paddingStart="20dp" />
+
+        <TextView
+            android:id="@+id/TitleText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentStart="true"
+            android:layout_below="@+id/TopGreyBar"
+            android:background="@color/MainGreen"
+            android:padding="@dimen/PagePadding"
+            android:text="@string/BudgetInfo"
+            android:textColor="@color/MainWhite"
+            android:textSize="@dimen/Title"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/NameText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBottom="@+id/NameEdit"
+            android:layout_alignEnd="@+id/AmountText"
+            android:layout_alignParentStart="true"
+            android:layout_below="@+id/TitleText"
+            android:layout_toStartOf="@+id/NameEdit"
+            android:gravity="center"
+            android:padding="@dimen/PagePadding"
+            android:text="Name:"
+            android:textColor="@color/DarkGrey"
+            android:textSize="@dimen/SearchBar"
+            android:textStyle="bold" />
+
+        <EditText
+            android:id="@+id/NameEdit"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/TitleText"
+            android:layout_toEndOf="@+id/AmountText"
+            android:ems="10"
+            android:inputType="textPersonName" />
+
+        <TextView
+            android:id="@+id/AmountText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBottom="@+id/AmountEdit"
+            android:layout_alignParentStart="true"
+            android:layout_below="@+id/NameText"
+            android:gravity="center"
+            android:padding="@dimen/PagePadding"
+            android:text="Amount:"
+            android:textColor="@color/DarkGrey"
+            android:textSize="@dimen/SearchBar"
+            android:textStyle="bold" />
+
+        <EditText
+            android:id="@+id/AmountEdit"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/NameText"
+            android:layout_toEndOf="@+id/AmountText"
+            android:ems="10"
+            android:inputType="textPersonName" />
+
+        <TextView
+            android:id="@+id/DateText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentStart="true"
+            android:layout_below="@+id/AmountText"
+            android:layout_toStartOf="@+id/AmountEdit"
+            android:gravity="center"
+            android:padding="@dimen/PagePadding"
+            android:text="Date:"
+            android:textColor="@color/DarkGrey"
+            android:textSize="@dimen/SearchBar"
+            android:textStyle="bold" />
+
+        <EditText
+            android:id="@+id/DateDayEdit"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBottom="@+id/DateText"
+            android:layout_below="@+id/AmountText"
+            android:layout_toEndOf="@+id/DateText"
+            android:ems="2"
+            android:hint="DD"
+            android:inputType="number"
+            android:maxLength="2" />
+
+        <EditText
+            android:id="@+id/DateMonthEdit"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBottom="@+id/DateDayEdit"
+            android:layout_below="@+id/AmountEdit"
+            android:layout_toEndOf="@+id/DateDayEdit"
+            android:ems="2"
+            android:hint="MM"
+            android:inputType="number"
+            android:maxLength="2" />
+
+        <EditText
+            android:id="@+id/DateYearEdit"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBottom="@+id/DateMonthEdit"
+            android:layout_below="@+id/AmountEdit"
+            android:layout_toEndOf="@+id/DateMonthEdit"
+            android:ems="3"
+            android:hint="YYYY"
+            android:inputType="number"
+            android:maxEms="3"
+            android:maxLength="4" />
+
+        <LinearLayout
+            android:id="@+id/DateBar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentStart="true"
+            android:background="@color/MainGreen"
+            android:orientation="horizontal"
+            android:padding="@dimen/DateBarPadding">
+
+        </LinearLayout>
+
+        <android.support.design.widget.FloatingActionButton
+            android:id="@+id/DoneButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_above="@+id/DateBar"
+            android:layout_alignParentEnd="true"
+            android:layout_margin="@dimen/PagePadding"
+            android:onClick="AddButtonClicked"
+            android:src="@drawable/ic_done"
+            android:tint="@color/MainWhite"
+            app:backgroundTint="@color/MainGreen"
+            app:layout_anchorGravity="bottom|right" />
+
+        <Button
+            android:id="@+id/button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBottom="@+id/DateYearEdit"
+            android:layout_below="@+id/AmountEdit"
+            android:layout_toEndOf="@+id/DateYearEdit"
+            android:background="@color/MainWhite"
+            android:text="Today"
+            android:textColor="@color/DarkGrey" />
+
+    </RelativeLayout>
+
+</android.support.design.widget.CoordinatorLayout>
