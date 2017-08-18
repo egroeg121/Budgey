@@ -73,7 +73,7 @@ class OverviewAdapter extends FragmentPagerAdapter {
 
     @Override
     public CharSequence getPageTitle(int pageposition){
-        String title=new String();
+        String title = null;
         switch (pageposition){
             case 0:
                 title = context.getResources().getString(R.string.Settings);
