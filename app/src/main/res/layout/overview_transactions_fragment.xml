@@ -110,16 +110,18 @@
                 android:layout_alignParentBottom="true"
                 android:layout_alignParentEnd="true"
                 android:layout_weight="1"
+                android:contextClickable="false"
+                android:editable="false"
                 android:ems="5"
                 android:hint="DD/MM/YY"
-                android:inputType="date"
+                android:inputType="none"
                 android:maxLength="8"
                 android:textColor="@color/MainWhite"
                 android:textColorHint="@color/MainWhite"
                 android:textSize="@dimen/DateBar" />
 
             <ImageButton
-                android:id="@+id/PreviousUnitOfTime"
+                android:id="@+id/PreviousDateButton"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:layout_above="@+id/TransactionList"
@@ -136,10 +138,11 @@
                 android:layout_width="124dp"
                 android:layout_height="match_parent"
                 android:layout_weight="0.8"
-                android:backgroundTint="@color/MainWhite" />
+                android:backgroundTint="@color/MainWhite"
+                />
 
             <ImageButton
-                android:id="@+id/NextUnitoFtime"
+                android:id="@+id/NextDateButton"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:layout_above="@+id/TransactionList"
@@ -160,7 +163,7 @@
                 android:layout_weight="1"
                 android:ems="5"
                 android:hint="DD/MM/YY"
-                android:inputType="date"
+                android:inputType="none"
                 android:maxLength="8"
                 android:textColor="@color/MainWhite"
                 android:textColorHint="@color/MainWhite"

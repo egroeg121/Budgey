@@ -17,10 +17,18 @@ public class DateHandler {
         return time;
     }
 
+    public long currentDayMilli(){
+        long current = currentTimeMilli();
+        String DateString = MillitoDateString(current);
+        long date = DateStringtoMilli(DateString);
+
+        return date;
+    }
+
     // Converts Milliseconds (long variable) to a date (String)
     public String MillitoDateString(long Millitime){
 
-        SimpleDateFormat simpledate = new SimpleDateFormat("yyyy-MM-dd");
+        SimpleDateFormat simpledate = new SimpleDateFormat("dd/MM/yy");
         Calendar calendar = Calendar.getInstance();
 
         calendar.setTimeInMillis(Millitime);
@@ -32,7 +40,7 @@ public class DateHandler {
     // Convert Date String to Date Milli
     public long DateStringtoMilli(String DateString){
         try {
-            SimpleDateFormat simpledate = new SimpleDateFormat("yyyy-MM-dd");
+            SimpleDateFormat simpledate = new SimpleDateFormat("dd/MM/yy");
             Date date = (Date)simpledate.parse(DateString);
             long MilliDate = date.getTime();
             return MilliDate;
@@ -56,5 +64,69 @@ public class DateHandler {
         return date;
     }
 
+    // adds inputted number of Days to Millisecond Time
+    public long AddNumDays(long MilliTime,int days){
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTimeInMillis( MilliTime);
 
+        calendar.add( Calendar.DATE, days );
+        long OutputTime = calendar.getTime().getTime(); // First getTime is from calender object, second is from date objcet
+        return OutputTime;
+    }
+
+    // adds inputted number of Weeks to Millisecond Time
+    public long AddNumWeeks(long MilliTime,int weeks){
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTimeInMillis( MilliTime );
+
+        int days = weeks * 7;
+
+        calendar.add( Calendar.DATE, days );
+        long OutputTime = calendar.getTime().getTime(); // First getTime is from calender object, second is from date objcet
+
+        return OutputTime;
+    }
+
+    // adds inputted number of Months to Millisecond Time
+    public long AddNumMonths(long MilliTime,int months){
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTimeInMillis( MilliTime );
+
+        calendar.add( Calendar.MONTH, months );
+        long OutputTime = calendar.getTime().getTime(); // First getTime is from calender object, second is from date objcet
+        return OutputTime;
+    }
+
+    // adds inputted number of Years to Millisecond Time
+    public long AddNumYears(long MilliTime,int years){
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTimeInMillis( MilliTime );
+
+        calendar.add( Calendar.YEAR, years );
+        long OutputTime = calendar.getTime().getTime(); // First getTime is from calender object, second is from date objcet
+        return OutputTime;
+    }
+
+    public long nextDate(int UnitofTime,int NumOfUnit,long StartDate){
+        long NextDate = 0;
+        switch ( UnitofTime ){ // 0 = days, 1 = weeks, 2 = months, 3 = years
+            case 0: // Days are to be added
+                NextDate = AddNumDays(StartDate,NumOfUnit);
+                break;
+
+            case 1: // Weeks are to be added
+                NextDate = AddNumWeeks(StartDate,NumOfUnit);
+                break;
+
+            case 2: // Months are to Added
+                NextDate = AddNumMonths(StartDate,NumOfUnit);
+                break;
+
+            case 3: // Years are Added
+                NextDate = AddNumYears(StartDate,NumOfUnit);
+                break;
+        }
+
+        return NextDate;
+    }
 }

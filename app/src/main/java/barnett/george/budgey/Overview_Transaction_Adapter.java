@@ -1,6 +1,8 @@
 package barnett.george.budgey;
 
+import android.content.ClipData;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,7 +13,6 @@ import java.util.List;
 
 public class Overview_Transaction_Adapter extends RecyclerView.Adapter<Overview_Transaction_Adapter.ViewHolder> {
     private ArrayList<Transaction> values;
-
     // Provide a reference to the views for each data item
     // Complex data items may need more than one view per item, and
     // you provide access to all the views for a data item in a view holder
@@ -30,6 +31,15 @@ public class Overview_Transaction_Adapter extends RecyclerView.Adapter<Overview_
             AmountText = (TextView) v.findViewById(R.id.AmountText);
             CategoryText = (TextView) v.findViewById(R.id.CategoryText);
             DateText = (TextView) v.findViewById(R.id.DateText);
+
+            layout.setOnClickListener(new View.OnClickListener() {
+                @Override public void onClick(View v) {
+
+
+
+                }
+            });
+
         }
     }
 
@@ -52,12 +62,15 @@ public class Overview_Transaction_Adapter extends RecyclerView.Adapter<Overview_
 
     // Create new views (invoked by the layout manager)
     @Override
-    public Overview_Transaction_Adapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    public Overview_Transaction_Adapter.ViewHolder onCreateViewHolder(ViewGroup parent, final int viewType) {
         // create a new view
         LayoutInflater inflater = LayoutInflater.from( parent.getContext() );
         View v = inflater.inflate(R.layout.overview_transaction_card, parent, false);
         // set the view's size, margins, paddings and layout parameters
         ViewHolder vh = new ViewHolder(v);
+
+
+
         return vh;
     }
 
@@ -72,7 +85,10 @@ public class Overview_Transaction_Adapter extends RecyclerView.Adapter<Overview_
         holder.AmountText.setText( teststring );
         holder.CategoryText.setText( transaction.getCategory() );
         holder.DateText.setText( transaction.getDateString() );
+
     }
+
+
 
     // Return the size of your dataset (invoked by the layout manager)
     @Override
@@ -84,5 +100,6 @@ public class Overview_Transaction_Adapter extends RecyclerView.Adapter<Overview_
             return values.size();
         }
     }
+
 
 }

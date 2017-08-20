@@ -13,7 +13,7 @@
 
     <style name="PagerTabStripText">
         <item name="android:textSize">20sp</item>
-        <item name="android:textColor">#ffffff</item>
+        <item name="android:textColor">@color/MainWhite</item>
     </style>
 
 

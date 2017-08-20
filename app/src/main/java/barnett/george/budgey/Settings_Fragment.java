@@ -16,6 +16,8 @@ public class Settings_Fragment extends Fragment implements View.OnClickListener{
 
         Button DatabaseButton = (Button) view.findViewById(R.id.DatabaseButton);
         DatabaseButton.setOnClickListener(this);
+        Button AddTransactions = (Button) view.findViewById(R.id.AddTransactions);
+        AddTransactions.setOnClickListener(this);
 
         return view;
     }
@@ -26,6 +28,10 @@ public class Settings_Fragment extends Fragment implements View.OnClickListener{
             case R.id.DatabaseButton:
                 Intent intent = new Intent(getActivity(), AndroidDatabaseManager.class);
                 startActivity(intent);
+                break;
+            case R.id.AddTransactions:
+                AddStuff addStuff = new AddStuff( getContext() );
+                addStuff.add();
                 break;
         }
     }

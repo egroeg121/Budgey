@@ -84,6 +84,8 @@ public class DBHandler extends SQLiteOpenHelper {
      */
 
     public void addTransaction(Transaction transaction){
+        OpenDatabase();
+
 
         // Create a new map of values, where column names are the keys
         ContentValues values = new ContentValues();
@@ -95,9 +97,15 @@ public class DBHandler extends SQLiteOpenHelper {
 
         // Insert the new row, returning the primary key value of the new row
         long newRowId = db.insert(TABLE_TRANSACTIONS, null, values);
+
+        CloseDatabase();
     }
 
-    public ArrayList getAllTransactions(){
+    public void editTransaction(Transaction transaction){
+
+    }
+
+    public ArrayList getAllTransactions(long startdate,long enddate){
         OpenDatabase();
 
         // Initialise objects and Variables
@@ -106,7 +114,7 @@ public class DBHandler extends SQLiteOpenHelper {
 
 
         // Query Database (load in cursur)
-        Cursor cursor = db.query(TABLE_TRANSACTIONS,null,null,null,null,null, COLUMN_DATE + " DESC");
+        Cursor cursor = db.query(TABLE_TRANSACTIONS,null,null,null,null,null, COLUMN_DATE + " DESC"); // Loads with Dates in descedning order
 
         // Move to first row in cursor
         cursor.moveToFirst();
@@ -126,9 +134,15 @@ public class DBHandler extends SQLiteOpenHelper {
 
                 // add values to transaction object
                 transaction.setAll(id,name,amount,date,category,recurringID);
-
+                DateHandler dateHandler = new DateHandler();
                 // Add transaction object to list
-                TransactionList.add( transaction );
+                if (date < startdate){
+                    long testdate = date;
+                    break;
+                }
+                if (date <= enddate){
+                    TransactionList.add( transaction );
+                }
             }
             cursor.moveToNext();
         }

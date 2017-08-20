@@ -3,6 +3,13 @@
     <string name="title_activity_budgets">Budgets</string>
     <string name="title_activity_main2">Main2Activity</string>
 
+    <string-array name="UnitsOfTime">
+        <item>Day</item>
+        <item>Week</item>
+        <item>Month</item>
+        <item>Year</item>
+    </string-array>
+
     <string name="Settings">Settings</string>
     <string name="Budgets">Budgets</string>
     <string name="Categories">Categories</string>
@@ -14,9 +21,9 @@
     <string name="CategoriesInfo">Categories Info</string>
     <string name="RecurringInfo">Recurring Info</string>
 
-    <string name="Name">Name:</string>
-    <string name="Amount">Amount:</string>
-    <string name="Date">Date:</string>
-    <string name="Category">Category:</string>
-    <string name="Today">Today:</string>
+    <string name="Name">Name</string>
+    <string name="Amount">Amount</string>
+    <string name="Date">Date</string>
+    <string name="Category">Categor:</string>
+    <string name="Today">Today</string>
 </resources>

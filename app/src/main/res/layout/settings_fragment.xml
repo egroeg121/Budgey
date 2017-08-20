@@ -7,7 +7,15 @@
         android:id="@+id/DatabaseButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentStart="true"
+        android:text="database"
         android:layout_alignParentTop="true"
-        android:text="database" />
+        android:layout_alignParentStart="true" />
+
+    <Button
+        android:id="@+id/AddTransactions"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_below="@+id/DatabaseButton"
+        android:text="Add Transactions" />
 </RelativeLayout>
