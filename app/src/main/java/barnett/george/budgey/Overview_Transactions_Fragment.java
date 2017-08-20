@@ -32,7 +32,7 @@ public class Overview_Transactions_Fragment extends Fragment implements View.OnC
         Transaction transaction = new Transaction(1,"Test1",1,date,"cat1",-1);
         TransactionList.add(transaction);
 
-        recyclerView = (RecyclerView) view.findViewById(R.id.my_recycler_view);
+        recyclerView = (RecyclerView) view.findViewById(R.id.TransactionList);
         // use this setting to
         // improve performance if you know that changes
         // in content do not change the layout size
