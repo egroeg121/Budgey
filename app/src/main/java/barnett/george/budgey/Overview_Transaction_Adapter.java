@@ -1,6 +1,9 @@
 package barnett.george.budgey;
 
 import android.content.ClipData;
+import android.content.Context;
+import android.content.Intent;
+import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -13,6 +16,9 @@ import java.util.List;
 
 public class Overview_Transaction_Adapter extends RecyclerView.Adapter<Overview_Transaction_Adapter.ViewHolder> {
     private ArrayList<Transaction> values;
+    CardView TransactionCard;
+    Context context;
+
     // Provide a reference to the views for each data item
     // Complex data items may need more than one view per item, and
     // you provide access to all the views for a data item in a view holder
@@ -22,38 +28,19 @@ public class Overview_Transaction_Adapter extends RecyclerView.Adapter<Overview_
         public TextView AmountText;
         public TextView CategoryText;
         public TextView DateText;
-        public View layout;
 
+        public View layout;
         public ViewHolder(View v) {
             super(v);
+            context = v.getContext();
             layout = v;
             NameText = (TextView) v.findViewById(R.id.NameText);
             AmountText = (TextView) v.findViewById(R.id.AmountText);
             CategoryText = (TextView) v.findViewById(R.id.CategoryText);
             DateText = (TextView) v.findViewById(R.id.DateText);
-
-            layout.setOnClickListener(new View.OnClickListener() {
-                @Override public void onClick(View v) {
-
-
-
-                }
-            });
-
+            TransactionCard = (CardView) v.findViewById(R.id.TransactionCard);
         }
     }
-
-    /*
-    public void add(int position, String item) {
-        values.add(position, item);
-        notifyItemInserted(position);
-    }
-
-    public void remove(int position) {
-        values.remove(position);
-        notifyItemRemoved(position);
-    }
-    */
 
     // Provide a suitable constructor (depends on the kind of dataset)
     public Overview_Transaction_Adapter(ArrayList<Transaction> myDataset) {
@@ -69,8 +56,6 @@ public class Overview_Transaction_Adapter extends RecyclerView.Adapter<Overview_
         // set the view's size, margins, paddings and layout parameters
         ViewHolder vh = new ViewHolder(v);
 
-
-
         return vh;
     }
 
@@ -85,6 +70,17 @@ public class Overview_Transaction_Adapter extends RecyclerView.Adapter<Overview_
         holder.AmountText.setText( teststring );
         holder.CategoryText.setText( transaction.getCategory() );
         holder.DateText.setText( transaction.getDateString() );
+
+        TransactionCard.setOnClickListener(new View.OnClickListener(){
+
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(context, Info_Activity.class);
+                intent.putExtra("Transaction",transaction.getId());
+                context.startActivity(intent);
+            }
+
+        });
 
     }
 
