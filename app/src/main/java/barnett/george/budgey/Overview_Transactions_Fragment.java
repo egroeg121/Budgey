@@ -32,6 +32,8 @@ public class Overview_Transactions_Fragment extends Fragment implements View.OnC
         Transaction transaction = new Transaction(1,"Test1",1,date,"cat1",-1);
         TransactionList.add(transaction);
 
+        // Random Comment
+
         recyclerView = (RecyclerView) view.findViewById(R.id.TransactionList);
         // use this setting to
         // improve performance if you know that changes
