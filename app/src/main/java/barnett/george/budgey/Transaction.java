@@ -67,6 +67,14 @@ public class Transaction {
     public void setRecurringid(int recurringid) {
         this.recurringid = recurringid;
     }
+    public void setAll(int id, String name,double amount,long date, String category,int recurringid){
+        this.id = id;
+        this.name = name;
+        this.amount = amount;
+        this.date = date;
+        this.category = category;
+        this.recurringid = recurringid;
+    }
 
     /*    Other Methods     */
     //

@@ -78,6 +78,11 @@ public class DBHandler extends SQLiteOpenHelper {
         db.close();
     }
 
+
+    /*
+    Transactions
+     */
+
     public void addTransaction(Transaction transaction){
 
         // Create a new map of values, where column names are the keys
@@ -90,6 +95,47 @@ public class DBHandler extends SQLiteOpenHelper {
 
         // Insert the new row, returning the primary key value of the new row
         long newRowId = db.insert(TABLE_TRANSACTIONS, null, values);
+    }
+
+    public ArrayList getAllTransactions(){
+        OpenDatabase();
+
+        // Initialise objects and Variables
+        ArrayList<Transaction> TransactionList = new ArrayList<Transaction>();
+
+
+
+        // Query Database (load in cursur)
+        Cursor cursor = db.query(TABLE_TRANSACTIONS,null,null,null,null,null, COLUMN_DATE + " DESC");
+
+        // Move to first row in cursor
+        cursor.moveToFirst();
+        while (!cursor.isAfterLast()){
+            if(cursor.getString( cursor.getColumnIndex(COLUMN_ID) )!= null){
+                // Set up Transaction object
+                int id = -1; String name = null; double amount = 0;long date = 0;String category = null;int recurringID = -1;
+                Transaction transaction = new Transaction(id,name,amount,date,category,recurringID);
+
+                // Get values from database
+                id = cursor.getInt( cursor.getColumnIndex(COLUMN_ID) );
+                name = cursor.getString( cursor.getColumnIndex(COLUMN_NAME) );
+                amount = cursor.getDouble( cursor.getColumnIndex(COLUMN_AMOUNT) );
+                date = cursor.getLong( cursor.getColumnIndex(COLUMN_DATE) );
+                category = cursor.getString( cursor.getColumnIndex(COLUMN_CATEGORY) );
+                recurringID = cursor.getInt( cursor.getColumnIndex(COLUMN_RECURRINGID) );
+
+                // add values to transaction object
+                transaction.setAll(id,name,amount,date,category,recurringID);
+
+                // Add transaction object to list
+                TransactionList.add( transaction );
+            }
+            cursor.moveToNext();
+        }
+
+        CloseDatabase();
+
+        return TransactionList;
     }
 
 

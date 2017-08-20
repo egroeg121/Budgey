@@ -6,10 +6,11 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class Overview_Transaction_Adapter extends RecyclerView.Adapter<Overview_Transaction_Adapter.ViewHolder> {
-    private List<Transaction> values;
+    private ArrayList<Transaction> values;
 
     // Provide a reference to the views for each data item
     // Complex data items may need more than one view per item, and
@@ -45,7 +46,7 @@ public class Overview_Transaction_Adapter extends RecyclerView.Adapter<Overview_
     */
 
     // Provide a suitable constructor (depends on the kind of dataset)
-    public Overview_Transaction_Adapter(List<Transaction> myDataset) {
+    public Overview_Transaction_Adapter(ArrayList<Transaction> myDataset) {
         values = myDataset;
     }
 
@@ -53,8 +54,7 @@ public class Overview_Transaction_Adapter extends RecyclerView.Adapter<Overview_
     @Override
     public Overview_Transaction_Adapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         // create a new view
-        LayoutInflater inflater = LayoutInflater.from(
-                parent.getContext());
+        LayoutInflater inflater = LayoutInflater.from( parent.getContext() );
         View v = inflater.inflate(R.layout.overview_transaction_card, parent, false);
         // set the view's size, margins, paddings and layout parameters
         ViewHolder vh = new ViewHolder(v);
@@ -68,7 +68,8 @@ public class Overview_Transaction_Adapter extends RecyclerView.Adapter<Overview_
         // - replace the contents of the view with that element
         final Transaction transaction = values.get(position);
         holder.NameText.setText( transaction.getName() );
-        holder.AmountText.setText( String.format("%.2f", transaction.getAmount() ) );
+        String teststring = String.format("%1$,.2f", transaction.getAmount());
+        holder.AmountText.setText( teststring );
         holder.CategoryText.setText( transaction.getCategory() );
         holder.DateText.setText( transaction.getDateString() );
     }
@@ -76,7 +77,12 @@ public class Overview_Transaction_Adapter extends RecyclerView.Adapter<Overview_
     // Return the size of your dataset (invoked by the layout manager)
     @Override
     public int getItemCount() {
-        return values.size();
+        if(values.isEmpty())
+        {
+            return 0;
+        }else {
+            return values.size();
+        }
     }
 
 }

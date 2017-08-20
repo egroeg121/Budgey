@@ -11,14 +11,17 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 
 public class Overview_Transactions_Fragment extends Fragment implements View.OnClickListener {
 
+    DBHandler dbHandler;
+    ArrayList<Transaction> TransactionList;
 
-    private RecyclerView recyclerView;
-    private RecyclerView.Adapter mAdapter;
-    private RecyclerView.LayoutManager mLayoutManager;
+    RecyclerView recyclerView;
+    RecyclerView.LayoutManager mLayoutManager;
+    RecyclerView.Adapter mAdapter;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -26,27 +29,37 @@ public class Overview_Transactions_Fragment extends Fragment implements View.OnC
         FloatingActionButton AddButton = (FloatingActionButton) view.findViewById(R.id.AddButton);
         AddButton.setOnClickListener(this);
 
-        ArrayList<Transaction> TransactionList = new ArrayList<>();
-        DateHandler dateHandler = new DateHandler();
-        long date = dateHandler.currentTimeMilli();
-        Transaction transaction = new Transaction(1,"Test1",1,date,"cat1",-1);
-        TransactionList.add(transaction);
-
-        // Random Comment
-
+        // Set up RecyleView
         recyclerView = (RecyclerView) view.findViewById(R.id.TransactionList);
-        // use this setting to
-        // improve performance if you know that changes
-        // in content do not change the layout size
-        // of the RecyclerView
         recyclerView.setHasFixedSize(true);
         // use a linear layout manager
         mLayoutManager = new LinearLayoutManager( getActivity() );
         recyclerView.setLayoutManager(mLayoutManager);
 
+        // Define Variables
+        TransactionList = new ArrayList<Transaction>();
+        dbHandler = new DBHandler(getActivity(),null,null,1);
 
+        // Define and attach adapter
+        mAdapter = new Overview_Transaction_Adapter(TransactionList);
+        recyclerView.setAdapter(mAdapter);
 
         return view;
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+
+        // Get Database values
+        ArrayList<Transaction> dbList = dbHandler.getAllTransactions();
+        if ( !dbList.isEmpty() ){
+            TransactionList.addAll( dbList );
+        }
+
+        // Update Adapter
+        mAdapter.notifyDataSetChanged();
+
     }
 
     @Override
