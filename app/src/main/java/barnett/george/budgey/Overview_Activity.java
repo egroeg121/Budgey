@@ -11,6 +11,8 @@ import android.support.v4.view.ViewPager;
 
 public class Overview_Activity extends FragmentActivity {
 
+    DBHandler dbHandler;
+
     ViewPager viewPager=null;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -21,6 +23,9 @@ public class Overview_Activity extends FragmentActivity {
         FragmentManager fragmentManager=getSupportFragmentManager(); // Adapter needs fragment manager object
         viewPager.setAdapter( new OverviewAdapter(fragmentManager,this) );
         viewPager.setCurrentItem( 2 );
+
+        // Initiate the database so the oncreate is called
+        dbHandler = new DBHandler(this,null,null,1);
     }
 
 

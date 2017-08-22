@@ -93,7 +93,7 @@ public class DBHandler extends SQLiteOpenHelper {
         values.put( COLUMN_AMOUNT, transaction.getAmount() );
         values.put( COLUMN_DATE, transaction.getDate() );
         values.put( COLUMN_CATEGORY, transaction.getCategory() );
-        values.put( COLUMN_RECURRINGID, -1); // Normal transactions are -1
+        values.put( COLUMN_RECURRINGID, transaction.getRecurringid()); // Normal transactions are -1
 
         // Insert the new row, returning the primary key value of the new row
         long newRowId = db.insert(TABLE_TRANSACTIONS, null, values);
@@ -101,7 +101,43 @@ public class DBHandler extends SQLiteOpenHelper {
         CloseDatabase();
     }
 
+    // Inserts the new version of the transaction into the database
     public void editTransaction(Transaction transaction){
+        //OpenDatabase();
+
+        int id = transaction.getId();
+
+        // Create a new map of values, where column names are the keys
+        ContentValues values = new ContentValues();
+        values.put( COLUMN_NAME, transaction.getName() );
+        values.put( COLUMN_AMOUNT, transaction.getAmount() );
+        values.put( COLUMN_DATE, transaction.getDate() );
+        values.put( COLUMN_CATEGORY, transaction.getCategory() );
+        values.put( COLUMN_RECURRINGID, transaction.getRecurringid() ); // Normal transactions are -1
+
+        String[] IDString = {Integer.toString(id)};
+        db.update(TABLE_TRANSACTIONS,values,COLUMN_ID + "=?",IDString);
+        //CloseDatabase();
+    }
+
+    public Transaction getTransaction(int id){
+        OpenDatabase();
+        String[] IDString = {Integer.toString(id)};
+        //Cursor cursor = db.query(TABLE_COORDINATES, new String[] { "latitude" },"_id=" + id, null, null, null,null);
+        Cursor cursor = db.query(TABLE_TRANSACTIONS,null,COLUMN_ID + "=?",IDString,null,null,null);
+        //Cursor cursor = db.query(TABLE_TRANSACTIONS,
+        cursor.moveToFirst();
+
+        // Get values from database
+        String name = cursor.getString( cursor.getColumnIndex(COLUMN_NAME) );
+        double amount = cursor.getDouble( cursor.getColumnIndex(COLUMN_AMOUNT) );
+        long date = cursor.getLong( cursor.getColumnIndex(COLUMN_DATE) );
+        String category = cursor.getString( cursor.getColumnIndex(COLUMN_CATEGORY) );
+        int recurringID = cursor.getInt( cursor.getColumnIndex(COLUMN_RECURRINGID) );
+
+        Transaction transaction = new Transaction(id,name,amount,date,category,recurringID);
+        CloseDatabase();
+        return transaction;
 
     }
 

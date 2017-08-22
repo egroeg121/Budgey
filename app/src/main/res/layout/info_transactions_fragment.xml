@@ -154,12 +154,12 @@
             android:layout_alignBottom="@+id/DateMonthEdit"
             android:layout_below="@+id/AmountEdit"
             android:layout_toEndOf="@+id/DateMonthEdit"
-            android:ems="3"
+            android:ems="2"
             android:gravity="center"
-            android:hint="YYYY"
+            android:hint="YY"
             android:inputType="number"
             android:maxEms="3"
-            android:maxLength="4" />
+            android:maxLength="2" />
 
         <LinearLayout
             android:id="@+id/DateBar"

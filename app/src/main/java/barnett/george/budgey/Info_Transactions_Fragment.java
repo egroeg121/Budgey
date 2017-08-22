@@ -31,7 +31,7 @@ public class Info_Transactions_Fragment extends Fragment implements View.OnClick
     EditText DateYearEdit;
 
     // Variables
-    int ID = -1;
+    int ID;
     String name;
     double amount;
     String category;
@@ -43,9 +43,6 @@ public class Info_Transactions_Fragment extends Fragment implements View.OnClick
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.info_transactions_fragment, container, false);
 
-        dateHandler = new DateHandler();
-        dbHandler = new DBHandler(getContext(),null,null,1);
-        transaction = new Transaction(0,null,0,0,null,0); // Set up empty transaction
 
         // Initialising Layout Items
         DoneButton = (FloatingActionButton) view.findViewById(R.id.DoneButton);
@@ -59,7 +56,37 @@ public class Info_Transactions_Fragment extends Fragment implements View.OnClick
         AmountEdit = (EditText) view.findViewById(R.id.AmountEdit);
         CategoryEdit = (EditText) view.findViewById(R.id.CategoryEdit);
 
+        Intent intent = getActivity().getIntent();
+        ID = intent.getIntExtra("Transaction",-1);
+        dateHandler = new DateHandler();
+        dbHandler = new DBHandler(getContext(),null,null,1);
 
+        // Get previous transaction or setup new transaction
+        if ( ID == -1 ){
+            // Set up Previous Transaction. Edit Texts look better blank
+            transaction = new Transaction(-1,null,0,0,null,0);
+        }else{
+            // Get previous values and put them into Edit Texts.
+            transaction = dbHandler.getTransaction(ID);
+            ID = transaction.getId();
+            name = transaction.getName();
+            amount = transaction.getAmount();
+            category = transaction.getCategory();
+            date = transaction.getDate();
+            datestring = transaction.getDateString();
+            recurringID = transaction.getRecurringid();
+
+            // convert date to array
+            String[] DateArray = dateHandler.DatetoStringArray( transaction.getDate() );
+
+            // put transaction values into EditTexts
+            NameEdit.setText(name);
+            AmountEdit.setText(String.valueOf(amount));
+            CategoryEdit.setText(category);
+            DateDayEdit.setText(DateArray[0]);
+            DateMonthEdit.setText(DateArray[1]);
+            DateYearEdit.setText(DateArray[2]);
+        }
 
         return view;
     }
@@ -72,7 +99,7 @@ public class Info_Transactions_Fragment extends Fragment implements View.OnClick
 
                 // Set up Variables for transaction
                 name = NameEdit.getText().toString();
-                amount = Long.parseLong( AmountEdit.getText().toString() );
+                amount = Double.parseDouble( AmountEdit.getText().toString() );
                 category = CategoryEdit.getText().toString();
                 int[] datearray = new int[3]; // [YYYY][MM][DD]
                 datearray[2] = Integer.parseInt( DateDayEdit.getText().toString() );
@@ -81,11 +108,15 @@ public class Info_Transactions_Fragment extends Fragment implements View.OnClick
                 date = dateHandler.StringArraytoDate( datearray );
 
                 // put variables in transaction object
-                transaction = new Transaction(ID,name,amount,date,category,recurringID);
+                transaction.setAll(ID,name,amount,date,category,recurringID);
 
                 // Put into Database
                 dbHandler.OpenDatabase();
-                dbHandler.addTransaction(transaction);
+                if (transaction.getId() == -1){
+                    dbHandler.addTransaction(transaction);
+                }else{
+                    dbHandler.editTransaction(transaction);
+                }
                 dbHandler.CloseDatabase();
 
 
