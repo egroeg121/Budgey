@@ -14,7 +14,7 @@ import android.widget.Button;
 
 
 public class Info_Activity extends FragmentActivity {
-    int StartPage;
+    int StartPage = 2;
     public int LoadID;
     ViewPager viewPager=null;
     @Override
@@ -23,12 +23,14 @@ public class Info_Activity extends FragmentActivity {
         setContentView(R.layout.info_activity);
 
         Intent intent = getIntent();
-        if (intent.getIntExtra("Transaction",0) == 0){StartPage = 2;}
+        if (intent.getIntExtra("Transaction",0) != 0){
+            StartPage = 2;
+        }
 
         viewPager = (ViewPager) findViewById(R.id.pager); // Find the ID of the ViewPage (The background page)
         FragmentManager fragmentManager=getSupportFragmentManager(); // Adapter needs fragment manager object
         viewPager.setAdapter( new InfoAdapter(fragmentManager,this) );
-        viewPager.setCurrentItem( 2 );
+        viewPager.setCurrentItem( StartPage );
     }
 
 
@@ -63,8 +65,6 @@ class InfoAdapter extends FragmentPagerAdapter {
                 break;
         }
         // TODO Pass Data to new fragment
-        Bundle bundle = new Bundle();
-        bundle.putInt("LoadID");
         return fragment;
     }
 
