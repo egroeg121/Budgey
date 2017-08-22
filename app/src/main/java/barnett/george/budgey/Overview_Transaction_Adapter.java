@@ -22,23 +22,32 @@ public class Overview_Transaction_Adapter extends RecyclerView.Adapter<Overview_
     // Provide a reference to the views for each data item
     // Complex data items may need more than one view per item, and
     // you provide access to all the views for a data item in a view holder
-    public class ViewHolder extends RecyclerView.ViewHolder {
+    public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
         // each data item is just a string in this case
         public TextView NameText;
         public TextView AmountText;
         public TextView CategoryText;
         public TextView DateText;
 
-        public View layout;
         public ViewHolder(View v) {
             super(v);
             context = v.getContext();
-            layout = v;
             NameText = (TextView) v.findViewById(R.id.NameText);
             AmountText = (TextView) v.findViewById(R.id.AmountText);
             CategoryText = (TextView) v.findViewById(R.id.CategoryText);
             DateText = (TextView) v.findViewById(R.id.DateText);
             TransactionCard = (CardView) v.findViewById(R.id.TransactionCard);
+
+            v.setOnClickListener(this);
+        }
+
+        @Override
+        public void onClick(View v) {
+            Intent intent = new Intent(context, Info_Activity.class);
+            Transaction transaction = values.get( getAdapterPosition() );
+
+            intent.putExtra("Transaction",transaction.getId());
+            context.startActivity(intent);
         }
     }
 
@@ -70,17 +79,6 @@ public class Overview_Transaction_Adapter extends RecyclerView.Adapter<Overview_
         holder.AmountText.setText( teststring );
         holder.CategoryText.setText( transaction.getCategory() );
         holder.DateText.setText( transaction.getDateString() );
-        
-        TransactionCard.setOnClickListener(new View.OnClickListener(){
-
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(context, Info_Activity.class);
-                intent.putExtra("Transaction",transaction.getId());
-                context.startActivity(intent);
-            }
-
-        });
 
     }
 
