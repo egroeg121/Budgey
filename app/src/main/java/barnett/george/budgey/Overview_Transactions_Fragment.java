@@ -111,12 +111,15 @@ public class Overview_Transactions_Fragment extends Fragment implements View.OnC
         TransactionList.clear();
 
         // Get Database values
+        dbHandler.OpenDatabase();
         ArrayList<Transaction> dbList = dbHandler.getAllTransactions(StartDate,EndDate);
+        dbHandler.CloseDatabase();
         if ( !dbList.isEmpty() ){
             TransactionList.addAll( dbList );
         }
         EndDate += 1; // Stops millisecond creeping down (probaly wouldn't matter
         // Update Adapter
+        recyclerView.setAdapter( recyleAdapter );
         recyleAdapter.notifyDataSetChanged();
 
     }

@@ -8,6 +8,7 @@ import android.database.MatrixCursor;
 import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.graphics.Path;
 import android.os.Bundle;
 import android.util.Log;
 
@@ -84,9 +85,6 @@ public class DBHandler extends SQLiteOpenHelper {
      */
 
     public void addTransaction(Transaction transaction){
-        OpenDatabase();
-
-
         // Create a new map of values, where column names are the keys
         ContentValues values = new ContentValues();
         values.put( COLUMN_NAME, transaction.getName() );
@@ -95,10 +93,7 @@ public class DBHandler extends SQLiteOpenHelper {
         values.put( COLUMN_CATEGORY, transaction.getCategory() );
         values.put( COLUMN_RECURRINGID, transaction.getRecurringid()); // Normal transactions are -1
 
-        // Insert the new row, returning the primary key value of the new row
-        long newRowId = db.insert(TABLE_TRANSACTIONS, null, values);
-
-        CloseDatabase();
+        db.insert(TABLE_TRANSACTIONS,null,values);
     }
 
     // Inserts the new version of the transaction into the database

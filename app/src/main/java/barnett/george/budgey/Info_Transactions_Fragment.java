@@ -102,9 +102,9 @@ public class Info_Transactions_Fragment extends Fragment implements View.OnClick
                 amount = Double.parseDouble( AmountEdit.getText().toString() );
                 category = CategoryEdit.getText().toString();
                 int[] datearray = new int[3]; // [YYYY][MM][DD]
-                datearray[2] = Integer.parseInt( DateDayEdit.getText().toString() );
+                datearray[0] = Integer.parseInt( DateDayEdit.getText().toString() );
                 datearray[1] = Integer.parseInt( DateMonthEdit.getText().toString() );
-                datearray[0] = Integer.parseInt( DateYearEdit.getText().toString() );
+                datearray[2] = Integer.parseInt( DateYearEdit.getText().toString() );
                 date = dateHandler.StringArraytoDate( datearray );
 
                 // put variables in transaction object
@@ -124,9 +124,9 @@ public class Info_Transactions_Fragment extends Fragment implements View.OnClick
                 break;
             case R.id.TodayDateButton:
                 String[] DateArray = dateHandler.DatetoStringArray( System.currentTimeMillis() ); // Turn current time into Date Array
-                DateDayEdit.setText( DateArray[2] ); // Assign Array to EditTexts
+                DateDayEdit.setText( DateArray[0] ); // Assign Array to EditTexts
                 DateMonthEdit.setText( DateArray[1] );
-                DateYearEdit.setText( DateArray[0] );
+                DateYearEdit.setText( DateArray[2] );
                 break;
         }
     }

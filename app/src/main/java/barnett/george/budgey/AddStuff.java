@@ -14,7 +14,7 @@ public class AddStuff {
         DBHandler dbHandler = new DBHandler(context,null,null,1);
         DateHandler datehandler = new DateHandler();
 
-
+        dbHandler.OpenDatabase();
         for (int i = 0; i < 100; i++) {
             int id = i;
             String name = "Test " + i;
@@ -24,9 +24,10 @@ public class AddStuff {
             String category = " Category " +i;
             int recurringid = -1;
             Transaction transaction = new Transaction(id, name, amount, date, category,recurringid);
+
             dbHandler.addTransaction( transaction );
         }
-
+        dbHandler.CloseDatabase();
     }
 
 }

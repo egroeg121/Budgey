@@ -48,7 +48,7 @@ public class DateHandler {
 
     }
 
-    // Converts Date into Separated String Array [YY][MM][DD]
+    // Converts Date into Separated String Array [DD][MM][YY]
     public String[] DatetoStringArray(long Date){
         String DateString = MillitoDateString(Date); // Turn MilliDate into String
 
@@ -58,8 +58,8 @@ public class DateHandler {
     }
 
     // Converts Separated String Array into Date (Milli)
-    public long StringArraytoDate(int[] DateArray){ // [YY][MM][DD]
-        String DateString = DateArray[2] + "/" + DateArray[1] + "/" + DateArray[0];
+    public long StringArraytoDate(int[] DateArray){ // [DD][MM][YY]
+        String DateString = DateArray[0] + "/" + DateArray[1] + "/" + DateArray[2];
         long date = DateStringtoMilli(DateString);
         return date;
     }
