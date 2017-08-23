@@ -16,6 +16,11 @@
     <string name="Transactions">Transactions</string>
     <string name="Recurring">Recurring</string>
 
+    <string name="TransactionOverview">Transaction Overview</string>
+    <string name="BudgetOverview">Budgets Overview</string>
+    <string name="CategoriesOverview">Categories Overview</string>
+    <string name="RecurringOverview">Recurring Overview</string>
+
     <string name="TransactionInfo">Transaction Info</string>
     <string name="BudgetInfo">Budget Info</string>
     <string name="CategoriesInfo">Categories Info</string>
@@ -24,6 +29,9 @@
     <string name="Name">Name</string>
     <string name="Amount">Amount</string>
     <string name="Date">Date</string>
-    <string name="Category">Category:</string>
+    <string name="Category">Category</string>
     <string name="Today">Today</string>
+    <string name="StartDate">Start Date</string>
+    <string name="Every">Every</string>
+    <string name="Repeats">Repeats</string>
 </resources>

@@ -25,73 +25,94 @@
             android:id="@+id/TitleText"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_alignParentStart="true"
+            android:layout_below="@+id/TopGreyBar"
             android:background="@color/MainGreen"
             android:padding="@dimen/PagePadding"
             android:text="@string/RecurringInfo"
             android:textColor="@color/MainWhite"
             android:textSize="@dimen/Title"
-            android:textStyle="bold"
-            android:layout_below="@+id/TopGreyBar"
-            android:layout_alignParentStart="true" />
+            android:textStyle="bold" />
 
         <TextView
             android:id="@+id/NameText"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignBottom="@+id/NameEdit"
             android:layout_alignEnd="@+id/AmountText"
             android:layout_alignParentStart="true"
             android:layout_below="@+id/TitleText"
-            android:layout_toStartOf="@+id/NameEdit"
             android:gravity="center"
             android:padding="@dimen/PagePadding"
-            android:text="Name:"
+            android:text="@string/Name"
             android:textColor="@color/DarkGrey"
             android:textSize="@dimen/SearchBar"
             android:textStyle="bold" />
-
-        <EditText
-            android:id="@+id/NameEdit"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/TitleText"
-            android:layout_toEndOf="@+id/AmountText"
-            android:ems="10"
-            android:inputType="textPersonName" />
 
         <TextView
             android:id="@+id/AmountText"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignBottom="@+id/AmountEdit"
-            android:layout_alignParentStart="true"
-            android:layout_below="@+id/NameText"
             android:gravity="center"
             android:padding="@dimen/PagePadding"
-            android:text="Amount:"
+            android:text="@string/Amount"
+            android:textColor="@color/DarkGrey"
+            android:textSize="@dimen/SearchBar"
+            android:textStyle="bold"
+            android:layout_below="@+id/NameText"
+            android:layout_alignParentStart="true"
+            android:layout_alignEnd="@+id/CategoryText" />
+
+        <TextView
+            android:id="@+id/CategoryText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentStart="true"
+            android:layout_below="@+id/AmountText"
+            android:layout_toStartOf="@+id/DateDayEdit"
+            android:gravity="center"
+            android:padding="@dimen/PagePadding"
+            android:text="@string/Category"
             android:textColor="@color/DarkGrey"
             android:textSize="@dimen/SearchBar"
             android:textStyle="bold" />
-
-        <EditText
-            android:id="@+id/AmountEdit"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/NameText"
-            android:layout_toEndOf="@+id/AmountText"
-            android:ems="10"
-            android:inputType="textPersonName" />
 
         <TextView
             android:id="@+id/DateText"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentStart="true"
-            android:layout_below="@+id/AmountText"
-            android:layout_toStartOf="@+id/AmountEdit"
+            android:layout_below="@+id/CategoryText"
             android:gravity="center"
             android:padding="@dimen/PagePadding"
-            android:text="Date:"
+            android:text="@string/StartDate"
+            android:textColor="@color/DarkGrey"
+            android:textSize="@dimen/SearchBar"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/UnitofTimeText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentStart="true"
+            android:layout_below="@+id/DateText"
+            android:layout_toStartOf="@+id/DateDayEdit"
+            android:gravity="center"
+            android:padding="@dimen/PagePadding"
+            android:text="@string/Every"
+            android:textColor="@color/DarkGrey"
+            android:textSize="@dimen/SearchBar"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/RepeatsText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignEnd="@+id/UnitofTimeText"
+            android:layout_alignParentStart="true"
+            android:layout_below="@+id/UnitofTimeText"
+            android:gravity="center"
+            android:padding="@dimen/PagePadding"
+            android:text="@string/Repeats"
             android:textColor="@color/DarkGrey"
             android:textSize="@dimen/SearchBar"
             android:textStyle="bold" />
@@ -101,9 +122,23 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignBottom="@+id/DateText"
-            android:layout_below="@+id/AmountText"
+            android:layout_alignTop="@+id/DateText"
             android:layout_toEndOf="@+id/DateText"
             android:ems="2"
+            android:gravity="center"
+            android:hint="DD"
+            android:inputType="number"
+            android:maxLength="2" />
+
+        <EditText
+            android:id="@+id/NumOfUnit"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBottom="@+id/UnitofTime"
+            android:layout_below="@+id/DateText"
+            android:layout_toEndOf="@+id/DateText"
+            android:ems="2"
+            android:gravity="center"
             android:hint="DD"
             android:inputType="number"
             android:maxLength="2" />
@@ -113,9 +148,10 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignBottom="@+id/DateDayEdit"
-            android:layout_below="@+id/AmountEdit"
+            android:layout_alignTop="@+id/DateDayEdit"
             android:layout_toEndOf="@+id/DateDayEdit"
             android:ems="2"
+            android:gravity="center"
             android:hint="MM"
             android:inputType="number"
             android:maxLength="2" />
@@ -125,13 +161,14 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignBottom="@+id/DateMonthEdit"
-            android:layout_below="@+id/AmountEdit"
+            android:layout_alignTop="@+id/DateMonthEdit"
             android:layout_toEndOf="@+id/DateMonthEdit"
-            android:ems="3"
-            android:hint="YYYY"
+            android:ems="2"
+            android:gravity="center"
+            android:hint="YY"
             android:inputType="number"
             android:maxEms="3"
-            android:maxLength="4" />
+            android:maxLength="2" />
 
         <LinearLayout
             android:id="@+id/DateBar"
@@ -158,15 +195,68 @@
             app:layout_anchorGravity="bottom|right" />
 
         <Button
-            android:id="@+id/button"
+            android:id="@+id/TodayDateButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignBottom="@+id/DateYearEdit"
-            android:layout_below="@+id/AmountEdit"
+            android:layout_alignTop="@+id/DateYearEdit"
             android:layout_toEndOf="@+id/DateYearEdit"
             android:background="@color/MainWhite"
             android:text="Today"
             android:textColor="@color/DarkGrey" />
+
+        <Spinner
+            android:id="@+id/UnitOfTimeSpinner"
+            android:layout_width="100dp"
+            android:layout_height="wrap_content"
+            android:layout_alignBottom="@+id/NumOfUnit"
+            android:layout_below="@+id/DateMonthEdit"
+            android:layout_toEndOf="@+id/DateDayEdit"
+            android:layout_weight="0.8"
+            android:backgroundTint="@color/DarkGrey" />
+
+        <EditText
+            android:id="@+id/NameEdit"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:ems="10"
+            android:hint="Name"
+            android:inputType="textPersonName"
+            android:layout_below="@+id/TitleText"
+            android:layout_toEndOf="@+id/NameText"
+            android:layout_above="@+id/AmountText" />
+
+        <EditText
+            android:id="@+id/CategoryEdit"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:ems="10"
+            android:hint="Name"
+            android:inputType="textPersonName"
+            android:layout_below="@+id/AmountText"
+            android:layout_toEndOf="@+id/AmountText"
+            android:layout_above="@+id/DateText" />
+
+        <EditText
+            android:id="@+id/AmountEdit"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBottom="@+id/AmountText"
+            android:layout_toEndOf="@+id/AmountText"
+            android:ems="10"
+            android:hint="Amount"
+            android:inputType="numberDecimal"
+            android:layout_below="@+id/NameText" />
+
+        <EditText
+            android:id="@+id/NumOfRepeatsEdit"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBaseline="@+id/RepeatsText"
+            android:layout_alignBottom="@+id/RepeatsText"
+            android:layout_toEndOf="@+id/RepeatsText"
+            android:ems="2"
+            android:inputType="numberDecimal" />
 
     </RelativeLayout>
 

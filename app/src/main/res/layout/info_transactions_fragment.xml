@@ -35,88 +35,61 @@
             android:textStyle="bold" />
 
         <TextView
-            android:id="@+id/NameText"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignBottom="@+id/NameEdit"
-            android:layout_alignEnd="@+id/AmountText"
-            android:layout_alignParentStart="true"
-            android:layout_below="@+id/TitleText"
-            android:layout_toStartOf="@+id/NameEdit"
-            android:gravity="center"
-            android:padding="@dimen/PagePadding"
-            android:text="@string/Name"
-            android:textColor="@color/DarkGrey"
-            android:textSize="@dimen/SearchBar"
-            android:textStyle="bold" />
-
-        <EditText
-            android:id="@+id/NameEdit"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/TitleText"
-            android:layout_toEndOf="@+id/CategoryText"
-            android:ems="10"
-            android:inputType="textPersonName" />
-
-        <TextView
             android:id="@+id/AmountText"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignBottom="@+id/AmountEdit"
-            android:layout_alignParentStart="true"
-            android:layout_below="@+id/NameText"
             android:gravity="center"
+            android:minWidth="110dp"
             android:padding="@dimen/PagePadding"
             android:text="@string/Amount"
             android:textColor="@color/DarkGrey"
             android:textSize="@dimen/SearchBar"
             android:textStyle="bold"
-            android:layout_toStartOf="@+id/NameEdit" />
+            android:layout_alignParentStart="true"
+            android:layout_below="@+id/NameText" />
 
         <TextView
             android:id="@+id/CategoryText"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_alignEnd="@+id/DateText"
             android:layout_alignParentStart="true"
-            android:layout_below="@+id/DateText"
+            android:layout_below="@+id/NameText"
+            android:layout_marginTop="44dp"
             android:gravity="center"
+            android:minWidth="110dp"
             android:padding="@dimen/PagePadding"
             android:text="@string/Category"
             android:textColor="@color/DarkGrey"
             android:textSize="@dimen/SearchBar"
             android:textStyle="bold" />
 
-        <EditText
-            android:id="@+id/CategoryEdit"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:ems="10"
-            android:inputType="textPersonName"
-            android:layout_alignBaseline="@+id/CategoryText"
-            android:layout_alignBottom="@+id/CategoryText"
-            android:layout_toEndOf="@+id/CategoryText" />
-
-        <EditText
-            android:id="@+id/AmountEdit"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/NameText"
-            android:layout_toEndOf="@+id/AmountText"
-            android:ems="10"
-            android:inputType="numberDecimal"
-            android:layout_alignStart="@+id/NameEdit" />
-
         <TextView
             android:id="@+id/DateText"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentStart="true"
-            android:layout_below="@+id/AmountText"
-            android:layout_toStartOf="@+id/AmountEdit"
+            android:layout_below="@+id/CategoryText"
             android:gravity="center"
+            android:minWidth="110dp"
             android:padding="@dimen/PagePadding"
-            android:text="@string/Date"
+            android:text="@string/StartDate"
+            android:textColor="@color/DarkGrey"
+            android:textSize="@dimen/SearchBar"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/NameText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignEnd="@+id/AmountText"
+            android:layout_alignParentStart="true"
+            android:layout_below="@+id/TitleText"
+            android:layout_toStartOf="@+id/NameEdit"
+            android:gravity="center"
+            android:minWidth="110dp"
+            android:padding="@dimen/PagePadding"
+            android:text="@string/Name"
             android:textColor="@color/DarkGrey"
             android:textSize="@dimen/SearchBar"
             android:textStyle="bold" />
@@ -126,7 +99,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignBottom="@+id/DateText"
-            android:layout_below="@+id/AmountText"
+            android:layout_alignTop="@+id/DateYearEdit"
             android:layout_toEndOf="@+id/DateText"
             android:ems="2"
             android:gravity="center"
@@ -138,8 +111,8 @@
             android:id="@+id/DateMonthEdit"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignBottom="@+id/DateDayEdit"
-            android:layout_below="@+id/AmountEdit"
+            android:layout_alignBottom="@+id/DateText"
+            android:layout_alignTop="@+id/DateDayEdit"
             android:layout_toEndOf="@+id/DateDayEdit"
             android:ems="2"
             android:gravity="center"
@@ -151,8 +124,7 @@
             android:id="@+id/DateYearEdit"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignBottom="@+id/DateMonthEdit"
-            android:layout_below="@+id/AmountEdit"
+            android:layout_alignBottom="@+id/DateText"
             android:layout_toEndOf="@+id/DateMonthEdit"
             android:ems="2"
             android:gravity="center"
@@ -189,13 +161,50 @@
             android:id="@+id/TodayDateButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_alignBottom="@+id/DateYearEdit"
+            android:layout_alignTop="@+id/DateMonthEdit"
+            android:layout_toEndOf="@+id/DateYearEdit"
             android:background="@color/MainWhite"
             android:text="Today"
+            android:textColor="@color/DarkGrey" />
+
+        <EditText
+            android:id="@+id/NameEdit"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignEnd="@+id/TodayDateButton"
+            android:layout_below="@+id/TitleText"
+            android:layout_toEndOf="@+id/AmountText"
+            android:ems="10"
+            android:hint="Name"
+            android:inputType="textPersonName"
             android:textColor="@color/DarkGrey"
-            android:layout_below="@+id/AmountEdit"
-            android:layout_alignEnd="@+id/CategoryEdit"
-            android:layout_above="@+id/CategoryEdit"
-            android:layout_toEndOf="@+id/DateYearEdit" />
+            android:layout_above="@+id/AmountText" />
+
+        <EditText
+            android:id="@+id/AmountEdit"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:ems="10"
+            android:hint="Amount"
+            android:inputType="textPersonName"
+            android:textColor="@color/DarkGrey"
+            android:layout_below="@+id/NameEdit"
+            android:layout_alignEnd="@+id/NameEdit"
+            android:layout_toEndOf="@+id/CategoryText" />
+
+        <EditText
+            android:id="@+id/CategoryEdit"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:ems="10"
+            android:hint="Amount"
+            android:inputType="textPersonName"
+            android:textColor="@color/DarkGrey"
+            android:layout_alignEnd="@+id/TodayDateButton"
+            android:layout_toEndOf="@+id/CategoryText"
+            android:layout_alignTop="@+id/CategoryText"
+            android:layout_above="@+id/DateDayEdit" />
 
     </RelativeLayout>
 

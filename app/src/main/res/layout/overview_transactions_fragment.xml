@@ -26,13 +26,13 @@
             android:id="@+id/TitleText"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_alignParentStart="true"
+            android:layout_below="@+id/TopGreyBar"
             android:padding="@dimen/PagePadding"
-            android:text="Transactions Overview"
+            android:text="@string/TransactionOverview"
             android:textColor="@color/MainWhite"
             android:textSize="@dimen/Title"
-            android:textStyle="bold"
-            android:layout_below="@+id/TopGreyBar"
-            android:layout_alignParentStart="true" />
+            android:textStyle="bold" />
 
         <EditText
             android:id="@+id/searchText"

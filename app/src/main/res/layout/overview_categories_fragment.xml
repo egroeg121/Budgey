@@ -1,12 +1,100 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent" android:layout_height="match_parent">
+<android.support.design.widget.CoordinatorLayout xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main_content"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
 
-    <TextView
-        android:id="@+id/textView2"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentTop="true"
-        android:text="Categories Overview" />
-</RelativeLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/MainGreen">
+
+        <View
+            android:id="@+id/TopGreyBar"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentTop="true"
+            android:background="@android:color/darker_gray"
+            android:paddingEnd="20dp"
+            android:paddingStart="20dp" />
+
+        <TextView
+            android:id="@+id/TitleText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentStart="true"
+            android:layout_below="@+id/TopGreyBar"
+            android:padding="@dimen/PagePadding"
+            android:text="@string/CategoriesOverview"
+            android:textColor="@color/MainWhite"
+            android:textSize="@dimen/Title"
+            android:textStyle="bold" />
+
+        <EditText
+            android:id="@+id/searchText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentStart="true"
+            android:layout_below="@+id/TitleText"
+            android:backgroundTint="@color/MainWhite"
+            android:hint="Search"
+            android:padding="@dimen/PagePadding"
+            android:textColor="@color/MainWhite"
+            android:textColorHint="@color/MainWhite"
+            android:textSize="@dimen/SearchBar" />
+
+        <ImageButton
+            android:id="@+id/searchButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_above="@+id/TransactionList"
+            android:layout_below="@+id/TitleText"
+            android:layout_toStartOf="@+id/sortButton"
+            android:background="@color/MainGreen"
+            android:paddingLeft="@dimen/PagePadding"
+            android:paddingRight="@dimen/PagePadding"
+            android:src="@drawable/ic_search"
+            android:tint="@color/MainWhite" />
+
+        <ImageButton
+            android:id="@+id/sortButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_above="@+id/TransactionList"
+            android:layout_alignParentEnd="true"
+            android:layout_below="@+id/TitleText"
+            android:background="@color/MainGreen"
+            android:paddingLeft="@dimen/PagePadding"
+            android:paddingRight="@dimen/PagePadding"
+            android:src="@drawable/ic_sort"
+            android:tint="@color/MainWhite" />
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/TransactionList"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_below="@+id/searchText"
+            android:background="@color/MainWhite"
+            android:scrollbars="vertical"
+            android:layout_alignParentBottom="true" />
+
+        <android.support.design.widget.FloatingActionButton
+            android:id="@+id/AddButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentBottom="true"
+            android:layout_margin="@dimen/PagePadding"
+            android:src="@drawable/ic_add"
+            android:tint="@color/MainWhite"
+            app:backgroundTint="@color/MainGreen"
+            app:layout_anchor="@id/TransactionList"
+            app:layout_anchorGravity="bottom|right" />
+
+    </RelativeLayout>
+
+</android.support.design.widget.CoordinatorLayout>

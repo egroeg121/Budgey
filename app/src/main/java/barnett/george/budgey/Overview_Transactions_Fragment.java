@@ -128,6 +128,7 @@ public class Overview_Transactions_Fragment extends Fragment implements View.OnC
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.AddButton:
+                // TODO pass transaction?
                 Intent intent = new Intent(getActivity(), Info_Activity.class);
                 startActivity(intent);
                 break;

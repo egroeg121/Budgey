@@ -25,20 +25,26 @@ public class DBHandler extends SQLiteOpenHelper {
     public static final int DATABASE_VERSION = 1; // database number, if changing the database like adding new categories etc increase this number
     public static final String DATABASE_NAME = "budgey.db"; // name of database file
     public static final String TABLE_TRANSACTIONS = "transactions"; // Name of Transactions table
+    public static final String TABLE_RECURRING = "recurring";
 
     // Add Columms
     public static final String COLUMN_ID = "_id";
     public static final String COLUMN_NAME = "name";
     public static final String COLUMN_AMOUNT = "amount";
     public static final String COLUMN_DATE = "date";
+    public static final String COLUMN_STARTDATE = "startdate";
+    public static final String COLUMN_NEXTDATE = "nextdate";
     public static final String COLUMN_CATEGORY = "category";
+    public static final String COLUMN_TIMETYPE = "timetype";
+    public static final String COLUMN_NUMOFUNIT = "numofunit";
+    public static final String COLUMN_COUNTER = "counter";
     public static final String COLUMN_RECURRINGID = "recurringid"; // Normal Transactions are -1
 
 
     /* Table Lists
-    Transactions: _id, note, amount,date,recurringid,category
+    Transactions: _id, name, amount, date, recurringid, category
     Budgets:
-    Recurring:
+    Recurring: _id, name, amount, category, startdate, nextdate, timetype, numofunit, counter
     Categories:
     */
 
@@ -61,8 +67,22 @@ public class DBHandler extends SQLiteOpenHelper {
                 COLUMN_RECURRINGID + " INTEGER" + "" +
                 ");";
 
+        String recurringquery = "CREATE TABLE " + TABLE_RECURRING + "(" +
+                COLUMN_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
+                COLUMN_NAME + " TEXT" + "," +
+                COLUMN_AMOUNT + " REAL" + "," +
+                COLUMN_CATEGORY + " TEXT" + "," +
+                COLUMN_STARTDATE + " INTEGER" + "," +
+                COLUMN_NEXTDATE + " INTEGER" + "," +
+                COLUMN_STARTDATE + " INTEGER" + "," +
+                COLUMN_TIMETYPE + " INTaEGER" + "," +
+                COLUMN_NUMOFUNIT + " INTEGER" + "," +
+                COLUMN_COUNTER + " INTEGER" + "" +
+                ");";
+
         // Executes table from above SQL
         db.execSQL(transactionquery);
+        db.execSQL(recurringquery);
     }
 
     @Override
@@ -183,6 +203,13 @@ public class DBHandler extends SQLiteOpenHelper {
         return TransactionList;
     }
 
+    /*
+    Recurring
+     */
+
+    
+    public ArrayList getAllRecurring(){
+    }
 
     // This is for the database manager. Make sure you delete it when making a proper version
     public ArrayList<Cursor> getData(String Query) {
