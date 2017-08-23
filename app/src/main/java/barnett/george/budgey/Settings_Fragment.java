@@ -18,6 +18,8 @@ public class Settings_Fragment extends Fragment implements View.OnClickListener{
         DatabaseButton.setOnClickListener(this);
         Button AddTransactions = (Button) view.findViewById(R.id.AddTransactions);
         AddTransactions.setOnClickListener(this);
+        Button AddRecurring = (Button) view.findViewById(R.id.AddRecurring);
+        AddRecurring.setOnClickListener(this);
 
         return view;
     }
@@ -30,8 +32,12 @@ public class Settings_Fragment extends Fragment implements View.OnClickListener{
                 startActivity(intent);
                 break;
             case R.id.AddTransactions:
-                AddStuff addStuff = new AddStuff( getContext() );
-                addStuff.add();
+                AddTransactions addtransactions = new AddTransactions( getContext() );
+                addtransactions.add();
+                break;
+            case R.id.AddRecurring:
+                AddRecurring addrecurring = new AddRecurring( getContext() );
+                addrecurring.add();
                 break;
         }
     }

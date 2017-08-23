@@ -12,12 +12,10 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.Spinner;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 
 public class Overview_Transactions_Fragment extends Fragment implements View.OnClickListener,AdapterView.OnItemSelectedListener {
@@ -54,13 +52,14 @@ public class Overview_Transactions_Fragment extends Fragment implements View.OnC
         ImageButton NextDateButton = (ImageButton) view.findViewById(R.id.NextDateButton);
         NextDateButton.setOnClickListener(this);
 
-        recyclerView = (RecyclerView) view.findViewById(R.id.TransactionList);
+
         StartDateEdit = (EditText) view.findViewById(R.id.StartDateEdit);
         StartDateEdit.setEnabled(false); // disables editing
         EndDateEdit = (EditText) view.findViewById(R.id. EndDateEdit);
         EndDateEdit.setEnabled(false);
 
         // Set up RecyleView
+        recyclerView = (RecyclerView) view.findViewById(R.id.TransactionList);
         recyclerView.setHasFixedSize(true);
         layoutManager = new LinearLayoutManager( getActivity() );
         recyclerView.setLayoutManager(layoutManager);

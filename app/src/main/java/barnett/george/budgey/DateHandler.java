@@ -107,9 +107,9 @@ public class DateHandler {
         return OutputTime;
     }
 
-    public long nextDate(int UnitofTime,int NumOfUnit,long StartDate){
+    public long nextDate(int TimeType,int NumOfUnit,long StartDate){
         long NextDate = 0;
-        switch ( UnitofTime ){ // 0 = days, 1 = weeks, 2 = months, 3 = years
+        switch ( TimeType ){ // 0 = days, 1 = weeks, 2 = months, 3 = years
             case 0: // Days are to be added
                 NextDate = AddNumDays(StartDate,NumOfUnit);
                 break;

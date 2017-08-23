@@ -32,6 +32,8 @@
     <string name="Category">Category</string>
     <string name="Today">Today</string>
     <string name="StartDate">Start Date</string>
-    <string name="Every">Every</string>
+    <string name="Every">Every:\u0020</string>
     <string name="Repeats">Repeats</string>
+    <string name="Left">Left</string>
+    <string name="Next">Next:</string>
 </resources>

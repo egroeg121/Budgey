@@ -2,11 +2,11 @@ package barnett.george.budgey;
 
 import android.content.Context;
 
-public class AddStuff {
+public class AddRecurring {
 
     Context context;
 
-    public AddStuff(Context context) {
+    public AddRecurring(Context context) {
         this.context = context;
     }
 
@@ -15,20 +15,6 @@ public class AddStuff {
         DateHandler datehandler = new DateHandler();
 
         dbHandler.OpenDatabase();
-
-        // Add Transactions
-        for (int i = 0; i < 50; i++) {
-            int id = i;
-            String name = "Test " + i;
-            double amount = i;
-            long date = datehandler.AddNumDays( datehandler.currentTimeMilli(), -1*i );
-            String category = " Category " +i;
-            int recurringid = -1;
-
-            Transaction transaction = new Transaction(id, name, amount, date, category,recurringid);
-
-            dbHandler.addTransaction( transaction );
-        }
 
 
         // Add Recurring

@@ -74,7 +74,6 @@ public class DBHandler extends SQLiteOpenHelper {
                 COLUMN_CATEGORY + " TEXT" + "," +
                 COLUMN_STARTDATE + " INTEGER" + "," +
                 COLUMN_NEXTDATE + " INTEGER" + "," +
-                COLUMN_STARTDATE + " INTEGER" + "," +
                 COLUMN_TIMETYPE + " INTaEGER" + "," +
                 COLUMN_NUMOFUNIT + " INTEGER" + "," +
                 COLUMN_COUNTER + " INTEGER" + "" +
@@ -101,7 +100,7 @@ public class DBHandler extends SQLiteOpenHelper {
 
 
     /*
-    Transactions
+    Transactions :  _id, name, amount, date, recurringid, category
      */
 
     public void addTransaction(Transaction transaction){
@@ -109,8 +108,8 @@ public class DBHandler extends SQLiteOpenHelper {
         ContentValues values = new ContentValues();
         values.put( COLUMN_NAME, transaction.getName() );
         values.put( COLUMN_AMOUNT, transaction.getAmount() );
-        values.put( COLUMN_DATE, transaction.getDate() );
         values.put( COLUMN_CATEGORY, transaction.getCategory() );
+        values.put( COLUMN_DATE, transaction.getDate() );
         values.put( COLUMN_RECURRINGID, transaction.getRecurringid()); // Normal transactions are -1
 
         db.insert(TABLE_TRANSACTIONS,null,values);
@@ -136,11 +135,9 @@ public class DBHandler extends SQLiteOpenHelper {
     }
 
     public Transaction getTransaction(int id){
-        OpenDatabase();
+        //OpenDatabase();
         String[] IDString = {Integer.toString(id)};
-        //Cursor cursor = db.query(TABLE_COORDINATES, new String[] { "latitude" },"_id=" + id, null, null, null,null);
         Cursor cursor = db.query(TABLE_TRANSACTIONS,null,COLUMN_ID + "=?",IDString,null,null,null);
-        //Cursor cursor = db.query(TABLE_TRANSACTIONS,
         cursor.moveToFirst();
 
         // Get values from database
@@ -151,13 +148,12 @@ public class DBHandler extends SQLiteOpenHelper {
         int recurringID = cursor.getInt( cursor.getColumnIndex(COLUMN_RECURRINGID) );
 
         Transaction transaction = new Transaction(id,name,amount,date,category,recurringID);
-        CloseDatabase();
+        //CloseDatabase();
         return transaction;
 
     }
 
     public ArrayList getAllTransactions(long startdate,long enddate){
-        OpenDatabase();
 
         // Initialise objects and Variables
         ArrayList<Transaction> TransactionList = new ArrayList<Transaction>();
@@ -198,18 +194,104 @@ public class DBHandler extends SQLiteOpenHelper {
             cursor.moveToNext();
         }
 
-        CloseDatabase();
-
         return TransactionList;
     }
 
     /*
-    Recurring
+    Recurring : _id, name, amount, category, startdate, nextdate, timetype, numofunit, counter
      */
 
-    
-    public ArrayList getAllRecurring(){
+    public void addRecurring(Recurring recurring){
+        // Create a new map of values, where column names are the keys
+        ContentValues values = new ContentValues();
+        values.put( COLUMN_NAME, recurring.getName() );
+        values.put( COLUMN_AMOUNT, recurring.getAmount() );
+        values.put( COLUMN_CATEGORY, recurring.getCategory() );
+        values.put( COLUMN_NEXTDATE, recurring.getNextDate() );
+        values.put( COLUMN_STARTDATE, recurring.getStartDate() );
+        values.put( COLUMN_TIMETYPE, recurring.getTimeType() );
+        values.put( COLUMN_NUMOFUNIT, recurring.getNumofUnit() );
+        values.put( COLUMN_COUNTER, recurring.getCounter() );
+
+        db.insert(TABLE_RECURRING,null,values);
     }
+
+    public void editRecurring(Recurring recurring){
+        //OpenDatabase();
+
+        int id = recurring.getId();
+
+        // Create a new map of values, where column names are the keys
+        ContentValues values = new ContentValues();
+        values.put( COLUMN_NAME, recurring.getName() );
+        values.put( COLUMN_AMOUNT, recurring.getAmount() );
+        values.put( COLUMN_CATEGORY, recurring.getCategory() );
+        values.put( COLUMN_NEXTDATE, recurring.getNextDate() );
+        values.put( COLUMN_STARTDATE, recurring.getStartDate() );
+        values.put( COLUMN_TIMETYPE, recurring.getTimeType() );
+        values.put( COLUMN_NUMOFUNIT, recurring.getNumofUnit() );
+        values.put( COLUMN_COUNTER, recurring.getCounter() );
+
+        String[] IDString = {Integer.toString(id)};
+        db.update(TABLE_RECURRING,values,COLUMN_ID + "=?",IDString);
+        //CloseDatabase();
+    }
+
+    public Recurring getRecurring(int id){
+        String[] IDString = {Integer.toString(id)};
+        Cursor cursor = db.query(TABLE_RECURRING,null,COLUMN_ID + "=?",IDString,null,null,null);
+        cursor.moveToFirst();
+
+        // Get values from database
+        String name = cursor.getString( cursor.getColumnIndex(COLUMN_NAME) );
+        double amount = cursor.getDouble( cursor.getColumnIndex(COLUMN_AMOUNT) );
+        long startdate = cursor.getLong( cursor.getColumnIndex(COLUMN_STARTDATE) );
+        long nextdate = cursor.getLong( cursor.getColumnIndex(COLUMN_NEXTDATE) );
+        String category = cursor.getString( cursor.getColumnIndex(COLUMN_CATEGORY) );
+        int numofunit = cursor.getInt( cursor.getColumnIndex(COLUMN_NUMOFUNIT) );
+        int timetype = cursor.getInt( cursor.getColumnIndex(COLUMN_TIMETYPE) );
+        int counter = cursor.getInt( cursor.getColumnIndex(COLUMN_COUNTER) );
+
+        Recurring recurring = new Recurring(id,name,amount,startdate,nextdate,category,numofunit,timetype,counter);
+        return recurring;
+
+    }
+
+    public ArrayList getAllRecurring(){
+
+        // Initialise objects and Variables
+        ArrayList<Recurring> RecurringList = new ArrayList<Recurring>();
+
+        // Query Database (load in cursur)
+        Cursor cursor = db.query(TABLE_RECURRING,null,null,null,null,null, null); // Loads with Dates in descedning order
+
+        // Move to first row in cursor
+        cursor.moveToFirst();
+        while (!cursor.isAfterLast()){
+            if(cursor.getString( cursor.getColumnIndex(COLUMN_ID) )!= null){ // If the line is blank
+                // Set up Recurring object
+
+                // Get values from database
+                int id = cursor.getInt( cursor.getColumnIndex(COLUMN_ID) );
+                String name = cursor.getString( cursor.getColumnIndex(COLUMN_NAME) );
+                double amount = cursor.getDouble( cursor.getColumnIndex(COLUMN_AMOUNT) );
+                long startdate = cursor.getLong( cursor.getColumnIndex(COLUMN_STARTDATE) );
+                long nextdate = cursor.getLong( cursor.getColumnIndex(COLUMN_NEXTDATE) );
+                String category = cursor.getString( cursor.getColumnIndex(COLUMN_CATEGORY) );
+                int numofunit = cursor.getInt( cursor.getColumnIndex(COLUMN_NUMOFUNIT) );
+                int timetype = cursor.getInt( cursor.getColumnIndex(COLUMN_TIMETYPE) );
+                int counter = cursor.getInt( cursor.getColumnIndex(COLUMN_COUNTER) );
+
+                // add values to transaction object
+                Recurring recurring = new Recurring(id,name,amount,startdate,nextdate,category,numofunit,timetype,counter);
+
+                RecurringList.add( recurring );
+            }
+            cursor.moveToNext();
+        }
+        return RecurringList;
+    }
+
 
     // This is for the database manager. Make sure you delete it when making a proper version
     public ArrayList<Cursor> getData(String Query) {

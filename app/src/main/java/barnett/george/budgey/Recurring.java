@@ -46,23 +46,33 @@ public class Recurring {
     public double getAmount() {
         return amount;
     }
-    public long getStartdate() {
+    public long getStartDate() {
         return startdate;
     }
-    public long getNextdate() {
+    public long getNextDate() {
         return nextdate;
     }
     public String getCategory() {
         return category;
     }
-    public int getNumofunit() {
+    public int getNumofUnit() {
         return numofunit;
     }
-    public int getTimetype() {
+    public int getTimeType() {
         return timetype;
     }
     public int getCounter() {
         return counter;
+    }
+    public String getStartDateString(){
+        DateHandler dateHandler = new DateHandler();
+        String DateString = dateHandler.MillitoDateString(startdate);
+        return DateString;
+    }
+    public String getNextDateString(){
+        DateHandler dateHandler = new DateHandler();
+        String DateString = dateHandler.MillitoDateString(nextdate);
+        return DateString;
     }
 
 
@@ -79,19 +89,19 @@ public class Recurring {
     public void setAmount(double amount) {
         this.amount = amount;
     }
-    public void setStartdate(long startdate) {
+    public void setStartDate(long startdate) {
         this.startdate = startdate;
     }
-    public void setNextdate(long nextdate) {
+    public void setNextDate(long nextdate) {
         this.nextdate = nextdate;
     }
     public void setCategory(String category) {
         this.category = category;
     }
-    public void setNumofunit(int numofunit) {
+    public void setNumofUnit(int numofunit) {
         this.numofunit = numofunit;
     }
-    public void setTimetype(int timetype) {
+    public void setTimeType(int timetype) {
         this.timetype = timetype;
     }
     public void setCounter(int counter) {

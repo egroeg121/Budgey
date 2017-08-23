@@ -10,17 +10,10 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
-import android.widget.Button;
-import android.widget.EditText;
-import android.widget.ImageButton;
-import android.widget.Spinner;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 
-public class Overview_Recurring_Fragment extends Fragment implements View.OnClickListener,AdapterView.OnItemSelectedListener {
+public class Overview_Recurring_Fragment extends Fragment implements View.OnClickListener {
 
     DBHandler dbHandler;
     DateHandler dateHandler;
@@ -32,14 +25,12 @@ public class Overview_Recurring_Fragment extends Fragment implements View.OnClic
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.overview_transactions_fragment, container, false);
+        View view = inflater.inflate(R.layout.overview_recurring_fragment, container, false);
         // Layout Items Intialised
         FloatingActionButton AddButton = (FloatingActionButton) view.findViewById(R.id.AddButton);
         AddButton.setOnClickListener(this);
-        ImageButton PreviousDateButton = (ImageButton) view.findViewById(R.id.PreviousDateButton);
-        ImageButton NextDateButton = (ImageButton) view.findViewById(R.id.NextDateButton);
 
-        recyclerView = (RecyclerView) view.findViewById(R.id.TransactionList);
+        recyclerView = (RecyclerView) view.findViewById(R.id.RecurringList);
         recyclerView.setHasFixedSize(true);
         layoutManager = new LinearLayoutManager( getActivity() );
         recyclerView.setLayoutManager(layoutManager);
@@ -49,9 +40,9 @@ public class Overview_Recurring_Fragment extends Fragment implements View.OnClic
         dbHandler = new DBHandler(getActivity(),null,null,1);
         dateHandler = new DateHandler();
 
-        // TODO EDIT ADAPTER
+
         // Define and attach adapter
-        recyleAdapter = new Overview_Transaction_Adapter(RecurringList);
+        recyleAdapter = new Overview_Recurring_Adapter(RecurringList);
         recyclerView.setAdapter(recyleAdapter);
 
         return view;
@@ -61,15 +52,19 @@ public class Overview_Recurring_Fragment extends Fragment implements View.OnClic
     public void onResume() {
         super.onResume();
 
-        // Clear TransactionList
+        // Clear Recurring List
         RecurringList.clear();
 
         // Get Database value
-        ArrayList<Transaction> dbList = dbHandler.getAllRecurring();
+        dbHandler.OpenDatabase();
+        ArrayList<Recurring> dbList = dbHandler.getAllRecurring();
+        dbHandler.CloseDatabase();
         if ( !dbList.isEmpty() ){
             RecurringList.addAll( dbList );
         }
+
         // Update Adapter
+        recyclerView.setAdapter( recyleAdapter );
         recyleAdapter.notifyDataSetChanged();
 
     }
