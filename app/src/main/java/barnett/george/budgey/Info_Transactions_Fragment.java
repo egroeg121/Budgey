@@ -89,7 +89,8 @@ public class Info_Transactions_Fragment extends Fragment implements View.OnClick
         }
 
         return view;
-    }
+    }// Set up Variables for transaction
+
 
 
     @Override
@@ -97,18 +98,18 @@ public class Info_Transactions_Fragment extends Fragment implements View.OnClick
         switch (v.getId()) {
             case R.id.DoneButton:
 
-                // Set up Variables for transaction
                 name = NameEdit.getText().toString();
                 amount = Double.parseDouble( AmountEdit.getText().toString() );
                 category = CategoryEdit.getText().toString();
-                int[] datearray = new int[3]; // [YYYY][MM][DD]
-                datearray[0] = Integer.parseInt( DateDayEdit.getText().toString() );
-                datearray[1] = Integer.parseInt( DateMonthEdit.getText().toString() );
-                datearray[2] = Integer.parseInt( DateYearEdit.getText().toString() );
+                String[] datearray = new String[3]; // [YYYY][MM][DD]
+                datearray[0] = DateDayEdit.getText().toString();
+                datearray[1] = DateMonthEdit.getText().toString();
+                datearray[2] = DateYearEdit.getText().toString();
                 date = dateHandler.StringArraytoDate( datearray );
 
                 // put variables in transaction object
                 transaction.setAll(ID,name,amount,date,category,recurringID);
+
 
                 // Put into Database
                 dbHandler.OpenDatabase();

@@ -48,6 +48,8 @@ public class DBHandler extends SQLiteOpenHelper {
     Categories:
     */
 
+    // Date Array = Day, Week, Month, Year
+
     // For android to work with
     public DBHandler(Context context, String name, SQLiteDatabase.CursorFactory factory, int version) {
         super(context, DATABASE_NAME, factory, DATABASE_VERSION);
@@ -263,7 +265,7 @@ public class DBHandler extends SQLiteOpenHelper {
         ArrayList<Recurring> RecurringList = new ArrayList<Recurring>();
 
         // Query Database (load in cursur)
-        Cursor cursor = db.query(TABLE_RECURRING,null,null,null,null,null, null); // Loads with Dates in descedning order
+        Cursor cursor = db.query(TABLE_RECURRING,null,null,null,null,null, COLUMN_NAME + " ASC"); // Loads with Dates in descedning order
 
         // Move to first row in cursor
         cursor.moveToFirst();

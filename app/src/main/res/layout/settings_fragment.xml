@@ -15,9 +15,9 @@
         android:id="@+id/AddTransactions"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentStart="true"
-        android:layout_below="@+id/DatabaseButton"
-        android:text="Add Transactions" />
+        android:text="Add Transactions"
+        android:layout_below="@+id/deletebutton"
+        android:layout_alignParentStart="true" />
 
     <Button
         android:id="@+id/AddRecurring"
@@ -26,4 +26,12 @@
         android:layout_alignParentStart="true"
         android:layout_below="@+id/AddTransactions"
         android:text="Add Recurring" />
+
+    <Button
+        android:id="@+id/deletebutton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_below="@+id/DatabaseButton"
+        android:text="Delete" />
 </RelativeLayout>

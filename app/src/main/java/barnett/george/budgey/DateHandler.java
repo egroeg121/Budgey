@@ -58,7 +58,7 @@ public class DateHandler {
     }
 
     // Converts Separated String Array into Date (Milli)
-    public long StringArraytoDate(int[] DateArray){ // [DD][MM][YY]
+    public long StringArraytoDate(String[] DateArray){ // [DD][MM][YY]
         String DateString = DateArray[0] + "/" + DateArray[1] + "/" + DateArray[2];
         long date = DateStringtoMilli(DateString);
         return date;

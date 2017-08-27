@@ -1,6 +1,7 @@
 package barnett.george.budgey;
 
 import android.content.Intent;
+import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
@@ -16,6 +17,8 @@ public class Settings_Fragment extends Fragment implements View.OnClickListener{
 
         Button DatabaseButton = (Button) view.findViewById(R.id.DatabaseButton);
         DatabaseButton.setOnClickListener(this);
+        Button deletebutton = (Button) view.findViewById(R.id.deletebutton);
+        deletebutton.setOnClickListener(this);
         Button AddTransactions = (Button) view.findViewById(R.id.AddTransactions);
         AddTransactions.setOnClickListener(this);
         Button AddRecurring = (Button) view.findViewById(R.id.AddRecurring);
@@ -38,6 +41,9 @@ public class Settings_Fragment extends Fragment implements View.OnClickListener{
             case R.id.AddRecurring:
                 AddRecurring addrecurring = new AddRecurring( getContext() );
                 addrecurring.add();
+                break;
+            case R.id.deletebutton:
+                getContext().deleteDatabase("budgey.db");
                 break;
         }
     }

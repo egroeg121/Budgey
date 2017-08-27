@@ -52,15 +52,15 @@
             android:id="@+id/AmountText"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_alignEnd="@+id/CategoryText"
+            android:layout_alignParentStart="true"
+            android:layout_below="@+id/NameText"
             android:gravity="center"
             android:padding="@dimen/PagePadding"
             android:text="@string/Amount"
             android:textColor="@color/DarkGrey"
             android:textSize="@dimen/SearchBar"
-            android:textStyle="bold"
-            android:layout_below="@+id/NameText"
-            android:layout_alignParentStart="true"
-            android:layout_alignEnd="@+id/CategoryText" />
+            android:textStyle="bold" />
 
         <TextView
             android:id="@+id/CategoryText"
@@ -123,19 +123,6 @@
             android:layout_height="wrap_content"
             android:layout_alignBottom="@+id/DateText"
             android:layout_alignTop="@+id/DateText"
-            android:layout_toEndOf="@+id/DateText"
-            android:ems="2"
-            android:gravity="center"
-            android:hint="DD"
-            android:inputType="number"
-            android:maxLength="2" />
-
-        <EditText
-            android:id="@+id/NumOfUnit"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignBottom="@+id/UnitofTime"
-            android:layout_below="@+id/DateText"
             android:layout_toEndOf="@+id/DateText"
             android:ems="2"
             android:gravity="center"
@@ -209,7 +196,8 @@
             android:id="@+id/UnitOfTimeSpinner"
             android:layout_width="100dp"
             android:layout_height="wrap_content"
-            android:layout_alignBottom="@+id/NumOfUnit"
+            android:layout_alignBottom="@+id/NumOfUnitEdit"
+            android:layout_alignEnd="@+id/TodayDateButton"
             android:layout_below="@+id/DateMonthEdit"
             android:layout_toEndOf="@+id/DateDayEdit"
             android:layout_weight="0.8"
@@ -219,44 +207,58 @@
             android:id="@+id/NameEdit"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:ems="10"
-            android:hint="Name"
-            android:inputType="textPersonName"
+            android:layout_above="@+id/AmountText"
             android:layout_below="@+id/TitleText"
             android:layout_toEndOf="@+id/NameText"
-            android:layout_above="@+id/AmountText" />
+            android:ems="10"
+            android:hint="Name"
+            android:inputType="textPersonName" />
 
         <EditText
             android:id="@+id/CategoryEdit"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:ems="10"
-            android:hint="Name"
-            android:inputType="textPersonName"
+            android:layout_above="@+id/DateText"
             android:layout_below="@+id/AmountText"
             android:layout_toEndOf="@+id/AmountText"
-            android:layout_above="@+id/DateText" />
+            android:ems="10"
+            android:hint="Name"
+            android:inputType="textPersonName" />
 
         <EditText
             android:id="@+id/AmountEdit"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignBottom="@+id/AmountText"
+            android:layout_below="@+id/NameText"
             android:layout_toEndOf="@+id/AmountText"
             android:ems="10"
             android:hint="Amount"
-            android:inputType="numberDecimal"
-            android:layout_below="@+id/NameText" />
+            android:inputType="numberDecimal" />
 
         <EditText
-            android:id="@+id/NumOfRepeatsEdit"
+            android:id="@+id/NumOfUnitEdit"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/DateText"
+            android:layout_toEndOf="@+id/DateText"
+            android:ems="2"
+            android:gravity="center"
+            android:hint="N"
+            android:inputType="number"
+            android:maxLength="2" />
+
+        <EditText
+            android:id="@+id/RepeatsEdit"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignBaseline="@+id/RepeatsText"
             android:layout_alignBottom="@+id/RepeatsText"
             android:layout_toEndOf="@+id/RepeatsText"
             android:ems="2"
-            android:inputType="numberDecimal" />
+            android:hint="∞"
+            android:inputType="numberDecimal"
+            android:textAlignment="center" />
 
     </RelativeLayout>
 
