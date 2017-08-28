@@ -19,6 +19,7 @@ import static barnett.george.budgey.R.id.AddButton;
 import static barnett.george.budgey.R.id.AmountEdit;
 import static barnett.george.budgey.R.id.DateDayEdit;
 import static barnett.george.budgey.R.id.RepeatsEdit;
+import static barnett.george.budgey.R.id.time;
 
 public class Info_Recurring_Fragment extends Fragment implements View.OnClickListener,AdapterView.OnItemSelectedListener {
 
@@ -42,6 +43,9 @@ public class Info_Recurring_Fragment extends Fragment implements View.OnClickLis
     String[] TimeTypeArray;
     String [] DateArray;
 
+    Recurring recurring;
+
+    // recurring object varibles
     int ID;
     String name;
     double amount;
@@ -50,16 +54,11 @@ public class Info_Recurring_Fragment extends Fragment implements View.OnClickLis
     long nextdate;
     int timetype;
     int numofunit;
-    int counter = -1;
-
-    Recurring recurring;
+    int counter=-1;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.info_recurring_fragment, container, false);
-
-        dateHandler = new DateHandler();
-        dbHandler = new DBHandler(getContext(),null,null,1);
 
         // Initialising Layout Items
         FloatingActionButton DoneButton = (FloatingActionButton) view.findViewById(R.id.DoneButton);
@@ -76,7 +75,6 @@ public class Info_Recurring_Fragment extends Fragment implements View.OnClickLis
         DateYearEdit = (EditText) view.findViewById((R.id.DateYearEdit));
 
         // Set up Spinner
-        // Set up Spinner
         TimeTypeSpinner = (Spinner) view.findViewById(R.id.UnitOfTimeSpinner);
         TimeTypeArray = getResources().getStringArray(R.array.UnitsOfTime);
         SpinnerAdapter= new ArrayAdapter<String>(getActivity(), android.R.layout.simple_spinner_item, TimeTypeArray);
@@ -84,6 +82,45 @@ public class Info_Recurring_Fragment extends Fragment implements View.OnClickLis
         TimeTypeSpinner.setAdapter(SpinnerAdapter);
         TimeTypeSpinner.setSelection(timetype,false);
         TimeTypeSpinner.setOnItemSelectedListener(this);
+
+        // Set up Handlers
+        dateHandler = new DateHandler();
+        dbHandler = new DBHandler(getContext(),null,null,1);
+
+        // Get id from intnet
+        Intent intent =getActivity().getIntent();
+        ID = intent.getIntExtra("Recurring",-1);
+
+        if (ID == -1){
+            recurring = new Recurring(-1,null,0,0,0,null,0,0,0);
+        }else{
+            dbHandler.OpenDatabase();
+            recurring = dbHandler.getRecurring(ID);
+            dbHandler.CloseDatabase();
+
+            ID = recurring.getId();
+            name = recurring.getName();
+            amount = recurring.getAmount();
+            category = recurring.getCategory();
+            startdate = recurring.getStartDate();
+            nextdate = recurring.getNextDate();
+            numofunit = recurring.getNumofUnit();
+            timetype = recurring.getTimeType();
+            counter = recurring.getCounter();
+
+            DateArray = dateHandler.DatetoStringArray(startdate);
+
+            NameEdit.setText(name);
+            AmountEdit.setText( Double.toString(amount));
+            CategoryEdit.setText(category);
+            DateDayEdit.setText(DateArray[0]);
+            DateMonthEdit.setText(DateArray[1]);
+            DateYearEdit.setText(DateArray[2]);
+            NumOfUnitEdit.setText( Integer.toString(numofunit));
+            RepeatsEdit.setText(Integer.toString(counter));
+
+
+        }
 
         return view;
     }

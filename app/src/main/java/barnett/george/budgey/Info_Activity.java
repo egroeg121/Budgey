@@ -26,6 +26,9 @@ public class Info_Activity extends FragmentActivity {
         if (intent.getIntExtra("Transaction",0) != 0){
             StartPage = 2;
         }
+        if (intent.getIntExtra("Recurring",0) != 0){
+            StartPage = 3;
+        }
 
         viewPager = (ViewPager) findViewById(R.id.pager); // Find the ID of the ViewPage (The background page)
         FragmentManager fragmentManager=getSupportFragmentManager(); // Adapter needs fragment manager object

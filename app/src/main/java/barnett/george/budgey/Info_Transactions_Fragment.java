@@ -30,7 +30,7 @@ public class Info_Transactions_Fragment extends Fragment implements View.OnClick
     EditText DateMonthEdit;
     EditText DateYearEdit;
 
-    // Variables
+    // transaction object variables
     int ID;
     String name;
     double amount;
