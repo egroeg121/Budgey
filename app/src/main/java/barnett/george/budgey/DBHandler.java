@@ -138,6 +138,10 @@ public class DBHandler extends SQLiteOpenHelper {
         //CloseDatabase();
     }
 
+    public void deleteTransactionFromRecurring(int recurringid){
+        db.delete(TABLE_TRANSACTIONS, COLUMN_RECURRINGID + "=" + recurringid, null);
+    }
+
     public Transaction getTransaction(int id){
         //OpenDatabase();
         String[] IDString = {Integer.toString(id)};
@@ -224,7 +228,7 @@ public class DBHandler extends SQLiteOpenHelper {
     public void editRecurring(Recurring recurring){
         //OpenDatabase();
 
-        int id = recurring.getId();
+        int id = recurring.getID();
 
         // Create a new map of values, where column names are the keys
         ContentValues values = new ContentValues();

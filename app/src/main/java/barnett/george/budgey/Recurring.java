@@ -39,7 +39,7 @@ public class Recurring {
          Getters
     */
 
-    public int getId() {
+    public int getID() {
         return id;
     }
     public String getName() {

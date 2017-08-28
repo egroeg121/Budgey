@@ -100,7 +100,7 @@ public class Info_Recurring_Fragment extends Fragment implements View.OnClickLis
             recurring = dbHandler.getRecurring(ID);
             dbHandler.CloseDatabase();
 
-            ID = recurring.getId();
+            ID = recurring.getID();
             name = recurring.getName();
             amount = recurring.getAmount();
             category = recurring.getCategory();
@@ -158,12 +158,11 @@ public class Info_Recurring_Fragment extends Fragment implements View.OnClickLis
                 recurring = new Recurring(ID,name,amount,startdate,nextdate,category,numofunit,timetype,repeats,counter);
 
                 dbHandler.OpenDatabase();
-                if (recurring.getId() == -1){
+                if (recurring.getID() == -1){
                     dbHandler.addRecurring(recurring);
-                    Log.i("George","Add Recurring");
                 }else{
                     dbHandler.editRecurring(recurring);
-                    Log.i("George","Edit Recurring");
+                    dbHandler.deleteTransactionFromRecurring(ID);
                 }
                 dbHandler.CloseDatabase();
 

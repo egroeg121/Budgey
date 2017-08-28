@@ -67,7 +67,9 @@ public class Info_Transactions_Fragment extends Fragment implements View.OnClick
             transaction = new Transaction(-1,null,0,0,null,0);
         }else{
             // Get previous values and put them into Edit Texts.
+            dbHandler.OpenDatabase();
             transaction = dbHandler.getTransaction(ID);
+            dbHandler.CloseDatabase();
             ID = transaction.getId();
             name = transaction.getName();
             amount = transaction.getAmount();
