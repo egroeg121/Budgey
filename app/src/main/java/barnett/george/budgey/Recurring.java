@@ -14,6 +14,7 @@ public class Recurring {
     String category;
     int numofunit;
     int timetype;
+    int repeats;
     int counter;
 
 
@@ -21,7 +22,7 @@ public class Recurring {
         Constructor
     */
 
-    public Recurring(int id, String name, double amount, long startdate, long nextdate, String category, int numofunit, int timetype, int counter) {
+    public Recurring(int id, String name, double amount, long startdate, long nextdate, String category, int numofunit, int timetype, int repeats, int counter) {
         this.id = id;
         this.name = name;
         this.amount = amount;
@@ -30,6 +31,7 @@ public class Recurring {
         this.category = category;
         this.numofunit = numofunit;
         this.timetype = timetype;
+        this.repeats = repeats;
         this.counter = counter;
     }
 
@@ -60,6 +62,9 @@ public class Recurring {
     }
     public int getTimeType() {
         return timetype;
+    }
+    public int getRepeats() {
+        return repeats;
     }
     public int getCounter() {
         return counter;
@@ -104,10 +109,13 @@ public class Recurring {
     public void setTimeType(int timetype) {
         this.timetype = timetype;
     }
+    public void setRepeats(int repeats) {
+        this.repeats = repeats;
+    }
     public void setCounter(int counter) {
         this.counter = counter;
     }
-    public void setAll(int id, String name, double amount, long startdate, long nextdate, String category, int numofunit, int timetype, int counter){
+    public void setAll(int id, String name, double amount, long startdate, long nextdate, String category, int numofunit, int timetype,int repeats, int counter){
         this.id = id;
         this.name = name;
         this.amount = amount;
@@ -116,6 +124,7 @@ public class Recurring {
         this.category = category;
         this.numofunit = numofunit;
         this.timetype = timetype;
+        this.repeats = repeats;
         this.counter = counter;
     }
 /*    Other Methods     */

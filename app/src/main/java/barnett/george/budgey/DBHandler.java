@@ -37,6 +37,7 @@ public class DBHandler extends SQLiteOpenHelper {
     public static final String COLUMN_CATEGORY = "category";
     public static final String COLUMN_TIMETYPE = "timetype";
     public static final String COLUMN_NUMOFUNIT = "numofunit";
+    public static final String COLUMN_REPEATS = "repeats";
     public static final String COLUMN_COUNTER = "counter";
     public static final String COLUMN_RECURRINGID = "recurringid"; // Normal Transactions are -1
 
@@ -44,7 +45,7 @@ public class DBHandler extends SQLiteOpenHelper {
     /* Table Lists
     Transactions: _id, name, amount, date, recurringid, category
     Budgets:
-    Recurring: _id, name, amount, category, startdate, nextdate, timetype, numofunit, counter
+    Recurring: _id, name, amount, category, startdate, nextdate, timetype, numofunit, repeats, counter
     Categories:
     */
 
@@ -78,6 +79,7 @@ public class DBHandler extends SQLiteOpenHelper {
                 COLUMN_NEXTDATE + " INTEGER" + "," +
                 COLUMN_TIMETYPE + " INTaEGER" + "," +
                 COLUMN_NUMOFUNIT + " INTEGER" + "," +
+                COLUMN_REPEATS + " INTEGER" + "," +
                 COLUMN_COUNTER + " INTEGER" + "" +
                 ");";
 
@@ -200,7 +202,7 @@ public class DBHandler extends SQLiteOpenHelper {
     }
 
     /*
-    Recurring : _id, name, amount, category, startdate, nextdate, timetype, numofunit, counter
+    Recurring : _id, name, amount, category, startdate, nextdate, timetype, numofunit, repeats, counter
      */
 
     public void addRecurring(Recurring recurring){
@@ -213,6 +215,7 @@ public class DBHandler extends SQLiteOpenHelper {
         values.put( COLUMN_STARTDATE, recurring.getStartDate() );
         values.put( COLUMN_TIMETYPE, recurring.getTimeType() );
         values.put( COLUMN_NUMOFUNIT, recurring.getNumofUnit() );
+        values.put( COLUMN_REPEATS, recurring.getRepeats() );
         values.put( COLUMN_COUNTER, recurring.getCounter() );
 
         db.insert(TABLE_RECURRING,null,values);
@@ -232,6 +235,7 @@ public class DBHandler extends SQLiteOpenHelper {
         values.put( COLUMN_STARTDATE, recurring.getStartDate() );
         values.put( COLUMN_TIMETYPE, recurring.getTimeType() );
         values.put( COLUMN_NUMOFUNIT, recurring.getNumofUnit() );
+        values.put( COLUMN_REPEATS, recurring.getRepeats() );
         values.put( COLUMN_COUNTER, recurring.getCounter() );
 
         String[] IDString = {Integer.toString(id)};
@@ -252,9 +256,10 @@ public class DBHandler extends SQLiteOpenHelper {
         String category = cursor.getString( cursor.getColumnIndex(COLUMN_CATEGORY) );
         int numofunit = cursor.getInt( cursor.getColumnIndex(COLUMN_NUMOFUNIT) );
         int timetype = cursor.getInt( cursor.getColumnIndex(COLUMN_TIMETYPE) );
+        int repeats = cursor.getInt( cursor.getColumnIndex(COLUMN_REPEATS) );
         int counter = cursor.getInt( cursor.getColumnIndex(COLUMN_COUNTER) );
 
-        Recurring recurring = new Recurring(id,name,amount,startdate,nextdate,category,numofunit,timetype,counter);
+        Recurring recurring = new Recurring(id,name,amount,startdate,nextdate,category,numofunit,timetype,repeats,counter);
         return recurring;
 
     }
@@ -282,10 +287,11 @@ public class DBHandler extends SQLiteOpenHelper {
                 String category = cursor.getString( cursor.getColumnIndex(COLUMN_CATEGORY) );
                 int numofunit = cursor.getInt( cursor.getColumnIndex(COLUMN_NUMOFUNIT) );
                 int timetype = cursor.getInt( cursor.getColumnIndex(COLUMN_TIMETYPE) );
+                int repeats = cursor.getInt( cursor.getColumnIndex(COLUMN_REPEATS) );
                 int counter = cursor.getInt( cursor.getColumnIndex(COLUMN_COUNTER) );
 
                 // add values to transaction object
-                Recurring recurring = new Recurring(id,name,amount,startdate,nextdate,category,numofunit,timetype,counter);
+                Recurring recurring = new Recurring(id,name,amount,startdate,nextdate,category,numofunit,timetype,repeats,counter);
 
                 RecurringList.add( recurring );
             }

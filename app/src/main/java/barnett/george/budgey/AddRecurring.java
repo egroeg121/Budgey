@@ -27,11 +27,12 @@ public class AddRecurring {
             int timetype = i/4;
             long nextdate = datehandler.nextDate(timetype,numofunit,startdate);
             String category = "Category " +i;
+            int repeats = i;
             int counter = i;
 
 
 
-            Recurring recurring = new Recurring(id,name,amount,startdate,nextdate,category,numofunit,timetype,counter);
+            Recurring recurring = new Recurring(id,name,amount,startdate,nextdate,category,numofunit,timetype,repeats,counter);
 
             dbHandler.addRecurring( recurring );
         }

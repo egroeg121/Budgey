@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -54,7 +55,8 @@ public class Info_Recurring_Fragment extends Fragment implements View.OnClickLis
     long nextdate;
     int timetype;
     int numofunit;
-    int counter=-1;
+    int repeats=-1;
+    int counter;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -92,7 +94,7 @@ public class Info_Recurring_Fragment extends Fragment implements View.OnClickLis
         ID = intent.getIntExtra("Recurring",-1);
 
         if (ID == -1){
-            recurring = new Recurring(-1,null,0,0,0,null,0,0,0);
+            recurring = new Recurring(-1,null,0,0,0,null,0,0,-1,0);
         }else{
             dbHandler.OpenDatabase();
             recurring = dbHandler.getRecurring(ID);
@@ -106,6 +108,7 @@ public class Info_Recurring_Fragment extends Fragment implements View.OnClickLis
             nextdate = recurring.getNextDate();
             numofunit = recurring.getNumofUnit();
             timetype = recurring.getTimeType();
+            repeats = recurring.getRepeats();
             counter = recurring.getCounter();
 
             DateArray = dateHandler.DatetoStringArray(startdate);
@@ -117,7 +120,7 @@ public class Info_Recurring_Fragment extends Fragment implements View.OnClickLis
             DateMonthEdit.setText(DateArray[1]);
             DateYearEdit.setText(DateArray[2]);
             NumOfUnitEdit.setText( Integer.toString(numofunit));
-            RepeatsEdit.setText(Integer.toString(counter));
+            RepeatsEdit.setText(Integer.toString(repeats));
 
 
         }
@@ -142,7 +145,6 @@ public class Info_Recurring_Fragment extends Fragment implements View.OnClickLis
                 DateArray[1] = DateMonthEdit.getText().toString();
                 DateArray[2] = DateYearEdit.getText().toString();
 
-                ID = -1;
                 name = NameEdit.getText().toString();
                 amount = Double.valueOf(AmountEdit.getText().toString());
                 category = CategoryEdit.getText().toString();
@@ -150,13 +152,21 @@ public class Info_Recurring_Fragment extends Fragment implements View.OnClickLis
                 nextdate = startdate;
                 // timetype is set by spinner
                 numofunit = Integer.valueOf( NumOfUnitEdit.getText().toString() );
-                counter = Integer.valueOf( RepeatsEdit.getText().toString() );
+                repeats = Integer.valueOf( RepeatsEdit.getText().toString() );
+                counter = repeats;
 
-                recurring = new Recurring(ID,name,amount,startdate,nextdate,category,numofunit,timetype,counter);
+                recurring = new Recurring(ID,name,amount,startdate,nextdate,category,numofunit,timetype,repeats,counter);
 
                 dbHandler.OpenDatabase();
-                dbHandler.addRecurring(recurring);
+                if (recurring.getId() == -1){
+                    dbHandler.addRecurring(recurring);
+                    Log.i("George","Add Recurring");
+                }else{
+                    dbHandler.editRecurring(recurring);
+                    Log.i("George","Edit Recurring");
+                }
                 dbHandler.CloseDatabase();
+
                 getActivity().finish();
                 break;
 
