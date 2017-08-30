@@ -17,7 +17,6 @@ public class Overview_Recurring_Fragment extends Fragment implements View.OnClic
 
     DBHandler dbHandler;
     DateHandler dateHandler;
-    UpdateDatabase updateDatabase;
     ArrayList<Recurring> RecurringList;
 
     RecyclerView recyclerView;
@@ -40,7 +39,6 @@ public class Overview_Recurring_Fragment extends Fragment implements View.OnClic
         RecurringList = new ArrayList<Recurring>();
         dbHandler = new DBHandler(getActivity(),null,null,1);
         dateHandler = new DateHandler();
-        updateDatabase = new UpdateDatabase(getContext());
 
 
         // Define and attach adapter
@@ -53,8 +51,6 @@ public class Overview_Recurring_Fragment extends Fragment implements View.OnClic
     @Override
     public void onResume() {
         super.onResume();
-
-        updateDatabase.CheckRecurring();
 
         // Clear Recurring List
         RecurringList.clear();

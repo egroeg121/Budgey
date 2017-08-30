@@ -4,15 +4,17 @@ package barnett.george.budgey;
 import android.content.Context;
 
 import java.util.ArrayList;
-
+/**
+ * Deals with all the checking for transactions to be added or new budget sections to be made etc. ALso deals with counting up categories uses
+ */
 public class UpdateDatabase {
-    /**
-     * Deals with all the checking for transactions to be added or new budget sections to be made etc. ALso deals with counting up categories uses
-     */
+
     private Context context;
+    private DBHandler dbHandler;
 
     public UpdateDatabase(Context context) {
         this.context = context;
+        this.dbHandler = new DBHandler(context,null,null,1);
     }
 
     /**
@@ -21,7 +23,6 @@ public class UpdateDatabase {
     public void CheckRecurring() {
 
         // Handlers
-        DBHandler dbHandler = new DBHandler(context, null, null, 1);
         DateHandler dateHandler = new DateHandler();
         TransferringObjects transferringObjects = new TransferringObjects();
 
@@ -87,4 +88,23 @@ public class UpdateDatabase {
 
     }
 
+    public void UpdateCategoriesList(){
+        // Load transactions
+        ArrayList<Transaction> TransactionsList = dbHandler.getAllTransactions();
+        ArrayList<String> CategoryList = new ArrayList<>();
+
+        // run through transactions
+        for (int i = 0; i < TransactionsList.size(); i++) {
+            String transactionname = TransactionsList.get(i).getCategory();
+            for (int j = 0; j < CategoryList.size(); j++) {
+                String categoryname = CategoryList.get(i);
+                if (categoryname.equalsIgnoreCase(transactionname)){
+                    CategoryList.add( transactionname );
+
+                }
+            }
+        }
+        // get category, check if already in list
+        // if in list add to categories list
+    }
 }

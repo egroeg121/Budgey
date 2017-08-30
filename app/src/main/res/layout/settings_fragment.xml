@@ -28,6 +28,22 @@
         android:text="Add Recurring" />
 
     <Button
+        android:id="@+id/CheckRecurring"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_below="@+id/AddRecurring"
+        android:text="Check Recurring" />
+
+    <Button
+        android:id="@+id/UpdateCategories"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_below="@+id/CheckRecurring"
+        android:text="Update Categories" />
+
+    <Button
         android:id="@+id/deletebutton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

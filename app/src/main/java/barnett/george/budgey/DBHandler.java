@@ -24,8 +24,9 @@ public class DBHandler extends SQLiteOpenHelper {
     // Database Values
     public static final int DATABASE_VERSION = 1; // database number, if changing the database like adding new categories etc increase this number
     public static final String DATABASE_NAME = "budgey.db"; // name of database file
-    public static final String TABLE_TRANSACTIONS = "transactions"; // Name of Transactions table
+    public static final String TABLE_TRANSACTIONS = "transactions";
     public static final String TABLE_RECURRING = "recurring";
+    public static final String TABLE_CATEGORIES = "categories";
 
     // Add Columms
     public static final String COLUMN_ID = "_id";
@@ -46,7 +47,7 @@ public class DBHandler extends SQLiteOpenHelper {
     Transactions: _id, name, amount, date, recurringid, category
     Budgets:
     Recurring: _id, name, amount, category, startdate, nextdate, timetype, numofunit, repeats, counter
-    Categories:
+    Categories: _id, name, counter
     */
 
     // Date Array = Day, Week, Month, Year
@@ -83,9 +84,16 @@ public class DBHandler extends SQLiteOpenHelper {
                 COLUMN_COUNTER + " INTEGER" + "" +
                 ");";
 
+        String categorysquery = "CREATE TABLE " + TABLE_CATEGORIES + "(" +
+                COLUMN_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
+                COLUMN_NAME + " TEXT" + "," +
+                COLUMN_COUNTER + " INTEGER" + "" +
+                ");";
+
         // Executes table from above SQL
         db.execSQL(transactionquery);
         db.execSQL(recurringquery);
+        db.execSQL(categorysquery);
     }
 
     @Override
@@ -161,7 +169,46 @@ public class DBHandler extends SQLiteOpenHelper {
 
     }
 
-    public ArrayList getAllTransactions(long startdate,long enddate){
+
+    public ArrayList getAllTransactions(){
+
+        // Initialise objects and Variables
+        ArrayList<Transaction> TransactionList = new ArrayList<Transaction>();
+
+
+
+        // Query Database (load in cursur)
+        Cursor cursor = db.query(TABLE_TRANSACTIONS,null,null,null,null,null, COLUMN_DATE + " DESC"); // Loads with Dates in descedning order
+
+        // Move to first row in cursor
+        cursor.moveToFirst();
+        while (!cursor.isAfterLast()){
+            if(cursor.getString( cursor.getColumnIndex(COLUMN_ID) )!= null){
+                // Set up Transaction object
+                int id = -1; String name = null; double amount = 0;long date = 0;String category = null;int recurringID = -1;
+                Transaction transaction = new Transaction(id,name,amount,date,category,recurringID);
+
+                // Get values from database
+                id = cursor.getInt( cursor.getColumnIndex(COLUMN_ID) );
+                name = cursor.getString( cursor.getColumnIndex(COLUMN_NAME) );
+                amount = cursor.getDouble( cursor.getColumnIndex(COLUMN_AMOUNT) );
+                date = cursor.getLong( cursor.getColumnIndex(COLUMN_DATE) );
+                category = cursor.getString( cursor.getColumnIndex(COLUMN_CATEGORY) );
+                recurringID = cursor.getInt( cursor.getColumnIndex(COLUMN_RECURRINGID) );
+
+                // add values to transaction object
+                transaction.setAll(id,name,amount,date,category,recurringID);
+                DateHandler dateHandler = new DateHandler();
+                // Add transaction object to list
+                TransactionList.add( transaction );
+            }
+            cursor.moveToNext();
+        }
+
+        return TransactionList;
+    }
+
+    public ArrayList getAllTransactionsDateLimited(long startdate,long enddate){
 
         // Initialise objects and Variables
         ArrayList<Transaction> TransactionList = new ArrayList<Transaction>();
@@ -304,6 +351,74 @@ public class DBHandler extends SQLiteOpenHelper {
         return RecurringList;
     }
 
+    /*
+    Categories : _id, name, counter
+     */
+
+    public void addCategory(Category category){
+        // Create a new map of values, where column names are the keys
+        ContentValues values = new ContentValues();
+        values.put( COLUMN_NAME, category.getName() );
+        values.put( COLUMN_COUNTER, category.getCounter() );
+
+        db.insert(TABLE_CATEGORIES,null,values);
+    }
+
+    public void editCategory(Category category){
+
+        int id = category.getID();
+
+        // Create a new map of values, where column names are the keys
+        ContentValues values = new ContentValues();
+        values.put( COLUMN_NAME, category.getName() );
+        values.put( COLUMN_COUNTER, category.getCounter() );
+
+        String[] IDString = {Integer.toString(id)};
+        db.update(TABLE_CATEGORIES,values,COLUMN_ID + "=?",IDString);
+        //CloseDatabase();
+    }
+
+    public Category getCategory(int id){
+        String[] IDString = {Integer.toString(id)};
+        Cursor cursor = db.query(TABLE_CATEGORIES,null,COLUMN_ID + "=?",IDString,null,null,null);
+        cursor.moveToFirst();
+
+        // Get values from database
+        String name = cursor.getString( cursor.getColumnIndex(COLUMN_NAME) );
+        int counter = cursor.getInt( cursor.getColumnIndex(COLUMN_COUNTER) );
+
+        Category category = new Category(id,name,counter);
+        return category;
+    }
+
+    public ArrayList getAllCategory(){
+
+        // Initialise objects and Variables
+        ArrayList<Category> CategoryList = new ArrayList<Category>();
+
+        // Query Database (load in cursur)
+        Cursor cursor = db.query(TABLE_CATEGORIES,null,null,null,null,null, COLUMN_NAME + " ASC"); // Loads with Dates in descedning order
+
+        // Move to first row in cursor
+        cursor.moveToFirst();
+        while (!cursor.isAfterLast()){
+            if(cursor.getString( cursor.getColumnIndex(COLUMN_ID) )!= null){ // If the line is blank
+                // Set up Recurring object
+
+                // Get values from database
+                int id = cursor.getInt( cursor.getColumnIndex(COLUMN_ID) );
+                String name = cursor.getString( cursor.getColumnIndex(COLUMN_NAME) );
+                int counter = cursor.getInt( cursor.getColumnIndex(COLUMN_COUNTER) );
+
+                // add values to transaction object
+                Category category = new Category(id,name,counter);
+
+                CategoryList.add( category );
+            }
+            cursor.moveToNext();
+        }
+        return CategoryList;
+    }
 
     // This is for the database manager. Make sure you delete it when making a proper version
     public ArrayList<Cursor> getData(String Query) {

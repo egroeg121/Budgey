@@ -111,7 +111,7 @@ public class Overview_Transactions_Fragment extends Fragment implements View.OnC
 
         // Get Database values
         dbHandler.OpenDatabase();
-        ArrayList<Transaction> dbList = dbHandler.getAllTransactions(StartDate,EndDate);
+        ArrayList<Transaction> dbList = dbHandler.getAllTransactionsDateLimited(StartDate,EndDate);
         dbHandler.CloseDatabase();
         if ( !dbList.isEmpty() ){
             TransactionList.addAll( dbList );

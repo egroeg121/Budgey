@@ -11,9 +11,13 @@ import android.widget.Button;
 
 public class Settings_Fragment extends Fragment implements View.OnClickListener{
 
+    UpdateDatabase updateDatabase;
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.settings_fragment,container,false);
+
+        updateDatabase = new UpdateDatabase(getContext());
 
         Button DatabaseButton = (Button) view.findViewById(R.id.DatabaseButton);
         DatabaseButton.setOnClickListener(this);
@@ -23,6 +27,10 @@ public class Settings_Fragment extends Fragment implements View.OnClickListener{
         AddTransactions.setOnClickListener(this);
         Button AddRecurring = (Button) view.findViewById(R.id.AddRecurring);
         AddRecurring.setOnClickListener(this);
+        Button CheckRecurring = (Button) view.findViewById(R.id.CheckRecurring);
+        CheckRecurring.setOnClickListener(this);
+        Button UpdateCategories = (Button) view.findViewById(R.id.UpdateCategories);
+        UpdateCategories.setOnClickListener(this);
 
         return view;
     }
@@ -41,6 +49,12 @@ public class Settings_Fragment extends Fragment implements View.OnClickListener{
             case R.id.AddRecurring:
                 AddRecurring addrecurring = new AddRecurring( getContext() );
                 addrecurring.add();
+                break;
+            case R.id.CheckRecurring:
+                updateDatabase.CheckRecurring();
+                break;
+            case R.id.UpdateCategories:
+                updateDatabase.UpdateCategoriesList();
                 break;
             case R.id.deletebutton:
                 getContext().deleteDatabase("budgey.db");
