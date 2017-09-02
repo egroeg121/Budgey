@@ -90,21 +90,23 @@ public class UpdateDatabase {
 
     public void UpdateCategoriesList(){
         // Load transactions
+        dbHandler.OpenDatabase();
         ArrayList<Transaction> TransactionsList = dbHandler.getAllTransactions();
         ArrayList<String> CategoryList = new ArrayList<>();
-
+        ArrayList<int> CounterList = new ArrayList<>();
         // run through transactions
         for (int i = 0; i < TransactionsList.size(); i++) {
             String transactionname = TransactionsList.get(i).getCategory();
-            for (int j = 0; j < CategoryList.size(); j++) {
-                String categoryname = CategoryList.get(i);
-                if (categoryname.equalsIgnoreCase(transactionname)){
-                    CategoryList.add( transactionname );
 
-                }
+            if (CategoryList.contains(transactionname) ){
+                Array
+            }else{
+                CategoryList.add(transactionname);
             }
         }
-        // get category, check if already in list
-        // if in list add to categories list
+
+        // Convert CategoryList into
+
+        dbHandler.CloseDatabase();
     }
 }
