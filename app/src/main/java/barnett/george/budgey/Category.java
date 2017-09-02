@@ -29,12 +29,15 @@ public class Category {
     public void setID(int _ID) {
         this._ID = _ID;
     }
-
     public void setName(String name) {
         Name = name;
     }
-
     public void setCounter(int counter) {
+        this.counter = counter;
+    }
+    public void setAll(int _ID, String name, int counter) {
+        this._ID = _ID;
+        Name = name;
         this.counter = counter;
     }
 }

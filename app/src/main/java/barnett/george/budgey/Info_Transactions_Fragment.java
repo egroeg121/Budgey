@@ -4,11 +4,13 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import java.util.Date;
 import java.util.jar.Attributes;
@@ -55,6 +57,8 @@ public class Info_Transactions_Fragment extends Fragment implements View.OnClick
         NameEdit = (EditText) view.findViewById(R.id.NameEdit);
         AmountEdit = (EditText) view.findViewById(R.id.AmountEdit);
         CategoryEdit = (EditText) view.findViewById(R.id.CategoryEdit);
+
+        CategoryEdit.setOnClickListener(this);
 
         Intent intent = getActivity().getIntent();
         ID = intent.getIntExtra("Transaction",-1);
@@ -130,6 +134,12 @@ public class Info_Transactions_Fragment extends Fragment implements View.OnClick
                 DateDayEdit.setText( DateArray[0] ); // Assign Array to EditTexts
                 DateMonthEdit.setText( DateArray[1] );
                 DateYearEdit.setText( DateArray[2] );
+                break;
+            case R.id.CategoryEdit:
+                Toast toast = Toast.makeText(getContext(), "Hello toast!", Toast.LENGTH_SHORT);
+                toast.show();
+
+
                 break;
         }
     }

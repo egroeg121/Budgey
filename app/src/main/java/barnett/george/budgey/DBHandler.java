@@ -420,6 +420,10 @@ public class DBHandler extends SQLiteOpenHelper {
         return CategoryList;
     }
 
+    public void deleteAllCategory(){
+        db.delete(TABLE_CATEGORIES, null,null);
+    }
+
     // This is for the database manager. Make sure you delete it when making a proper version
     public ArrayList<Cursor> getData(String Query) {
         //get writable database
