@@ -54,7 +54,8 @@ public class Settings_Fragment extends Fragment implements View.OnClickListener{
                 updateDatabase.CheckRecurring();
                 break;
             case R.id.UpdateCategories:
-                updateDatabase.UpdateCategoriesList();
+                updateDatabase.UpdateCategoriesCounterList();
+                updateDatabase.UpadateCategoriesMonthAmount();
                 break;
             case R.id.deletebutton:
                 getContext().deleteDatabase("budgey.db");

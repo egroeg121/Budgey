@@ -74,7 +74,7 @@
             android:tint="@color/MainWhite" />
 
         <android.support.v7.widget.RecyclerView
-            android:id="@+id/RecurringList"
+            android:id="@+id/CategoryList"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_below="@+id/searchText"

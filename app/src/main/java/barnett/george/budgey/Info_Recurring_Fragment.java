@@ -152,7 +152,12 @@ public class Info_Recurring_Fragment extends Fragment implements View.OnClickLis
                 nextdate = startdate;
                 // timetype is set by spinner
                 numofunit = Integer.valueOf( NumOfUnitEdit.getText().toString() );
-                repeats = Integer.valueOf( RepeatsEdit.getText().toString() );
+                String RepeatString = RepeatsEdit.getText().toString();
+                if (RepeatString.isEmpty()){
+                    repeats = -1;
+                }else {
+                    repeats = Integer.valueOf(RepeatsEdit.getText().toString());
+                }
                 counter = repeats;
 
                 recurring = new Recurring(ID,name,amount,startdate,nextdate,category,numofunit,timetype,repeats,counter);

@@ -7,6 +7,18 @@
     android:layout_height="match_parent">
 
 
+    <LinearLayout
+        android:id="@+id/DateBar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentStart="true"
+        android:background="@color/MainGreen"
+        android:orientation="horizontal"
+        android:padding="@dimen/DateBarPadding">
+
+    </LinearLayout>
+
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -51,36 +63,36 @@
             android:id="@+id/searchButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_above="@+id/RecurringList"
             android:layout_below="@+id/TitleText"
             android:layout_toStartOf="@+id/sortButton"
             android:background="@color/MainGreen"
             android:paddingLeft="@dimen/PagePadding"
             android:paddingRight="@dimen/PagePadding"
             android:src="@drawable/ic_search"
-            android:tint="@color/MainWhite" />
+            android:tint="@color/MainWhite"
+            android:layout_above="@+id/RecurringList" />
 
         <ImageButton
             android:id="@+id/sortButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_above="@+id/RecurringList"
             android:layout_alignParentEnd="true"
             android:layout_below="@+id/TitleText"
             android:background="@color/MainGreen"
             android:paddingLeft="@dimen/PagePadding"
             android:paddingRight="@dimen/PagePadding"
             android:src="@drawable/ic_sort"
-            android:tint="@color/MainWhite" />
+            android:tint="@color/MainWhite"
+            android:layout_above="@+id/RecurringList" />
 
         <android.support.v7.widget.RecyclerView
             android:id="@+id/RecurringList"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:layout_alignParentBottom="true"
             android:layout_below="@+id/searchText"
             android:background="@color/MainWhite"
-            android:scrollbars="vertical"
-            android:layout_alignParentBottom="true" />
+            android:scrollbars="vertical" />
 
         <android.support.design.widget.FloatingActionButton
             android:id="@+id/AddButton"
@@ -92,7 +104,7 @@
             android:src="@drawable/ic_add"
             android:tint="@color/MainWhite"
             app:backgroundTint="@color/MainGreen"
-            app:layout_anchor="@id/RecurringList"
+            app:layout_anchor="@id/CategoryList"
             app:layout_anchorGravity="bottom|right" />
 
     </RelativeLayout>

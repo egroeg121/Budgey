@@ -1,6 +1,7 @@
 package barnett.george.budgey;
 
 import android.content.Context;
+import android.provider.Settings;
 
 public class AddTransactions
 {
@@ -18,18 +19,16 @@ public class AddTransactions
         dbHandler.OpenDatabase();
 
         // Add Transactions
-        for (int i = 0; i < 50; i++) {
-            int id = i;
-            String name = "Test " + i;
-            double amount = i;
-            long date = datehandler.AddNumDays( datehandler.currentTimeMilli(), -1*i );
-            String category = " Category " +i;
-            int recurringid = -1;
+        long currenttime = System.currentTimeMillis();
+        Transaction transaction1 = new Transaction(1,"Test1",5,currenttime,"Cat1",-1);
+        dbHandler.addTransaction(transaction1);
 
-            Transaction transaction = new Transaction(id, name, amount, date, category,recurringid);
+        Transaction transaction2 = new Transaction(1,"Test2",5,currenttime,"Cat2",-1);
+        dbHandler.addTransaction(transaction2);
 
-            dbHandler.addTransaction( transaction );
-        }
+        Transaction transaction3 = new Transaction(1,"Test3",5,currenttime,"Cat2",-1);
+        dbHandler.addTransaction(transaction3);
+
 
         dbHandler.CloseDatabase();
     }

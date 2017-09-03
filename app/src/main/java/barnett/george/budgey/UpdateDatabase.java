@@ -4,6 +4,7 @@ package barnett.george.budgey;
 import android.content.Context;
 
 import java.util.ArrayList;
+
 /**
  * Deals with all the checking for transactions to be added or new budget sections to be made etc. ALso deals with counting up categories uses
  */
@@ -11,10 +12,12 @@ public class UpdateDatabase {
 
     private Context context;
     private DBHandler dbHandler;
+    private DateHandler dateHandler;
 
     public UpdateDatabase(Context context) {
         this.context = context;
         this.dbHandler = new DBHandler(context,null,null,1);
+        this.dateHandler = new DateHandler();
     }
 
     /**
@@ -78,40 +81,108 @@ public class UpdateDatabase {
         }
     }
 
-    public void UpdateCategoriesList(){
-        // Load transactions
+    public void UpdateCategoriesCounterList(){
         dbHandler.OpenDatabase();
-        ArrayList<Transaction> TransactionsList = dbHandler.getAllTransactions();
-        ArrayList<String> CategoryNameList = new ArrayList<>();
-        ArrayList<Integer> CounterList = new ArrayList<>();
+        
+        // loads the transacitons
+        ArrayList<Transaction> TransactionObjectList= dbHandler.getAllTransactions();
 
-        // run through transactions
-        for (int i = 0; i < TransactionsList.size(); i++) {
-            String TransactionCategoryName = TransactionsList.get(i).getCategory();
+        // load current categories into category list
+        ArrayList<Category> CategoryObjectList = dbHandler.getAllCategory();
 
-            if (CategoryNameList.contains(TransactionCategoryName) ){
-                // Already in Category List, increase that counter by 1
-                int CategoryListIndex = CategoryNameList.indexOf(TransactionCategoryName);
-                int Countervalue = CounterList.get(CategoryListIndex);
-                CounterList.set(CategoryListIndex,Countervalue + 1);
+        // Set all Counters to zero
+        for (int i = 0; i < CategoryObjectList.size(); i++) {
+            CategoryObjectList.get(i).setCounter(0);
+        }
+
+        // Create Category String List
+        ArrayList<String> CategoryStringList = new ArrayList<>();
+        for (int i = 0; i < CategoryObjectList.size(); i++) {
+            CategoryStringList.add( CategoryObjectList.get(i).getName() );
+        }
+        
+        // cyclce through transactions
+        for (int i = 0; i < TransactionObjectList.size(); i++) {
+
+            int index = CategoryStringList.indexOf( TransactionObjectList.get(i).getCategory() );
+            Category category = new Category(-1,null,1,0);
+
+            if (index == -1){
+                // if not in list, add in categoryList
+                String CategoryName = TransactionObjectList.get(i).getCategory();
+                category.setAll(-1,CategoryName,1,0);
+
+                // Add to Lists
+                CategoryStringList.add(category.getName());
+                CategoryObjectList.add(category);
+
+
+
             }else{
-                // Not in Category List
-                CategoryNameList.add(TransactionCategoryName);
-                CounterList.add(1);
+                // if in category list
+                category = CategoryObjectList.get(index);
+                category.increaseCounter();
+
+                // update category List
+                CategoryObjectList.set(index,category);
             }
         }
 
-        // Reload Category Table with new categories
+        for (int i = 0; i < CategoryObjectList.size(); i++) {
+            if (CategoryObjectList.get(i).getCounter() == 0){
+                CategoryObjectList.remove(i);
+                i--;
+            }
+        }
+
         dbHandler.deleteAllCategory();
+        for (int i = 0; i < CategoryObjectList.size(); i++) {
+            dbHandler.addCategory(CategoryObjectList.get(i));
+        }
+        
 
-        // enter in database
-        Category category = new Category(-1,null,0);
-        for (int i = 0; i < CategoryNameList.size(); i++) {
+        
+        // at end if counter = 0, delete transaction
+        
+        dbHandler.CloseDatabase();
+    }
+    
+    public void UpadateCategoriesMonthAmount(){
+        dbHandler.OpenDatabase();
 
-            // Convert CategoryList/CounterList into
-            category.setAll(-1,CategoryNameList.get(i),CounterList.get(i));
 
-            dbHandler.addCategory(category);
+        // Get list of categories
+        ArrayList<Category> CategoryObjectList = dbHandler.getAllCategory();
+        ArrayList<String> CategoryStringList = new ArrayList<>();
+        for (int i = 0; i < CategoryObjectList.size(); i++) {
+            CategoryStringList.add( CategoryObjectList.get(i).getName() );
+        }
+
+        // Set all Counters to zero
+        for (int i = 0; i < CategoryObjectList.size(); i++) {
+            CategoryObjectList.get(i).setAmount(0);
+        }
+
+        // calculate date for last month
+        long endate = dateHandler.currentTimeMilli();
+        long startdate = dateHandler.AddNumMonths(endate,-1);
+
+        // get all transactions in time
+        ArrayList<Transaction> TransactionObjectList = dbHandler.getAllTransactionsDateLimited(startdate,endate);
+
+        // cycle through transactions, putting amounts in amounts list
+        Category category = new Category(-1,null,1,0);
+        for (int i = 0; i < TransactionObjectList.size(); i++) {
+
+            int index = CategoryStringList.indexOf( TransactionObjectList.get(i).getCategory() );
+            double increaseAmount = TransactionObjectList.get(i).getAmount();
+
+            CategoryObjectList.get(index).increaseAmount(increaseAmount);
+        }
+
+        dbHandler.deleteAllCategory();
+        for (int i = 0; i < CategoryObjectList.size(); i++) {
+            dbHandler.addCategory(CategoryObjectList.get(i));
         }
 
         dbHandler.CloseDatabase();

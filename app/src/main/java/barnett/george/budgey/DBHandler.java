@@ -47,7 +47,7 @@ public class DBHandler extends SQLiteOpenHelper {
     Transactions: _id, name, amount, date, recurringid, category
     Budgets:
     Recurring: _id, name, amount, category, startdate, nextdate, timetype, numofunit, repeats, counter
-    Categories: _id, name, counter
+    Categories: _id, name, counter, amount
     */
 
     // Date Array = Day, Week, Month, Year
@@ -87,6 +87,7 @@ public class DBHandler extends SQLiteOpenHelper {
         String categorysquery = "CREATE TABLE " + TABLE_CATEGORIES + "(" +
                 COLUMN_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
                 COLUMN_NAME + " TEXT" + "," +
+                COLUMN_AMOUNT + " REAL" + "," +
                 COLUMN_COUNTER + " INTEGER" + "" +
                 ");";
 
@@ -360,6 +361,7 @@ public class DBHandler extends SQLiteOpenHelper {
         ContentValues values = new ContentValues();
         values.put( COLUMN_NAME, category.getName() );
         values.put( COLUMN_COUNTER, category.getCounter() );
+        values.put( COLUMN_AMOUNT, category.getAmount());
 
         db.insert(TABLE_CATEGORIES,null,values);
     }
@@ -372,6 +374,7 @@ public class DBHandler extends SQLiteOpenHelper {
         ContentValues values = new ContentValues();
         values.put( COLUMN_NAME, category.getName() );
         values.put( COLUMN_COUNTER, category.getCounter() );
+        values.put( COLUMN_AMOUNT, category.getAmount());
 
         String[] IDString = {Integer.toString(id)};
         db.update(TABLE_CATEGORIES,values,COLUMN_ID + "=?",IDString);
@@ -386,8 +389,9 @@ public class DBHandler extends SQLiteOpenHelper {
         // Get values from database
         String name = cursor.getString( cursor.getColumnIndex(COLUMN_NAME) );
         int counter = cursor.getInt( cursor.getColumnIndex(COLUMN_COUNTER) );
+        double amount = cursor.getDouble( cursor.getColumnIndex(COLUMN_AMOUNT) );
 
-        Category category = new Category(id,name,counter);
+        Category category = new Category(id,name,counter,amount);
         return category;
     }
 
@@ -409,9 +413,10 @@ public class DBHandler extends SQLiteOpenHelper {
                 int id = cursor.getInt( cursor.getColumnIndex(COLUMN_ID) );
                 String name = cursor.getString( cursor.getColumnIndex(COLUMN_NAME) );
                 int counter = cursor.getInt( cursor.getColumnIndex(COLUMN_COUNTER) );
+                double amount = cursor.getDouble( cursor.getColumnIndex(COLUMN_AMOUNT) );
 
                 // add values to transaction object
-                Category category = new Category(id,name,counter);
+                Category category = new Category(id,name,counter,amount);
 
                 CategoryList.add( category );
             }
@@ -422,6 +427,17 @@ public class DBHandler extends SQLiteOpenHelper {
 
     public void deleteAllCategory(){
         db.delete(TABLE_CATEGORIES, null,null);
+        db.execSQL("DELETE FROM SQLITE_SEQUENCE WHERE NAME = '" + TABLE_CATEGORIES + "'");
+    }
+
+    public Category IncreaseCounter(int ID){
+        Category category = getCategory(ID);
+        int counter = category.getCounter() + 1;
+        category.setCounter(counter);
+
+        editCategory(category);
+
+        return category;
     }
 
     // This is for the database manager. Make sure you delete it when making a proper version

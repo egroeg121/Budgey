@@ -22,7 +22,7 @@ public class Overview_Activity extends FragmentActivity {
         viewPager = (ViewPager) findViewById(R.id.pager); // Find the ID of the ViewPage (The background page)
         FragmentManager fragmentManager=getSupportFragmentManager(); // Adapter needs fragment manager object
         viewPager.setAdapter( new OverviewAdapter(fragmentManager,this) );
-        viewPager.setCurrentItem( 4 );
+        viewPager.setCurrentItem( 3 );
 
         // Initiate the database so the oncreate is called
         dbHandler = new DBHandler(this,null,null,1);

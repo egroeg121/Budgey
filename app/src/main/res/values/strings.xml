@@ -36,4 +36,6 @@
     <string name="Repeats">Repeats</string>
     <string name="Left">Left</string>
     <string name="Next">Next:</string>
+    <string name="Uses">Uses:\u0020</string>
+    <string name="LastMonth">Last Month</string>
 </resources>

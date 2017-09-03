@@ -1,43 +1,56 @@
 package barnett.george.budgey;
 
-/**
- * Created by georgebarnett on 30/08/2017.
- */
-
 public class Category {
 
-    int _ID;
-    String Name;
+    int ID;
+    String name;
     int counter;
+    double amount;
 
-    public Category(int _ID, String name, int counter) {
-        this._ID = _ID;
-        Name = name;
+    public Category(int ID, String name, int counter, double amount) {
+        this.ID = ID;
+        this.name = name;
         this.counter = counter;
+        this.amount = amount;
     }
 
     public int getID() {
-        return _ID;
+        return ID;
     }
     public String getName() {
-        return Name;
+        return name;
     }
     public int getCounter() {
         return counter;
     }
+    public double getAmount() {
+        return amount;
+    }
 
-    public void setID(int _ID) {
-        this._ID = _ID;
+    public void setID(int ID) {
+        this.ID = ID;
     }
     public void setName(String name) {
-        Name = name;
+        this.name = name;
     }
     public void setCounter(int counter) {
         this.counter = counter;
     }
-    public void setAll(int _ID, String name, int counter) {
-        this._ID = _ID;
-        Name = name;
+    public void setAmount(double amount) {
+        this.amount = amount;
+    }
+    public void setAll(int ID, String name, int counter, double amount){
+        this.ID = ID;
+        this.name = name;
         this.counter = counter;
+        this.amount = amount;
+    }
+
+    public void increaseCounter(){
+        this.counter++;
+    }
+
+    public void increaseAmount(double increaseAmount){
+        this.amount += increaseAmount;
     }
 }
