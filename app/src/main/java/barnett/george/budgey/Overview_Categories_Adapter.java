@@ -43,7 +43,7 @@ public class Overview_Categories_Adapter extends RecyclerView.Adapter<Overview_C
             Intent intent = new Intent(context, Info_Activity.class);
             Category category = values.get( getAdapterPosition() );
 
-            // TODO Pass Recurring through
+            // onclick goes to category info
             intent.putExtra("Category",category.getID());
             context.startActivity(intent);
         }

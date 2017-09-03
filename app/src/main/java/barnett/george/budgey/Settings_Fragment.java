@@ -54,6 +54,7 @@ public class Settings_Fragment extends Fragment implements View.OnClickListener{
                 updateDatabase.CheckRecurring();
                 break;
             case R.id.UpdateCategories:
+                updateDatabase.UpdateCategoriesCheckRepeats();
                 updateDatabase.UpdateCategoriesCounterList();
                 updateDatabase.UpadateCategoriesMonthAmount();
                 break;

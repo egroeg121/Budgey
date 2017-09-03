@@ -23,7 +23,7 @@ public class Transaction {
     }
 
     /*     Getters      */
-    public int getId() {
+    public int getID() {
         return id;
     }
     public String getName() {
@@ -49,7 +49,7 @@ public class Transaction {
 
 
     /*     Setters      */
-    public void setId(int id) {
+    public void setID(int id) {
         this.id = id;
     }
     public void setName(String name) {

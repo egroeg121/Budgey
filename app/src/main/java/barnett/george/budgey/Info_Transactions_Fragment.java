@@ -74,7 +74,7 @@ public class Info_Transactions_Fragment extends Fragment implements View.OnClick
             dbHandler.OpenDatabase();
             transaction = dbHandler.getTransaction(ID);
             dbHandler.CloseDatabase();
-            ID = transaction.getId();
+            ID = transaction.getID();
             name = transaction.getName();
             amount = transaction.getAmount();
             category = transaction.getCategory();
@@ -119,7 +119,7 @@ public class Info_Transactions_Fragment extends Fragment implements View.OnClick
 
                 // Put into Database
                 dbHandler.OpenDatabase();
-                if (transaction.getId() == -1){
+                if (transaction.getID() == -1){
                     dbHandler.addTransaction(transaction);
                 }else{
                     dbHandler.editTransaction(transaction);

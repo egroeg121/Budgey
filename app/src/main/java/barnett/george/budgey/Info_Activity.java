@@ -22,7 +22,14 @@ public class Info_Activity extends FragmentActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.info_activity);
 
+        // Which page to load
         Intent intent = getIntent();
+        if (intent.getIntExtra("Category",0) != 0){
+            StartPage = 0;
+        }
+        if (intent.getIntExtra("Budget",0) != 0){
+            StartPage = 1;
+        }
         if (intent.getIntExtra("Transaction",0) != 0){
             StartPage = 2;
         }

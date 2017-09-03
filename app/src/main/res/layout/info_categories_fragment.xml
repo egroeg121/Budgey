@@ -16,122 +16,46 @@
             android:layout_width="match_parent"
             android:layout_height="1dp"
             android:layout_alignParentStart="true"
+            android:layout_alignParentTop="true"
             android:background="@android:color/darker_gray"
-            android:paddingStart="20dp"
             android:paddingEnd="20dp"
-            android:layout_alignParentTop="true" />
+            android:paddingStart="20dp" />
 
         <TextView
             android:id="@+id/TitleText"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_alignParentStart="true"
+            android:layout_below="@+id/TopGreyBar"
             android:background="@color/MainGreen"
             android:padding="@dimen/PagePadding"
             android:text="@string/CategoriesInfo"
             android:textColor="@color/MainWhite"
             android:textSize="@dimen/Title"
-            android:textStyle="bold"
-            android:layout_below="@+id/TopGreyBar"
-            android:layout_alignParentStart="true" />
+            android:textStyle="bold" />
 
         <TextView
             android:id="@+id/NameText"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignBottom="@+id/NameEdit"
-            android:layout_alignEnd="@+id/AmountText"
-            android:layout_alignParentStart="true"
-            android:layout_below="@+id/TitleText"
-            android:layout_toStartOf="@+id/NameEdit"
             android:gravity="center"
             android:padding="@dimen/PagePadding"
             android:text="Name:"
             android:textColor="@color/DarkGrey"
             android:textSize="@dimen/SearchBar"
-            android:textStyle="bold" />
+            android:textStyle="bold"
+            android:layout_alignBaseline="@+id/NameEdit"
+            android:layout_alignBottom="@+id/NameEdit"
+            android:layout_alignParentStart="true" />
 
         <EditText
             android:id="@+id/NameEdit"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:ems="10"
+            android:inputType="textPersonName"
             android:layout_below="@+id/TitleText"
-            android:layout_toEndOf="@+id/AmountText"
-            android:ems="10"
-            android:inputType="textPersonName" />
-
-        <TextView
-            android:id="@+id/AmountText"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignBottom="@+id/AmountEdit"
-            android:layout_alignParentStart="true"
-            android:layout_below="@+id/NameText"
-            android:gravity="center"
-            android:padding="@dimen/PagePadding"
-            android:text="Amount:"
-            android:textColor="@color/DarkGrey"
-            android:textSize="@dimen/SearchBar"
-            android:textStyle="bold" />
-
-        <EditText
-            android:id="@+id/AmountEdit"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/NameText"
-            android:layout_toEndOf="@+id/AmountText"
-            android:ems="10"
-            android:inputType="textPersonName" />
-
-        <TextView
-            android:id="@+id/DateText"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentStart="true"
-            android:layout_below="@+id/AmountText"
-            android:layout_toStartOf="@+id/AmountEdit"
-            android:gravity="center"
-            android:padding="@dimen/PagePadding"
-            android:text="Date:"
-            android:textColor="@color/DarkGrey"
-            android:textSize="@dimen/SearchBar"
-            android:textStyle="bold" />
-
-        <EditText
-            android:id="@+id/DateDayEdit"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignBottom="@+id/DateText"
-            android:layout_below="@+id/AmountText"
-            android:layout_toEndOf="@+id/DateText"
-            android:ems="2"
-            android:hint="DD"
-            android:inputType="number"
-            android:maxLength="2" />
-
-        <EditText
-            android:id="@+id/DateMonthEdit"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignBottom="@+id/DateDayEdit"
-            android:layout_below="@+id/AmountEdit"
-            android:layout_toEndOf="@+id/DateDayEdit"
-            android:ems="2"
-            android:hint="MM"
-            android:inputType="number"
-            android:maxLength="2" />
-
-        <EditText
-            android:id="@+id/DateYearEdit"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignBottom="@+id/DateMonthEdit"
-            android:layout_below="@+id/AmountEdit"
-            android:layout_toEndOf="@+id/DateMonthEdit"
-            android:ems="3"
-            android:hint="YYYY"
-            android:inputType="number"
-            android:maxEms="3"
-            android:maxLength="4" />
+            android:layout_toEndOf="@+id/NameText" />
 
         <LinearLayout
             android:id="@+id/DateBar"
@@ -156,17 +80,6 @@
             android:tint="@color/MainWhite"
             app:backgroundTint="@color/MainGreen"
             app:layout_anchorGravity="bottom|right" />
-
-        <Button
-            android:id="@+id/button"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignBottom="@+id/DateYearEdit"
-            android:layout_below="@+id/AmountEdit"
-            android:layout_toEndOf="@+id/DateYearEdit"
-            android:background="@color/MainWhite"
-            android:text="Today"
-            android:textColor="@color/DarkGrey" />
 
     </RelativeLayout>
 

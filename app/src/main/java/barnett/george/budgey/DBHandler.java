@@ -130,9 +130,7 @@ public class DBHandler extends SQLiteOpenHelper {
 
     // Inserts the new version of the transaction into the database
     public void editTransaction(Transaction transaction){
-        //OpenDatabase();
-
-        int id = transaction.getId();
+        int id = transaction.getID();
 
         // Create a new map of values, where column names are the keys
         ContentValues values = new ContentValues();
@@ -144,7 +142,6 @@ public class DBHandler extends SQLiteOpenHelper {
 
         String[] IDString = {Integer.toString(id)};
         db.update(TABLE_TRANSACTIONS,values,COLUMN_ID + "=?",IDString);
-        //CloseDatabase();
     }
 
     public void deleteTransactionFromRecurring(int recurringid){
@@ -170,6 +167,13 @@ public class DBHandler extends SQLiteOpenHelper {
 
     }
 
+    public void editAllTransactionsCategory(String oldcategory,String newcategory){
+        ContentValues values = new ContentValues();
+        values.put( COLUMN_CATEGORY, newcategory );
+
+        String[] CategoryString = {oldcategory};
+        db.update(TABLE_TRANSACTIONS,values,COLUMN_CATEGORY + "=?",CategoryString);
+    }
 
     public ArrayList getAllTransactions(){
 
@@ -295,6 +299,14 @@ public class DBHandler extends SQLiteOpenHelper {
         //CloseDatabase();
     }
 
+    public void editAllRecurringCategory(String oldcategory,String newcategory){
+        ContentValues values = new ContentValues();
+        values.put( COLUMN_CATEGORY, newcategory );
+
+        String[] CategoryString = {oldcategory};
+        db.update(TABLE_RECURRING,values,COLUMN_CATEGORY + "=?",CategoryString);
+    }
+
     public Recurring getRecurring(int id){
         String[] IDString = {Integer.toString(id)};
         Cursor cursor = db.query(TABLE_RECURRING,null,COLUMN_ID + "=?",IDString,null,null,null);
@@ -378,6 +390,7 @@ public class DBHandler extends SQLiteOpenHelper {
 
         String[] IDString = {Integer.toString(id)};
         db.update(TABLE_CATEGORIES,values,COLUMN_ID + "=?",IDString);
+
         //CloseDatabase();
     }
 

@@ -45,7 +45,6 @@ public class Overview_Recurring_Adapter extends RecyclerView.Adapter<Overview_Re
             Intent intent = new Intent(context, Info_Activity.class);
             Recurring recurring = values.get( getAdapterPosition() );
 
-            // TODO Pass Recurring through
             intent.putExtra("Recurring",recurring.getID());
             context.startActivity(intent);
         }

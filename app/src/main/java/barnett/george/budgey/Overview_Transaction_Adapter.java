@@ -43,7 +43,7 @@ public class Overview_Transaction_Adapter extends RecyclerView.Adapter<Overview_
             Intent intent = new Intent(context, Info_Activity.class);
             Transaction transaction = values.get( getAdapterPosition() );
 
-            intent.putExtra("Transaction",transaction.getId());
+            intent.putExtra("Transaction",transaction.getID());
             context.startActivity(intent);
         }
     }

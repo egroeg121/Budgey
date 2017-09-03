@@ -46,8 +46,8 @@ public class Category {
         this.amount = amount;
     }
 
-    public void increaseCounter(){
-        this.counter++;
+    public void increaseCounter(int increaseamount){
+        this.counter += increaseamount;
     }
 
     public void increaseAmount(double increaseAmount){

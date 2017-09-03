@@ -81,6 +81,45 @@ public class UpdateDatabase {
         }
     }
 
+    public void UpdateCategoriesCheckRepeats(){
+        // load current categories into category list
+        dbHandler.OpenDatabase();
+        ArrayList<Category> CategoryObjectList = dbHandler.getAllCategory();
+        // Create Category String List
+        ArrayList<String> CategoryStringList = new ArrayList<>();
+        for (int i = 0; i < CategoryObjectList.size(); i++) {
+            CategoryStringList.add( CategoryObjectList.get(i).getName() );
+        }
+
+        Category category;
+        // cycle through object list
+        for (int i = 0; i < CategoryObjectList.size(); i++) {
+            category = CategoryObjectList.get(i);
+            CategoryObjectList.remove(i);
+            CategoryStringList.remove(i); // remove so it doesn't find itself
+
+            // find name in Category List
+            int index = CategoryStringList.indexOf( category.getName() );
+
+            if (index == -1){
+                CategoryObjectList.add(category);
+                CategoryStringList.add(category.getName());
+            }else{
+                CategoryObjectList.get(index).increaseCounter( category.getCounter() );
+                CategoryObjectList.get(index).increaseAmount( category.getAmount() );
+                i--;
+            }
+        }
+
+        // Add back to database
+        dbHandler.deleteAllCategory();
+        for (int i = 0; i < CategoryObjectList.size(); i++) {
+            dbHandler.addCategory(CategoryObjectList.get(i));
+        }
+
+        dbHandler.CloseDatabase();
+    }
+
     public void UpdateCategoriesCounterList(){
         dbHandler.OpenDatabase();
         
@@ -116,33 +155,21 @@ public class UpdateDatabase {
                 CategoryStringList.add(category.getName());
                 CategoryObjectList.add(category);
 
-
-
             }else{
-                // if in category list
+                // if in category list incrase counter
                 category = CategoryObjectList.get(index);
-                category.increaseCounter();
+                category.increaseCounter(1);
 
                 // update category List
                 CategoryObjectList.set(index,category);
             }
         }
 
-        for (int i = 0; i < CategoryObjectList.size(); i++) {
-            if (CategoryObjectList.get(i).getCounter() == 0){
-                CategoryObjectList.remove(i);
-                i--;
-            }
-        }
-
+        // Add back to database
         dbHandler.deleteAllCategory();
         for (int i = 0; i < CategoryObjectList.size(); i++) {
             dbHandler.addCategory(CategoryObjectList.get(i));
         }
-        
-
-        
-        // at end if counter = 0, delete transaction
         
         dbHandler.CloseDatabase();
     }
