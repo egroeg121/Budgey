@@ -31,7 +31,7 @@ public class Info_Recurring_Fragment extends Fragment implements View.OnClickLis
     EditText NameEdit;
     EditText AmountEdit;
     EditText CategoryEdit;
-    EditText NumOfUnitEdit;;
+    EditText NumOfUnitEdit;
     EditText RepeatsEdit;
 
     EditText DateDayEdit;

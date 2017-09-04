@@ -30,14 +30,19 @@
 
     <string name="Name">Name</string>
     <string name="Amount">Amount</string>
+    <string name="Total">Total</string>
     <string name="Date">Date</string>
     <string name="Category">Category</string>
     <string name="Today">Today</string>
     <string name="StartDate">Start Date</string>
     <string name="Every">Every:\u0020</string>
+    <string name="Length">Length:\u0020</string>
     <string name="Repeats">Repeats</string>
     <string name="Left">Left</string>
     <string name="Next">Next:</string>
     <string name="Uses">Uses:\u0020</string>
     <string name="LastMonth">Last Month</string>
+
+
+    <string name="Slash">\</string>
 </resources>

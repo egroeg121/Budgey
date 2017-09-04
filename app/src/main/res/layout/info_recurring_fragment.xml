@@ -218,12 +218,12 @@
             android:id="@+id/CategoryEdit"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:focusable="false"
             android:layout_above="@+id/DateText"
             android:layout_below="@+id/AmountText"
             android:layout_toEndOf="@+id/AmountText"
             android:ems="10"
-            android:hint="Name"
+            android:focusable="false"
+            android:hint="Categories"
             android:inputType="textPersonName" />
 
         <EditText

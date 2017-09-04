@@ -26,7 +26,7 @@
                 android:gravity="center_vertical"
                 android:text="@string/Name"
                 android:textAppearance="@style/TextAppearance.AppCompat.Headline"
-                android:layout_above="@+id/TimeTypeText"
+                android:layout_alignParentTop="true"
                 android:layout_alignParentStart="true" />
 
             <TextView
@@ -44,12 +44,12 @@
                 android:id="@+id/NumOfTypeText"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_alignParentBottom="true"
-                android:layout_toEndOf="@+id/EveryText"
                 android:ellipsize="marquee"
                 android:maxLines="1"
                 android:text="12"
-                android:textAppearance="@android:style/TextAppearance.Material.Medium" />
+                android:textAppearance="@android:style/TextAppearance.Material.Medium"
+                android:layout_alignParentBottom="true"
+                android:layout_toEndOf="@+id/EveryText" />
 
             <TextView
                 android:id="@+id/EveryText"
@@ -66,12 +66,12 @@
                 android:id="@+id/AmountText"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_alignBottom="@+id/NameText"
-                android:layout_alignParentEnd="true"
                 android:layout_alignWithParentIfMissing="true"
                 android:gravity="center_vertical"
                 android:text="@string/Amount"
-                android:textAppearance="@style/TextAppearance.AppCompat.Headline" />
+                android:textAppearance="@style/TextAppearance.AppCompat.Large"
+                android:layout_alignParentTop="true"
+                android:layout_alignParentEnd="true" />
 
         </RelativeLayout>
 

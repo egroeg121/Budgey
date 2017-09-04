@@ -29,7 +29,7 @@
             android:layout_below="@+id/TopGreyBar"
             android:background="@color/MainGreen"
             android:padding="@dimen/PagePadding"
-            android:text="@string/BudgetInfo"
+            android:text="@string/RecurringInfo"
             android:textColor="@color/MainWhite"
             android:textSize="@dimen/Title"
             android:textStyle="bold" />
@@ -38,60 +38,68 @@
             android:id="@+id/NameText"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignBottom="@+id/NameEdit"
-            android:layout_alignEnd="@+id/AmountText"
+            android:layout_alignEnd="@+id/TotalAmountText"
             android:layout_alignParentStart="true"
             android:layout_below="@+id/TitleText"
-            android:layout_toStartOf="@+id/NameEdit"
             android:gravity="center"
             android:padding="@dimen/PagePadding"
-            android:text="Name:"
+            android:text="@string/Name"
             android:textColor="@color/DarkGrey"
             android:textSize="@dimen/SearchBar"
             android:textStyle="bold" />
-
-        <EditText
-            android:id="@+id/NameEdit"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/TitleText"
-            android:layout_toEndOf="@+id/AmountText"
-            android:ems="10"
-            android:inputType="textPersonName" />
 
         <TextView
-            android:id="@+id/AmountText"
+            android:id="@+id/TotalAmountText"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignBottom="@+id/AmountEdit"
+            android:layout_alignEnd="@+id/CategoryText"
             android:layout_alignParentStart="true"
             android:layout_below="@+id/NameText"
             android:gravity="center"
             android:padding="@dimen/PagePadding"
-            android:text="Amount:"
+            android:text="@string/Total"
             android:textColor="@color/DarkGrey"
             android:textSize="@dimen/SearchBar"
             android:textStyle="bold" />
 
-        <EditText
-            android:id="@+id/AmountEdit"
+        <TextView
+            android:id="@+id/CategoryText"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/NameText"
-            android:layout_toEndOf="@+id/AmountText"
-            android:ems="10"
-            android:inputType="textPersonName" />
+            android:layout_alignParentStart="true"
+            android:layout_below="@+id/TotalAmountText"
+            android:gravity="center"
+            android:padding="@dimen/PagePadding"
+            android:text="Categories"
+            android:textColor="@color/DarkGrey"
+            android:textSize="@dimen/SearchBar"
+            android:textStyle="bold" />
 
         <TextView
             android:id="@+id/DateText"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_alignEnd="@+id/CategoryText"
             android:layout_alignParentStart="true"
-            android:layout_below="@+id/AmountText"
-            android:layout_toStartOf="@+id/AmountEdit"
+            android:layout_below="@+id/CategoryText"
             android:gravity="center"
             android:padding="@dimen/PagePadding"
-            android:text="Date:"
+            android:text="@string/StartDate"
+            android:textColor="@color/DarkGrey"
+            android:textSize="@dimen/SearchBar"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/UnitofTimeText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignEnd="@+id/CategoryText"
+            android:layout_alignParentStart="true"
+            android:layout_below="@+id/DateText"
+            android:layout_toStartOf="@+id/DateDayEdit"
+            android:gravity="center"
+            android:padding="@dimen/PagePadding"
+            android:text="@string/Every"
             android:textColor="@color/DarkGrey"
             android:textSize="@dimen/SearchBar"
             android:textStyle="bold" />
@@ -100,10 +108,10 @@
             android:id="@+id/DateDayEdit"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignBottom="@+id/DateText"
-            android:layout_below="@+id/AmountText"
-            android:layout_toEndOf="@+id/DateText"
+            android:layout_below="@+id/CategoryText"
+            android:layout_toEndOf="@+id/CategoryText"
             android:ems="2"
+            android:gravity="center"
             android:hint="DD"
             android:inputType="number"
             android:maxLength="2" />
@@ -113,9 +121,10 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignBottom="@+id/DateDayEdit"
-            android:layout_below="@+id/AmountEdit"
+            android:layout_alignTop="@+id/DateDayEdit"
             android:layout_toEndOf="@+id/DateDayEdit"
             android:ems="2"
+            android:gravity="center"
             android:hint="MM"
             android:inputType="number"
             android:maxLength="2" />
@@ -125,13 +134,14 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignBottom="@+id/DateMonthEdit"
-            android:layout_below="@+id/AmountEdit"
+            android:layout_alignTop="@+id/DateMonthEdit"
             android:layout_toEndOf="@+id/DateMonthEdit"
-            android:ems="3"
-            android:hint="YYYY"
+            android:ems="2"
+            android:gravity="center"
+            android:hint="YY"
             android:inputType="number"
             android:maxEms="3"
-            android:maxLength="4" />
+            android:maxLength="2" />
 
         <LinearLayout
             android:id="@+id/DateBar"
@@ -152,22 +162,88 @@
             android:layout_above="@+id/DateBar"
             android:layout_alignParentEnd="true"
             android:layout_margin="@dimen/PagePadding"
-            android:onClick="AddButtonClicked"
             android:src="@drawable/ic_done"
             android:tint="@color/MainWhite"
             app:backgroundTint="@color/MainGreen"
             app:layout_anchorGravity="bottom|right" />
 
         <Button
-            android:id="@+id/button"
+            android:id="@+id/TodayDateButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignBottom="@+id/DateYearEdit"
-            android:layout_below="@+id/AmountEdit"
+            android:layout_alignTop="@+id/DateYearEdit"
             android:layout_toEndOf="@+id/DateYearEdit"
             android:background="@color/MainWhite"
             android:text="Today"
             android:textColor="@color/DarkGrey" />
+
+        <Spinner
+            android:id="@+id/UnitOfTimeSpinner"
+            android:layout_width="100dp"
+            android:layout_height="wrap_content"
+            android:layout_alignBottom="@+id/NumOfUnitEdit"
+            android:layout_below="@+id/DateDayEdit"
+            android:layout_toEndOf="@+id/DateDayEdit"
+            android:layout_weight="0.8"
+            android:backgroundTint="@color/DarkGrey"
+            android:focusable="false" />
+
+        <EditText
+            android:id="@+id/NameEdit"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBaseline="@+id/NameText"
+            android:layout_alignBottom="@+id/NameText"
+            android:layout_toEndOf="@+id/NameText"
+            android:ems="10"
+            android:hint="Name"
+            android:inputType="textPersonName" />
+
+        <EditText
+            android:id="@+id/CategoryEdit"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/TotalAmountText"
+            android:layout_toEndOf="@+id/TotalAmountText"
+            android:ems="9"
+            android:focusable="false"
+            android:hint="Categories"
+            android:inputType="textPersonName" />
+
+        <EditText
+            android:id="@+id/TotalAmountEdit"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBaseline="@+id/TotalAmountText"
+            android:layout_alignBottom="@+id/TotalAmountText"
+            android:layout_toEndOf="@+id/TotalAmountText"
+            android:ems="10"
+            android:hint="Total Amount"
+            android:inputType="numberDecimal" />
+
+        <EditText
+            android:id="@+id/NumOfUnitEdit"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/DateText"
+            android:layout_toEndOf="@+id/DateText"
+            android:ems="2"
+            android:gravity="center"
+            android:hint="N"
+            android:inputType="number"
+            android:maxLength="2" />
+
+        <ImageButton
+            android:id="@+id/ClearCategoryString"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_above="@+id/DateYearEdit"
+            android:layout_alignEnd="@+id/TotalAmountEdit"
+            android:layout_alignTop="@+id/CategoryEdit"
+            android:background="@color/MainWhite"
+            android:tint="@color/DarkGrey"
+            app:srcCompat="@drawable/ic_delete" />
 
     </RelativeLayout>
 

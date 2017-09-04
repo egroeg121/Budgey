@@ -27,6 +27,8 @@ public class Settings_Fragment extends Fragment implements View.OnClickListener{
         AddTransactions.setOnClickListener(this);
         Button AddRecurring = (Button) view.findViewById(R.id.AddRecurring);
         AddRecurring.setOnClickListener(this);
+        Button AddBudgets = (Button) view.findViewById(R.id.AddBudgets);
+        AddBudgets.setOnClickListener(this);
         Button CheckRecurring = (Button) view.findViewById(R.id.CheckRecurring);
         CheckRecurring.setOnClickListener(this);
         Button UpdateCategories = (Button) view.findViewById(R.id.UpdateCategories);
@@ -49,6 +51,10 @@ public class Settings_Fragment extends Fragment implements View.OnClickListener{
             case R.id.AddRecurring:
                 AddRecurring addrecurring = new AddRecurring( getContext() );
                 addrecurring.add();
+                break;
+            case R.id.AddBudgets:
+                AddBudgets addBudgets = new AddBudgets( getContext() );
+                addBudgets.add();
                 break;
             case R.id.CheckRecurring:
                 updateDatabase.CheckRecurring();

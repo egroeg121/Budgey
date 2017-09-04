@@ -6,30 +6,30 @@ import java.util.ArrayList;
 public class Budget {
 
     int ID;
-    String Name;
+    String name;
     double totalamount;
     String categorystring;
     long nextdate;
     int numofunit;
-    int typetime;
-    double currentamount;
+    int timetype;
+    double amount;
 
-    public Budget(int ID, String name, double totalamount, String categorystring, long nextdate, int numofunit, int typetime, double currentamount) {
+    public Budget(int ID, String name, double totalamount, String categorystring, long nextdate, int numofunit, int timetype, double amount) {
         this.ID = ID;
-        Name = name;
+        this.name = name;
         this.totalamount = totalamount;
         this.categorystring = categorystring;
         this.nextdate = nextdate;
         this.numofunit = numofunit;
-        this.typetime = typetime;
-        this.currentamount = currentamount;
+        this.timetype = timetype;
+        this.amount = amount;
     }
 
     public int getID() {
         return ID;
     }
     public String getName() {
-        return Name;
+        return name;
     }
     public double getTotalAmount() {
         return totalamount;
@@ -43,11 +43,11 @@ public class Budget {
     public int getNumofUnit() {
         return numofunit;
     }
-    public int getTypeTime() {
-        return typetime;
+    public int getTimeType() {
+        return timetype;
     }
-    public double getCurrentAmount() {
-        return currentamount;
+    public double getAmount() {
+        return amount;
     }
     public String[] getCategoryList(){
         String[] CategoryList = categorystring.split(";");
@@ -58,9 +58,9 @@ public class Budget {
         this.ID = ID;
     }
     public void setName(String name) {
-        Name = name;
+        this.name = name;
     }
-    public void setTotalamount(double totalamount) {
+    public void setTotalAmount(double totalamount) {
         this.totalamount = totalamount;
     }
     public void setCategorystring(String categorystring) {
@@ -72,11 +72,11 @@ public class Budget {
     public void setNumofunit(int numofunit) {
         this.numofunit = numofunit;
     }
-    public void setTypetime(int typetime) {
-        this.typetime = typetime;
+    public void setTimeType(int timetype) {
+        this.timetype = timetype;
     }
-    public void setCurrentamount(double currentamount) {
-        this.currentamount = currentamount;
+    public void setAmout(double amount) {
+        this.amount = amount;
     }
     public void setCategoryList (String [] categorylist){
         categorystring = null;

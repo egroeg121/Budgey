@@ -214,4 +214,22 @@ public class UpdateDatabase {
 
         dbHandler.CloseDatabase();
     }
+
+    public void UpadateBudgetAmounts(){
+        dbHandler.OpenDatabase();
+
+        // Get All budget objects
+
+        // cycle through arraylist
+
+            // get start and end dates
+
+            // cycle through each category in category string
+
+                // get each transactions with that category sorted by date
+
+                //
+
+        dbHandler.CloseDatabase();
+    }
 }

@@ -27,15 +27,18 @@ public class DBHandler extends SQLiteOpenHelper {
     public static final String TABLE_TRANSACTIONS = "transactions";
     public static final String TABLE_RECURRING = "recurring";
     public static final String TABLE_CATEGORIES = "categories";
+    public static final String TABLE_BUDGETS = "budgets";
 
     // Add Columms
     public static final String COLUMN_ID = "_id";
     public static final String COLUMN_NAME = "name";
     public static final String COLUMN_AMOUNT = "amount";
+    public static final String COLUMN_TOTALAMOUNT = "totalamount";
     public static final String COLUMN_DATE = "date";
     public static final String COLUMN_STARTDATE = "startdate";
     public static final String COLUMN_NEXTDATE = "nextdate";
     public static final String COLUMN_CATEGORY = "category";
+    public static final String COLUMN_CATEGORYSTRING = "categorystring";
     public static final String COLUMN_TIMETYPE = "timetype";
     public static final String COLUMN_NUMOFUNIT = "numofunit";
     public static final String COLUMN_REPEATS = "repeats";
@@ -45,7 +48,7 @@ public class DBHandler extends SQLiteOpenHelper {
 
     /* Table Lists
     Transactions: _id, name, amount, date, recurringid, category
-    Budgets:
+    Budgets: _id, name, amount, totalamount, nextdate, categorystring,timetype,numofunit
     Recurring: _id, name, amount, category, startdate, nextdate, timetype, numofunit, repeats, counter
     Categories: _id, name, counter, amount
     */
@@ -91,10 +94,22 @@ public class DBHandler extends SQLiteOpenHelper {
                 COLUMN_COUNTER + " INTEGER" + "" +
                 ");";
 
+        String budgetsquery = "CREATE TABLE " + TABLE_BUDGETS + "(" +
+                COLUMN_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
+                COLUMN_NAME + " TEXT" + "," +
+                COLUMN_AMOUNT + " REAL" + "," +
+                COLUMN_TOTALAMOUNT + " REAL" + "," +
+                COLUMN_CATEGORYSTRING + " TEXT" + "," +
+                COLUMN_NEXTDATE + " INTEGER" + "," +
+                COLUMN_TIMETYPE + " INTaEGER" + "," +
+                COLUMN_NUMOFUNIT + " INTEGER" + "" +
+                ");";
+
         // Executes table from above SQL
         db.execSQL(transactionquery);
         db.execSQL(recurringquery);
         db.execSQL(categorysquery);
+        db.execSQL(budgetsquery);
     }
 
     @Override
@@ -451,6 +466,78 @@ public class DBHandler extends SQLiteOpenHelper {
         editCategory(category);
 
         return category;
+    }
+
+    /*
+    Budgets : _id, name, amount, category, startdate, nextdate, timetype, numofunit, repeats, counter
+     */
+
+    public void addBudget(Budget budget){
+        // Create a new map of values, where column names are the keys
+        ContentValues values = new ContentValues();
+        values.put( COLUMN_NAME, budget.getName() );
+        values.put( COLUMN_AMOUNT, budget.getAmount() );
+        values.put( COLUMN_TOTALAMOUNT, budget.getTotalAmount() );
+        values.put( COLUMN_CATEGORYSTRING, budget.getCategoryString() );
+        values.put( COLUMN_NEXTDATE, budget.getNextDate() );
+        values.put( COLUMN_TIMETYPE, budget.getTimeType() );
+        values.put( COLUMN_NUMOFUNIT, budget.getNumofUnit() );
+
+        db.insert(TABLE_BUDGETS,null,values);
+    }
+
+    public void editBudget(Budget budget){
+        //OpenDatabase();
+
+        int id = budget.getID();
+
+        // Create a new map of values, where column names are the keys
+        ContentValues values = new ContentValues();
+        values.put( COLUMN_NAME, budget.getName() );
+        values.put( COLUMN_AMOUNT, budget.getAmount() );
+        values.put( COLUMN_TOTALAMOUNT, budget.getTotalAmount() );
+        values.put( COLUMN_CATEGORYSTRING, budget.getCategoryString() );
+        values.put( COLUMN_NEXTDATE, budget.getNextDate() );
+        values.put( COLUMN_TIMETYPE, budget.getTimeType() );
+        values.put( COLUMN_NUMOFUNIT, budget.getNumofUnit() );
+
+        String[] IDString = {Integer.toString(id)};
+        db.update(TABLE_BUDGETS,values,COLUMN_ID + "=?",IDString);
+        //CloseDatabase();
+    }
+
+    public ArrayList getAllBudgets(){
+
+        // Initialise objects and Variables
+        ArrayList<Budget> BudgetsList = new ArrayList<Budget>();
+
+        // Query Database (load in cursur)
+        Cursor cursor = db.query(TABLE_BUDGETS,null,null,null,null,null, COLUMN_NAME + " ASC"); // Loads with Dates in descedning order
+
+        // Move to first row in cursor
+        cursor.moveToFirst();
+        while (!cursor.isAfterLast()){
+            if(cursor.getString( cursor.getColumnIndex(COLUMN_ID) )!= null){ // If the line is blank
+                // Set up Recurring object
+
+                // Get values from database
+                int id = cursor.getInt( cursor.getColumnIndex(COLUMN_ID) );
+                String name = cursor.getString( cursor.getColumnIndex(COLUMN_NAME) );
+                double amount = cursor.getDouble( cursor.getColumnIndex(COLUMN_AMOUNT) );
+                long nextdate = cursor.getLong( cursor.getColumnIndex(COLUMN_NEXTDATE) );
+                String categorystring = cursor.getString( cursor.getColumnIndex(COLUMN_CATEGORYSTRING) );
+                int numofunit = cursor.getInt( cursor.getColumnIndex(COLUMN_NUMOFUNIT) );
+                int timetype = cursor.getInt( cursor.getColumnIndex(COLUMN_TIMETYPE) );
+                double totalamount = cursor.getDouble( cursor.getColumnIndex(COLUMN_TOTALAMOUNT) );
+
+                // add values to transaction object
+                Budget budget = new Budget(id,name,totalamount,categorystring,nextdate,numofunit,timetype,amount);
+
+                BudgetsList.add( budget );
+            }
+            cursor.moveToNext();
+        }
+        return BudgetsList;
     }
 
     // This is for the database manager. Make sure you delete it when making a proper version

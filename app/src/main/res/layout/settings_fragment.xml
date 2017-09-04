@@ -31,17 +31,33 @@
         android:id="@+id/CheckRecurring"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentStart="true"
+        android:text="Check Recurring"
+        android:layout_below="@+id/AddBudgets"
+        android:layout_alignParentStart="true" />
+
+    <Button
+        android:id="@+id/AddBudgets"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Add Budgets"
         android:layout_below="@+id/AddRecurring"
-        android:text="Check Recurring" />
+        android:layout_alignParentStart="true" />
 
     <Button
         android:id="@+id/UpdateCategories"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentStart="true"
+        android:text="Update Categories"
         android:layout_below="@+id/CheckRecurring"
-        android:text="Update Categories" />
+        android:layout_alignParentStart="true" />
+
+    <Button
+        android:id="@+id/UpdateBudgets"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_below="@+id/UpdateCategories"
+        android:text="Update Budgets" />
 
     <Button
         android:id="@+id/deletebutton"
