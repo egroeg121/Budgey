@@ -77,8 +77,8 @@ public class Category_Activity extends Activity implements View.OnClickListener 
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.AddButton:
-                //Intent intent = new Intent(this, Info_Activity.class);
-                //startActivity(intent);
+                Intent intent = new Intent(this, Info_Activity.class);
+                startActivity(intent);
                 break;
         }
     }
