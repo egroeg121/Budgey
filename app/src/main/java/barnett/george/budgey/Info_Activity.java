@@ -43,6 +43,10 @@ public class Info_Activity extends FragmentActivity {
         viewPager.setCurrentItem( StartPage );
     }
 
+    // Parses Data into
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+    }
 
 }
 class InfoAdapter extends FragmentPagerAdapter {

@@ -197,14 +197,15 @@
             android:id="@+id/CategoryEdit"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:ems="10"
-            android:hint="Amount"
-            android:inputType="textPersonName"
-            android:textColor="@color/DarkGrey"
+            android:focusable="false"
+            android:layout_above="@+id/DateDayEdit"
             android:layout_alignEnd="@+id/TodayDateButton"
-            android:layout_toEndOf="@+id/CategoryText"
             android:layout_alignTop="@+id/CategoryText"
-            android:layout_above="@+id/DateDayEdit" />
+            android:layout_toEndOf="@+id/CategoryText"
+            android:ems="10"
+            android:hint="Category"
+            android:inputType="textPersonName"
+            android:textColor="@color/DarkGrey" />
 
     </RelativeLayout>
 

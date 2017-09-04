@@ -17,8 +17,9 @@
             </intent-filter>
         </activity>
 
-        <activity android:name=".Info_Activity">
-        </activity>
+        <activity android:name=".Info_Activity"></activity>
+
+        <activity android:name=".Category_Activity"></activity>
 
         <activity android:name="barnett.george.budgey.AndroidDatabaseManager"
             android:theme="@style/Theme.AppCompat.Light"/>

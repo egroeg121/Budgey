@@ -57,7 +57,6 @@ public class Info_Transactions_Fragment extends Fragment implements View.OnClick
         NameEdit = (EditText) view.findViewById(R.id.NameEdit);
         AmountEdit = (EditText) view.findViewById(R.id.AmountEdit);
         CategoryEdit = (EditText) view.findViewById(R.id.CategoryEdit);
-
         CategoryEdit.setOnClickListener(this);
 
         Intent intent = getActivity().getIntent();
@@ -126,7 +125,6 @@ public class Info_Transactions_Fragment extends Fragment implements View.OnClick
                 }
                 dbHandler.CloseDatabase();
 
-
                 getActivity().finish();
                 break;
             case R.id.TodayDateButton:
@@ -136,11 +134,16 @@ public class Info_Transactions_Fragment extends Fragment implements View.OnClick
                 DateYearEdit.setText( DateArray[2] );
                 break;
             case R.id.CategoryEdit:
-                Toast toast = Toast.makeText(getContext(), "Hello toast!", Toast.LENGTH_SHORT);
-                toast.show();
-
-
+                Intent intent = new Intent(getActivity(), Category_Activity.class);
+                startActivityForResult(intent,1003);
                 break;
+        }
+    }
+
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (requestCode == 1003) {
+            category = data.getStringExtra("Category");
+            CategoryEdit.setText(category);
         }
     }
 

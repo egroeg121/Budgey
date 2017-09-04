@@ -26,6 +26,8 @@
     <string name="CategoriesInfo">Categories Info</string>
     <string name="RecurringInfo">Recurring Info</string>
 
+    <string name="CategoriesList">Categories List</string>
+
     <string name="Name">Name</string>
     <string name="Amount">Amount</string>
     <string name="Date">Date</string>

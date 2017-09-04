@@ -196,12 +196,12 @@
             android:id="@+id/UnitOfTimeSpinner"
             android:layout_width="100dp"
             android:layout_height="wrap_content"
-            android:layout_alignBottom="@+id/NumOfUnitEdit"
-            android:layout_alignEnd="@+id/TodayDateButton"
-            android:layout_below="@+id/DateMonthEdit"
-            android:layout_toEndOf="@+id/DateDayEdit"
+            android:focusable="false"
             android:layout_weight="0.8"
-            android:backgroundTint="@color/DarkGrey" />
+            android:backgroundTint="@color/DarkGrey"
+            android:layout_below="@+id/DateDayEdit"
+            android:layout_above="@+id/RepeatsText"
+            android:layout_toEndOf="@+id/DateDayEdit" />
 
         <EditText
             android:id="@+id/NameEdit"
@@ -218,6 +218,7 @@
             android:id="@+id/CategoryEdit"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:focusable="false"
             android:layout_above="@+id/DateText"
             android:layout_below="@+id/AmountText"
             android:layout_toEndOf="@+id/AmountText"

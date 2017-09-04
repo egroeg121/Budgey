@@ -45,33 +45,34 @@
             android:padding="@dimen/PagePadding"
             android:textColor="@color/MainWhite"
             android:textColorHint="@color/MainWhite"
-            android:textSize="@dimen/SearchBar" />
+            android:textSize="@dimen/SearchBar"
+            android:layout_toStartOf="@+id/searchButton" />
 
         <ImageButton
             android:id="@+id/searchButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_above="@+id/RecurringList"
             android:layout_below="@+id/TitleText"
             android:layout_toStartOf="@+id/sortButton"
             android:background="@color/MainGreen"
             android:paddingLeft="@dimen/PagePadding"
             android:paddingRight="@dimen/PagePadding"
             android:src="@drawable/ic_search"
-            android:tint="@color/MainWhite" />
+            android:tint="@color/MainWhite"
+            android:layout_above="@+id/TransactionList" />
 
         <ImageButton
             android:id="@+id/sortButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_above="@+id/RecurringList"
             android:layout_alignParentEnd="true"
             android:layout_below="@+id/TitleText"
             android:paddingLeft="@dimen/PagePadding"
             android:paddingRight="@dimen/PagePadding"
             android:src="@drawable/ic_sort"
             android:background="@color/MainGreen"
-            android:tint="@color/MainWhite" />
+            android:tint="@color/MainWhite"
+            android:layout_above="@+id/TransactionList" />
 
         <android.support.v7.widget.RecyclerView
             android:id="@+id/TransactionList"
