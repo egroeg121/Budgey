@@ -111,14 +111,14 @@
             android:id="@+id/DateMonthEdit"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignBottom="@+id/DateText"
-            android:layout_alignTop="@+id/DateDayEdit"
-            android:layout_toEndOf="@+id/DateDayEdit"
             android:ems="2"
             android:gravity="center"
             android:hint="MM"
             android:inputType="number"
-            android:maxLength="2" />
+            android:maxLength="2"
+            android:layout_alignBaseline="@+id/DateDayEdit"
+            android:layout_alignBottom="@+id/DateDayEdit"
+            android:layout_toEndOf="@+id/DateDayEdit" />
 
         <EditText
             android:id="@+id/DateYearEdit"
@@ -185,13 +185,13 @@
             android:id="@+id/AmountEdit"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_alignEnd="@+id/NameEdit"
+            android:layout_below="@+id/NameEdit"
+            android:layout_toEndOf="@+id/CategoryText"
             android:ems="10"
             android:hint="Amount"
-            android:inputType="textPersonName"
-            android:textColor="@color/DarkGrey"
-            android:layout_below="@+id/NameEdit"
-            android:layout_alignEnd="@+id/NameEdit"
-            android:layout_toEndOf="@+id/CategoryText" />
+            android:inputType="numberDecimal"
+            android:textColor="@color/DarkGrey" />
 
         <EditText
             android:id="@+id/CategoryEdit"

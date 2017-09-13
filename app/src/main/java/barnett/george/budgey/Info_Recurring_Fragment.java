@@ -26,6 +26,7 @@ public class Info_Recurring_Fragment extends Fragment implements View.OnClickLis
 
     DateHandler dateHandler;
     DBHandler dbHandler;
+    InputValidation inputValidation;
 
     Button TodayDateButton;
     EditText NameEdit;
@@ -89,6 +90,7 @@ public class Info_Recurring_Fragment extends Fragment implements View.OnClickLis
         // Set up Handlers
         dateHandler = new DateHandler();
         dbHandler = new DBHandler(getContext(),null,null,1);
+        inputValidation = new InputValidation(getContext());
 
         // Get id from intnet
         Intent intent =getActivity().getIntent();
@@ -120,6 +122,7 @@ public class Info_Recurring_Fragment extends Fragment implements View.OnClickLis
             DateDayEdit.setText(DateArray[0]);
             DateMonthEdit.setText(DateArray[1]);
             DateYearEdit.setText(DateArray[2]);
+            TimeTypeSpinner.setSelection(timetype,false);
             NumOfUnitEdit.setText( Integer.toString(numofunit));
             if (repeats != -1){
                 RepeatsEdit.setText(Integer.toString(repeats));
@@ -144,18 +147,31 @@ public class Info_Recurring_Fragment extends Fragment implements View.OnClickLis
 
             case R.id.DoneButton:
 
+                name = NameEdit.getText().toString();
+                if (!inputValidation.ValidateText(name,"Name")){break;}
+
+                String amountstring = AmountEdit.getText().toString();
+                if (!inputValidation.ValidateDouble(amountstring,"Amount")){break;}
+                amount = Double.parseDouble( amountstring );
+
+                category = CategoryEdit.getText().toString();
+                if (!inputValidation.ValidateText(category,"Category")){break;}
+
                 DateArray[0] = DateDayEdit.getText().toString();
                 DateArray[1] = DateMonthEdit.getText().toString();
                 DateArray[2] = DateYearEdit.getText().toString();
-
-                name = NameEdit.getText().toString();
-                amount = Double.valueOf(AmountEdit.getText().toString());
-                category = CategoryEdit.getText().toString();
+                if (!inputValidation.ValidateDate(DateArray,"Start Date")){break;}
                 startdate = dateHandler.StringArraytoDate(DateArray);
+
                 nextdate = startdate;
                 // timetype is set by spinner
-                numofunit = Integer.valueOf( NumOfUnitEdit.getText().toString() );
+                String numofunitstring =  NumOfUnitEdit.getText().toString();
+                if (!inputValidation.ValidateInt(numofunitstring,"Number of " + timetype)){break;}
+                numofunit = Integer.valueOf(numofunitstring);
+
+
                 String RepeatString = RepeatsEdit.getText().toString();
+                if (!inputValidation.ValidateInt(RepeatString,"Number of Repeats")){break;}
                 if (RepeatString.isEmpty()){
                     repeats = -1;
                 }else {

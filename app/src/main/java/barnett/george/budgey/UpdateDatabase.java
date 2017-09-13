@@ -122,7 +122,7 @@ public class UpdateDatabase {
 
     public void UpdateCategoriesCounterList(){
         dbHandler.OpenDatabase();
-        
+
         // loads the transacitons
         ArrayList<Transaction> TransactionObjectList= dbHandler.getAllTransactions();
 
@@ -139,7 +139,7 @@ public class UpdateDatabase {
         for (int i = 0; i < CategoryObjectList.size(); i++) {
             CategoryStringList.add( CategoryObjectList.get(i).getName() );
         }
-        
+
         // cyclce through transactions
         for (int i = 0; i < TransactionObjectList.size(); i++) {
 
@@ -170,10 +170,10 @@ public class UpdateDatabase {
         for (int i = 0; i < CategoryObjectList.size(); i++) {
             dbHandler.addCategory(CategoryObjectList.get(i));
         }
-        
+
         dbHandler.CloseDatabase();
     }
-    
+
     public void UpadateCategoriesMonthAmount(){
         dbHandler.OpenDatabase();
 

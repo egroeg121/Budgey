@@ -21,7 +21,7 @@ public class AddBudgets {
         int ID = 1;
         String name = "BudgetTest1";
         double totalamount = 40;
-        String categorystring = "Food,Test";
+        String categorystring = "Food;Test";
         long nextdate = datehandler.AddNumDays(datehandler.currentDayMilli(),2);
         int numofunit = 1 ;
         int timetype = 1;

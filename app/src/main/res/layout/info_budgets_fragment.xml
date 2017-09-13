@@ -29,7 +29,7 @@
             android:layout_below="@+id/TopGreyBar"
             android:background="@color/MainGreen"
             android:padding="@dimen/PagePadding"
-            android:text="@string/RecurringInfo"
+            android:text="@string/BudgetInfo"
             android:textColor="@color/MainWhite"
             android:textSize="@dimen/Title"
             android:textStyle="bold" />
@@ -180,12 +180,11 @@
 
         <Spinner
             android:id="@+id/UnitOfTimeSpinner"
-            android:layout_width="100dp"
+            android:layout_width="120dp"
             android:layout_height="wrap_content"
             android:layout_alignBottom="@+id/NumOfUnitEdit"
             android:layout_below="@+id/DateDayEdit"
             android:layout_toEndOf="@+id/DateDayEdit"
-            android:layout_weight="0.8"
             android:backgroundTint="@color/DarkGrey"
             android:focusable="false" />
 
@@ -204,8 +203,8 @@
             android:id="@+id/CategoryEdit"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/TotalAmountText"
-            android:layout_toEndOf="@+id/TotalAmountText"
+            android:layout_alignEnd="@+id/TodayDateButton"
+            android:layout_below="@+id/TotalAmountEdit"
             android:ems="9"
             android:focusable="false"
             android:hint="Categories"
@@ -238,12 +237,15 @@
             android:id="@+id/ClearCategoryString"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_above="@+id/DateYearEdit"
+            android:layout_alignBottom="@+id/CategoryEdit"
             android:layout_alignEnd="@+id/TotalAmountEdit"
-            android:layout_alignTop="@+id/CategoryEdit"
+            android:layout_alignStart="@+id/DoneButton"
+            android:layout_below="@+id/TotalAmountEdit"
             android:background="@color/MainWhite"
-            android:tint="@color/DarkGrey"
-            app:srcCompat="@drawable/ic_delete" />
+            android:paddingLeft="@dimen/PagePadding"
+            android:paddingRight="@dimen/PagePadding"
+            android:src="@drawable/ic_delete"
+            android:tint="@color/DarkGrey" />
 
     </RelativeLayout>
 

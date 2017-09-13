@@ -506,13 +506,32 @@ public class DBHandler extends SQLiteOpenHelper {
         //CloseDatabase();
     }
 
+    public Budget getBudget(int id){
+        String[] IDString = {Integer.toString(id)};
+        Cursor cursor = db.query(TABLE_BUDGETS,null,COLUMN_ID + "=?",IDString,null,null,null);
+        cursor.moveToFirst();
+
+        // Get values from database
+        String name = cursor.getString( cursor.getColumnIndex(COLUMN_NAME) );
+        double amount = cursor.getDouble( cursor.getColumnIndex(COLUMN_AMOUNT) );
+        double totalamount = cursor.getDouble( cursor.getColumnIndex(COLUMN_TOTALAMOUNT) );
+        long nextdate = cursor.getLong( cursor.getColumnIndex(COLUMN_NEXTDATE) );
+        String categorystring = cursor.getString( cursor.getColumnIndex(COLUMN_CATEGORYSTRING) );
+        int numofunit = cursor.getInt( cursor.getColumnIndex(COLUMN_NUMOFUNIT) );
+        int timetype = cursor.getInt( cursor.getColumnIndex(COLUMN_TIMETYPE) );
+
+        Budget budget = new Budget(id,name,totalamount,categorystring,nextdate,numofunit,timetype,amount);
+        return budget;
+
+    }
+
     public ArrayList getAllBudgets(){
 
         // Initialise objects and Variables
         ArrayList<Budget> BudgetsList = new ArrayList<Budget>();
 
         // Query Database (load in cursur)
-        Cursor cursor = db.query(TABLE_BUDGETS,null,null,null,null,null, COLUMN_NAME + " ASC"); // Loads with Dates in descedning order
+        Cursor cursor = db.query(TABLE_BUDGETS,null,null,null,null,null, COLUMN_NAME + " ASC"); // Loads with Dates in descending order
 
         // Move to first row in cursor
         cursor.moveToFirst();

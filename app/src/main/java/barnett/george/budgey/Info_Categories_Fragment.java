@@ -2,6 +2,7 @@ package barnett.george.budgey;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.renderscript.ScriptGroup;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
@@ -15,6 +16,7 @@ public class Info_Categories_Fragment extends Fragment implements View.OnClickLi
     // Classes
     DateHandler dateHandler;
     DBHandler dbHandler;
+    InputValidation inputValidation;
     Category category;
 
     // Layout Items
@@ -41,6 +43,7 @@ public class Info_Categories_Fragment extends Fragment implements View.OnClickLi
         ID = intent.getIntExtra("Category",-1);
         dateHandler = new DateHandler();
         dbHandler = new DBHandler(getContext(),null,null,1);
+        inputValidation = new InputValidation(getContext());
 
         // Get previous transaction or setup new transaction
         if ( ID == -1 ){
@@ -72,6 +75,7 @@ public class Info_Categories_Fragment extends Fragment implements View.OnClickLi
             case R.id.DoneButton:
 
                 name = NameEdit.getText().toString();
+                if (!inputValidation.ValidateText(name,"Name")){break;}
 
                 // put variables in category object
                 category.setAll(ID,name,counter,amount);

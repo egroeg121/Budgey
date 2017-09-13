@@ -105,17 +105,20 @@ public class Info_Transactions_Fragment extends Fragment implements View.OnClick
         switch (v.getId()) {
             case R.id.DoneButton:
                 name = NameEdit.getText().toString();
-                if (!inputValidation.ValidateText(name,"Name")){
-                    break;
-                }
+                if (!inputValidation.ValidateText(name,"Name")){break;}
 
+                String amountstring = AmountEdit.getText().toString();
+                if (!inputValidation.ValidateDouble(amountstring,"Amount")){break;}
+                amount = Double.parseDouble( amountstring );
 
-                amount = Double.parseDouble( AmountEdit.getText().toString() );
                 category = CategoryEdit.getText().toString();
-                String[] datearray = new String[3]; // [YYYY][MM][DD]
+                if (!inputValidation.ValidateText(category,"Category")){break;}
+
+                String[] datearray = new String[3]; // [YYYY][MM][DD] - dateformat,
                 datearray[0] = DateDayEdit.getText().toString();
                 datearray[1] = DateMonthEdit.getText().toString();
                 datearray[2] = DateYearEdit.getText().toString();
+                if (!inputValidation.ValidateDate(datearray,"Date")){break;}
                 date = dateHandler.StringArraytoDate( datearray );
 
                 // put variables in transaction object

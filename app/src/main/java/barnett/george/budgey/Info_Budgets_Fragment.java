@@ -15,10 +15,16 @@ import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.Spinner;
 
+import java.sql.Time;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+
 public class Info_Budgets_Fragment extends Fragment implements View.OnClickListener,AdapterView.OnItemSelectedListener {
 
     DateHandler dateHandler;
     DBHandler dbHandler;
+    InputValidation inputValidation;
 
     Button TodayDateButton;
     ImageButton ClearCategoryString;
@@ -43,7 +49,7 @@ public class Info_Budgets_Fragment extends Fragment implements View.OnClickListe
     int ID;
     String name;
     double totalamount;
-    String categorystring;
+    String categorystring ="";
     long nextdate;
     int numofunit;
     int timetype;
@@ -61,7 +67,7 @@ public class Info_Budgets_Fragment extends Fragment implements View.OnClickListe
         ClearCategoryString = (ImageButton) view.findViewById(R.id.ClearCategoryString);
         ClearCategoryString.setOnClickListener(this);
         NameEdit = (EditText) view.findViewById((R.id.NameEdit));
-        TotalAmountEdit = (EditText) view.findViewById((R.id.AmountEdit));
+        TotalAmountEdit = (EditText) view.findViewById((R.id.TotalAmountEdit));
         CategoryStringEdit = (EditText) view.findViewById((R.id.CategoryEdit));
         CategoryStringEdit.setOnClickListener(this);
         NumOfUnitEdit = (EditText) view.findViewById((R.id.NumOfUnitEdit));
@@ -81,6 +87,7 @@ public class Info_Budgets_Fragment extends Fragment implements View.OnClickListe
         // Set up Handlers
         dateHandler = new DateHandler();
         dbHandler = new DBHandler(getContext(),null,null,1);
+        inputValidation = new InputValidation(getContext());
 
         // Get id from intnet
         Intent intent =getActivity().getIntent();
@@ -89,7 +96,6 @@ public class Info_Budgets_Fragment extends Fragment implements View.OnClickListe
         if (ID == -1){
             budget = new Budget(ID,name,totalamount,categorystring,nextdate,numofunit,timetype,amount);
         }else{
-            /*
             dbHandler.OpenDatabase();
             budget = dbHandler.getBudget(ID);
             dbHandler.CloseDatabase();
@@ -104,20 +110,19 @@ public class Info_Budgets_Fragment extends Fragment implements View.OnClickListe
             timetype = budget.getTimeType();
             amount = budget.getAmount();
 
+            long startdate = dateHandler.nextDate(timetype,-1,nextdate);
             DateArray = dateHandler.DatetoStringArray(startdate);
-
             NameEdit.setText(name);
-            TotalAmountEdit.setText( Double.toString(amount));
+            TotalAmountEdit.setText( Double.toString(totalamount));
             CategoryStringEdit.setText(categorystring);
             DateDayEdit.setText(DateArray[0]);
             DateMonthEdit.setText(DateArray[1]);
             DateYearEdit.setText(DateArray[2]);
+            TimeTypeSpinner.setSelection(timetype,false);
             NumOfUnitEdit.setText( Integer.toString(numofunit));
-            if (repeats != -1){
-                RepeatsEdit.setText(Integer.toString(repeats));
+            if (numofunit != -1){
+                NumOfUnitEdit.setText(Integer.toString(numofunit));
             }
-
-            */
 
         }
 
@@ -135,18 +140,37 @@ public class Info_Budgets_Fragment extends Fragment implements View.OnClickListe
                 DateYearEdit.setText( DateArray[2] );
                 break;
 
+            case R.id.ClearCategoryString:
+                categorystring = "";
+                CategoryStringEdit.setText(categorystring);
+                break;
+
             case R.id.DoneButton:
 
+
+                name = NameEdit.getText().toString();
+                if (!inputValidation.ValidateText(name,"Name")){break;}
+                String totalamountstring =  TotalAmountEdit.getText().toString();
+                if (!inputValidation.ValidateDouble(totalamountstring,"Total Amount")){break;}
+                totalamount = Double.valueOf(totalamountstring);
+
+                categorystring = CategoryStringEdit.getText().toString();
+                if (!inputValidation.ValidateEmpty(categorystring,"Category")){break;}
+
+
+                DateArray = new String[3];
                 DateArray[0] = DateDayEdit.getText().toString();
                 DateArray[1] = DateMonthEdit.getText().toString();
                 DateArray[2] = DateYearEdit.getText().toString();
-
-                name = NameEdit.getText().toString();
-                totalamount = Double.valueOf(TotalAmountEdit.getText().toString());
-                categorystring = CategoryStringEdit.getText().toString();
+                if (!inputValidation.ValidateDate(DateArray,"Start Date")){break;}
                 nextdate = dateHandler.StringArraytoDate(DateArray);
+
+
                 // timetype is set by spinner
-                numofunit = Integer.valueOf( NumOfUnitEdit.getText().toString() );
+                String numofunitstring =  NumOfUnitEdit.getText().toString();
+                if (!inputValidation.ValidateInt(numofunitstring,"Number of " +  TimeTypeArray[timetype] + "s" )){break;}
+                numofunit = Integer.valueOf(numofunitstring);
+
 
                 budget = new Budget(ID,name,totalamount,categorystring,nextdate,numofunit,timetype,amount);
 
@@ -171,7 +195,13 @@ public class Info_Budgets_Fragment extends Fragment implements View.OnClickListe
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (requestCode == 1005) {
             String newcategory = data.getStringExtra("Category");
-            categorystring = categorystring + ";" + newcategory;
+
+            // Check if empty
+            if (categorystring.isEmpty()){
+                categorystring = newcategory;
+            }else{
+                categorystring = categorystring + ";" + newcategory;
+            }
             CategoryStringEdit.setText(categorystring);
         }
     }
