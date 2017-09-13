@@ -20,6 +20,7 @@ public class Info_Transactions_Fragment extends Fragment implements View.OnClick
     // Classes
     DateHandler dateHandler;
     DBHandler dbHandler;
+    InputValidation inputValidation;
     Transaction transaction;
 
     // Layout Items
@@ -63,6 +64,7 @@ public class Info_Transactions_Fragment extends Fragment implements View.OnClick
         ID = intent.getIntExtra("Transaction",-1);
         dateHandler = new DateHandler();
         dbHandler = new DBHandler(getContext(),null,null,1);
+        inputValidation = new InputValidation(getContext());
 
         // Get previous transaction or setup new transaction
         if ( ID == -1 ){
@@ -102,8 +104,12 @@ public class Info_Transactions_Fragment extends Fragment implements View.OnClick
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.DoneButton:
-
                 name = NameEdit.getText().toString();
+                if (!inputValidation.ValidateText(name,"Name")){
+                    break;
+                }
+
+
                 amount = Double.parseDouble( AmountEdit.getText().toString() );
                 category = CategoryEdit.getText().toString();
                 String[] datearray = new String[3]; // [YYYY][MM][DD]
