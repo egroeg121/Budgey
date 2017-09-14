@@ -1,9 +1,11 @@
 package barnett.george.budgey;
 
 import android.content.Intent;
+import android.media.Image;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
+import android.support.v4.content.ContextCompat;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -27,7 +29,8 @@ public class Info_Budgets_Fragment extends Fragment implements View.OnClickListe
     InputValidation inputValidation;
 
     Button TodayDateButton;
-    ImageButton ClearCategoryString;
+    Button ClearCategoryString;
+    ImageButton DeleteButton;
     EditText NameEdit;
     EditText TotalAmountEdit;
     EditText CategoryStringEdit;
@@ -64,8 +67,10 @@ public class Info_Budgets_Fragment extends Fragment implements View.OnClickListe
         DoneButton.setOnClickListener(this);
         TodayDateButton = (Button) view.findViewById(R.id.TodayDateButton);
         TodayDateButton.setOnClickListener(this);
-        ClearCategoryString = (ImageButton) view.findViewById(R.id.ClearCategoryString);
+        ClearCategoryString = (Button) view.findViewById(R.id.ClearCategoryString);
         ClearCategoryString.setOnClickListener(this);
+        DeleteButton = (ImageButton) view.findViewById(R.id.DeleteButton);
+        DeleteButton.setOnClickListener(this);
         NameEdit = (EditText) view.findViewById((R.id.NameEdit));
         TotalAmountEdit = (EditText) view.findViewById((R.id.TotalAmountEdit));
         CategoryStringEdit = (EditText) view.findViewById((R.id.CategoryEdit));
@@ -95,6 +100,10 @@ public class Info_Budgets_Fragment extends Fragment implements View.OnClickListe
 
         if (ID == -1){
             budget = new Budget(ID,name,totalamount,categorystring,nextdate,numofunit,timetype,amount);
+
+            // Hide Delete Button
+            DeleteButton.setEnabled(false);
+            DeleteButton.setColorFilter( ContextCompat.getColor(getContext(), R.color.MainGreen));
         }else{
             dbHandler.OpenDatabase();
             budget = dbHandler.getBudget(ID);
@@ -147,7 +156,6 @@ public class Info_Budgets_Fragment extends Fragment implements View.OnClickListe
 
             case R.id.DoneButton:
 
-
                 name = NameEdit.getText().toString();
                 if (!inputValidation.ValidateText(name,"Name")){break;}
                 String totalamountstring =  TotalAmountEdit.getText().toString();
@@ -187,6 +195,12 @@ public class Info_Budgets_Fragment extends Fragment implements View.OnClickListe
             case R.id.CategoryEdit:
                 Intent intent = new Intent(getActivity(), Category_Activity.class);
                 startActivityForResult(intent,1005);
+                break;
+            case R.id.DeleteButton:
+                dbHandler.OpenDatabase();
+                dbHandler.deleteBudget(ID);
+                dbHandler.CloseDatabase();
+                getActivity().finish();
                 break;
 
         }

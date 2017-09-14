@@ -550,6 +550,10 @@ public class DBHandler extends SQLiteOpenHelper {
         //CloseDatabase();
     }
 
+    public void deleteBudget(int id){
+        db.delete(TABLE_BUDGETS, COLUMN_ID + "=" + id, null);
+    }
+
     public Budget getBudget(int id){
         String[] IDString = {Integer.toString(id)};
         Cursor cursor = db.query(TABLE_BUDGETS,null,COLUMN_ID + "=?",IDString,null,null,null);

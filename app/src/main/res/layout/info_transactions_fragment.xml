@@ -13,12 +13,11 @@
 
         <ImageButton
             android:id="@+id/DeleteButton"
-            android:layout_width="match_parent"
+            android:layout_width="50dp"
             android:layout_height="wrap_content"
-            android:layout_above="@+id/NameText"
+            android:layout_alignBottom="@+id/TitleText"
             android:layout_alignParentEnd="true"
-            android:layout_below="@+id/TopGreyBar"
-            android:layout_toEndOf="@+id/NameEdit"
+            android:layout_alignParentTop="true"
             android:background="@color/MainGreen"
             android:paddingLeft="@dimen/PagePadding"
             android:paddingRight="@dimen/PagePadding"
@@ -41,27 +40,27 @@
             android:layout_height="wrap_content"
             android:layout_alignParentStart="true"
             android:layout_below="@+id/TopGreyBar"
+            android:layout_toStartOf="@+id/DeleteButton"
             android:background="@color/MainGreen"
             android:padding="@dimen/PagePadding"
             android:text="@string/TransactionInfo"
             android:textColor="@color/MainWhite"
             android:textSize="@dimen/Title"
-            android:textStyle="bold"
-            android:layout_toStartOf="@+id/DeleteButton" />
+            android:textStyle="bold" />
 
         <TextView
             android:id="@+id/AmountText"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_alignParentStart="true"
+            android:layout_below="@+id/NameText"
             android:gravity="center"
             android:minWidth="110dp"
             android:padding="@dimen/PagePadding"
             android:text="@string/Amount"
             android:textColor="@color/DarkGrey"
             android:textSize="@dimen/SearchBar"
-            android:textStyle="bold"
-            android:layout_alignParentStart="true"
-            android:layout_below="@+id/NameText" />
+            android:textStyle="bold" />
 
         <TextView
             android:id="@+id/CategoryText"
@@ -126,14 +125,14 @@
             android:id="@+id/DateMonthEdit"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_alignBaseline="@+id/DateDayEdit"
+            android:layout_alignBottom="@+id/DateDayEdit"
+            android:layout_toEndOf="@+id/DateDayEdit"
             android:ems="2"
             android:gravity="center"
             android:hint="MM"
             android:inputType="number"
-            android:maxLength="2"
-            android:layout_alignBaseline="@+id/DateDayEdit"
-            android:layout_alignBottom="@+id/DateDayEdit"
-            android:layout_toEndOf="@+id/DateDayEdit" />
+            android:maxLength="2" />
 
         <EditText
             android:id="@+id/DateYearEdit"
@@ -187,14 +186,14 @@
             android:id="@+id/NameEdit"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_above="@+id/AmountText"
             android:layout_alignEnd="@+id/TodayDateButton"
             android:layout_below="@+id/TitleText"
             android:layout_toEndOf="@+id/AmountText"
             android:ems="10"
             android:hint="Name"
             android:inputType="textPersonName"
-            android:textColor="@color/DarkGrey"
-            android:layout_above="@+id/AmountText" />
+            android:textColor="@color/DarkGrey" />
 
         <EditText
             android:id="@+id/AmountEdit"
@@ -212,12 +211,12 @@
             android:id="@+id/CategoryEdit"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:focusable="false"
             android:layout_above="@+id/DateDayEdit"
             android:layout_alignEnd="@+id/TodayDateButton"
             android:layout_alignTop="@+id/CategoryText"
             android:layout_toEndOf="@+id/CategoryText"
             android:ems="10"
+            android:focusable="false"
             android:hint="Category"
             android:inputType="textPersonName"
             android:textColor="@color/DarkGrey" />
