@@ -33,6 +33,8 @@ public class Settings_Fragment extends Fragment implements View.OnClickListener{
         CheckRecurring.setOnClickListener(this);
         Button UpdateCategories = (Button) view.findViewById(R.id.UpdateCategories);
         UpdateCategories.setOnClickListener(this);
+        Button UpdateBudgets = (Button) view.findViewById(R.id.UpdateBudgets);
+        UpdateBudgets.setOnClickListener(this);
 
         return view;
     }
@@ -62,7 +64,11 @@ public class Settings_Fragment extends Fragment implements View.OnClickListener{
             case R.id.UpdateCategories:
                 updateDatabase.UpdateCategoriesCheckRepeats();
                 updateDatabase.UpdateCategoriesCounterList();
-                updateDatabase.UpadateCategoriesMonthAmount();
+                updateDatabase.UpdateCategoriesMonthAmount();
+                break;
+            case R.id.UpdateBudgets:
+                updateDatabase.UpdateBudgetDates();
+                updateDatabase.UpadateBudgetAmounts();
                 break;
             case R.id.deletebutton:
                 getContext().deleteDatabase("budgey.db");

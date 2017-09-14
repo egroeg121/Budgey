@@ -159,6 +159,11 @@ public class DBHandler extends SQLiteOpenHelper {
         db.update(TABLE_TRANSACTIONS,values,COLUMN_ID + "=?",IDString);
     }
 
+
+    public void deleteTransaction(int id){
+        db.delete(TABLE_TRANSACTIONS, COLUMN_ID + "=" + id, null);
+    }
+
     public void deleteTransactionFromRecurring(int recurringid){
         db.delete(TABLE_TRANSACTIONS, COLUMN_RECURRINGID + "=" + recurringid, null);
     }
@@ -194,7 +199,6 @@ public class DBHandler extends SQLiteOpenHelper {
 
         // Initialise objects and Variables
         ArrayList<Transaction> TransactionList = new ArrayList<Transaction>();
-
 
 
         // Query Database (load in cursur)
@@ -259,12 +263,48 @@ public class DBHandler extends SQLiteOpenHelper {
                 DateHandler dateHandler = new DateHandler();
                 // Add transaction object to list
                 if (date < startdate){
-                    long testdate = date;
                     break;
                 }
                 if (date <= enddate){
                     TransactionList.add( transaction );
                 }
+            }
+            cursor.moveToNext();
+        }
+
+        return TransactionList;
+    }
+
+    public ArrayList getAllTransactionsCategoryLimited(String categorytofind){
+        // Initialise objects and Variables
+        ArrayList<Transaction> TransactionList = new ArrayList<Transaction>();
+
+
+        // Query Database (load in cursor)
+        String[] categorystring = {categorytofind};
+        Cursor cursor = db.query(TABLE_TRANSACTIONS,null,COLUMN_CATEGORY + "=?",categorystring,null,null,COLUMN_DATE + " DESC"); // Loads with Dates in descedning order
+
+        // Move to first row in cursor
+        cursor.moveToFirst();
+        while (!cursor.isAfterLast()){
+            if(cursor.getString( cursor.getColumnIndex(COLUMN_ID) )!= null){
+                // Set up Transaction object
+                int id = -1; String name = null; double amount = 0;long date = 0;String category = null;int recurringID = -1;
+                Transaction transaction = new Transaction(id,name,amount,date,category,recurringID);
+
+                // Get values from database
+                id = cursor.getInt( cursor.getColumnIndex(COLUMN_ID) );
+                name = cursor.getString( cursor.getColumnIndex(COLUMN_NAME) );
+                amount = cursor.getDouble( cursor.getColumnIndex(COLUMN_AMOUNT) );
+                date = cursor.getLong( cursor.getColumnIndex(COLUMN_DATE) );
+                category = cursor.getString( cursor.getColumnIndex(COLUMN_CATEGORY) );
+                recurringID = cursor.getInt( cursor.getColumnIndex(COLUMN_RECURRINGID) );
+
+                // add values to transaction object
+                transaction.setAll(id,name,amount,date,category,recurringID);
+                DateHandler dateHandler = new DateHandler();
+                // Add transaction object to list
+                TransactionList.add( transaction );
             }
             cursor.moveToNext();
         }
@@ -312,6 +352,10 @@ public class DBHandler extends SQLiteOpenHelper {
         String[] IDString = {Integer.toString(id)};
         db.update(TABLE_RECURRING,values,COLUMN_ID + "=?",IDString);
         //CloseDatabase();
+    }
+
+    public void deleteRecurring(int id){
+        db.delete(TABLE_RECURRING, COLUMN_ID + "=" + id, null);
     }
 
     public void editAllRecurringCategory(String oldcategory,String newcategory){

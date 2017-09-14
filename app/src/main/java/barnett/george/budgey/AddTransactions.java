@@ -30,6 +30,8 @@ public class AddTransactions
         dbHandler.addTransaction(transaction3);
 
 
+
+
         dbHandler.CloseDatabase();
     }
 

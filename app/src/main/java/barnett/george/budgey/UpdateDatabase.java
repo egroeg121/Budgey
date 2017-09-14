@@ -4,6 +4,7 @@ package barnett.george.budgey;
 import android.content.Context;
 
 import java.util.ArrayList;
+import java.util.Date;
 
 /**
  * Deals with all the checking for transactions to be added or new budget sections to be made etc. ALso deals with counting up categories uses
@@ -13,21 +14,19 @@ public class UpdateDatabase {
     private Context context;
     private DBHandler dbHandler;
     private DateHandler dateHandler;
+    TransferringObjects transferringObjects;
 
     public UpdateDatabase(Context context) {
         this.context = context;
         this.dbHandler = new DBHandler(context,null,null,1);
         this.dateHandler = new DateHandler();
+        this. transferringObjects = new TransferringObjects();
     }
 
     /**
      * Runs through recurring times checking if new transaction need to be added
      */
     public void CheckRecurring() {
-
-        // Handlers
-        DateHandler dateHandler = new DateHandler();
-        TransferringObjects transferringObjects = new TransferringObjects();
 
         // Set up variables
         ArrayList<Recurring> recurringlist;
@@ -174,7 +173,7 @@ public class UpdateDatabase {
         dbHandler.CloseDatabase();
     }
 
-    public void UpadateCategoriesMonthAmount(){
+    public void UpdateCategoriesMonthAmount(){
         dbHandler.OpenDatabase();
 
 
@@ -215,20 +214,96 @@ public class UpdateDatabase {
         dbHandler.CloseDatabase();
     }
 
+    public void UpdateBudgetDates(){
+        dbHandler.OpenDatabase();
+
+        Budget budget;
+        ArrayList<Budget> budgetlist;
+        long nextdate;
+
+        // get budgetlist
+        budgetlist = dbHandler.getAllBudgets();
+
+        // cycle through each budget
+        for (int i = 0; i < budgetlist.size(); i++) {
+            budget = budgetlist.get(i);
+            // compare nextdate to current time
+            nextdate = budget.getNextDate();
+            String nextdatestring = dateHandler.MillitoDateString(nextdate);
+            String currenttime = dateHandler.MillitoDateString( dateHandler.currentTimeMilli() );
+            if (nextdate < dateHandler.currentTimeMilli()){
+                // update nextdate
+                budget.setNextdate( dateHandler.nextDate( budget.getTimeType(),1,nextdate ) );
+
+                // set amount to 0
+                budget.setAmout(0);
+
+                // edit Database/edit budgetlist
+                dbHandler.editBudget(budget);
+                budgetlist.set(i,budget);
+
+                // run through this budget again
+                i--;
+            }
+
+        }
+    }
+
     public void UpadateBudgetAmounts(){
         dbHandler.OpenDatabase();
 
+
+        ArrayList<Budget> budgetlist;
+        Budget budget;
+        Transaction transaction;
+        ArrayList<Transaction> transactionlist;
+        long startdate;
+        long nextdate;
+        double amount;
+
         // Get All budget objects
+        budgetlist = dbHandler.getAllBudgets();
 
         // cycle through arraylist
-
+        for (int i = 0; i < budgetlist.size(); i++) {
             // get start and end dates
+            budget = budgetlist.get(i);
+            nextdate = budget.getNextDate();
+            startdate = dateHandler.nextDate(budget.getTimeType(),-1,nextdate);
+            amount = budget.getAmount();
 
             // cycle through each category in category string
-
+            String[] categorylist = budget.getCategoryList();
+            for (int j = 0; j < budget.getCategoryList().length; j++) {
                 // get each transactions with that category sorted by date
+                transactionlist = dbHandler.getAllTransactionsCategoryLimited( categorylist[j] );
 
-                //
+                // cycle through transactions adding them to the amount
+                for (int k = 0; k < transactionlist.size(); k++) {
+
+                    // if they are less than the start date of the budget, exit transaction loop
+                    long transactiondate = transactionlist.get(k).getDate();
+                    if ( transactiondate < startdate ){
+                        break;
+                    }
+                    // if they are in the budget zone, add to amount
+                    if (transactiondate > startdate && transactiondate <= nextdate ){
+                        amount+=transactionlist.get(k).getAmount();
+                    }
+
+                }
+
+            }
+
+            // set amount to budget
+            budget.setAmout(amount);
+
+
+            // put the amount into the budget database
+            dbHandler.editBudget(budget);
+        }
+
+
 
         dbHandler.CloseDatabase();
     }

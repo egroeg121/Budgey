@@ -5,11 +5,13 @@ import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
+import android.support.v4.content.ContextCompat;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.Toast;
 
 import java.util.Date;
@@ -25,6 +27,7 @@ public class Info_Transactions_Fragment extends Fragment implements View.OnClick
 
     // Layout Items
     FloatingActionButton DoneButton;
+    ImageButton DeleteButton;
     Button TodayDateButton;
     EditText NameEdit;
     EditText AmountEdit;
@@ -59,6 +62,8 @@ public class Info_Transactions_Fragment extends Fragment implements View.OnClick
         AmountEdit = (EditText) view.findViewById(R.id.AmountEdit);
         CategoryEdit = (EditText) view.findViewById(R.id.CategoryEdit);
         CategoryEdit.setOnClickListener(this);
+        DeleteButton = (ImageButton) view.findViewById(R.id.DeleteButton);
+        DeleteButton.setOnClickListener(this);
 
         Intent intent = getActivity().getIntent();
         ID = intent.getIntExtra("Transaction",-1);
@@ -70,6 +75,10 @@ public class Info_Transactions_Fragment extends Fragment implements View.OnClick
         if ( ID == -1 ){
             // Set up Previous Transaction. Edit Texts look better blank
             transaction = new Transaction(-1,null,0,0,null,0);
+
+            // Hide Delete Button
+            DeleteButton.setEnabled(false);
+            DeleteButton.setColorFilter( ContextCompat.getColor(getContext(), R.color.MainGreen));
         }else{
             // Get previous values and put them into Edit Texts.
             dbHandler.OpenDatabase();

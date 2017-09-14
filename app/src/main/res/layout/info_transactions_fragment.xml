@@ -11,6 +11,20 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
+        <ImageButton
+            android:id="@+id/DeleteButton"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_above="@+id/NameText"
+            android:layout_alignParentEnd="true"
+            android:layout_below="@+id/TopGreyBar"
+            android:layout_toEndOf="@+id/NameEdit"
+            android:background="@color/MainGreen"
+            android:paddingLeft="@dimen/PagePadding"
+            android:paddingRight="@dimen/PagePadding"
+            android:src="@drawable/ic_delete"
+            android:tint="@color/MainWhite" />
+
         <View
             android:id="@+id/TopGreyBar"
             android:layout_width="match_parent"
@@ -32,7 +46,8 @@
             android:text="@string/TransactionInfo"
             android:textColor="@color/MainWhite"
             android:textSize="@dimen/Title"
-            android:textStyle="bold" />
+            android:textStyle="bold"
+            android:layout_toStartOf="@+id/DeleteButton" />
 
         <TextView
             android:id="@+id/AmountText"
