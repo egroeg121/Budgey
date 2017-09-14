@@ -71,7 +71,7 @@ public class Overview_Transactions_Fragment extends Fragment implements View.OnC
 
 
         // Define and attach adapter
-        recyleAdapter = new Overview_Transaction_Adapter(TransactionList);
+        recyleAdapter = new List_Adapter_Transactions(TransactionList);
         recyclerView.setAdapter(recyleAdapter);
 
         // Set up Spinner

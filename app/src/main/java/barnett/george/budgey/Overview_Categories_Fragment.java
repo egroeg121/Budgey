@@ -42,7 +42,7 @@ public class Overview_Categories_Fragment extends Fragment implements View.OnCli
 
 
         // Define and attach adapter
-        recyleAdapter = new Overview_Categories_Adapter(CategoryList);
+        recyleAdapter = new List_Adapter_Categories(CategoryList);
         recyclerView.setAdapter(recyleAdapter);
 
         return view;

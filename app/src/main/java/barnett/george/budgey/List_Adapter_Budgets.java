@@ -13,7 +13,7 @@ import java.io.File;
 import java.sql.Time;
 import java.util.ArrayList;
 
-public class Overview_Budgets_Adapter extends RecyclerView.Adapter<Overview_Budgets_Adapter.ViewHolder> {
+public class List_Adapter_Budgets extends RecyclerView.Adapter<List_Adapter_Budgets.ViewHolder> {
     private ArrayList<Budget> values;
     CardView BudgetCard;
     Context context;
@@ -59,13 +59,13 @@ public class Overview_Budgets_Adapter extends RecyclerView.Adapter<Overview_Budg
     }
 
     // Provide a suitable constructor (depends on the kind of dataset)
-    public Overview_Budgets_Adapter(ArrayList<Budget> myDataset) {
+    public List_Adapter_Budgets(ArrayList<Budget> myDataset) {
         values = myDataset;
     }
 
     // Create new views (invoked by the layout manager)
     @Override
-    public Overview_Budgets_Adapter.ViewHolder onCreateViewHolder(ViewGroup parent, final int viewType) {
+    public List_Adapter_Budgets.ViewHolder onCreateViewHolder(ViewGroup parent, final int viewType) {
         // create a new view
         LayoutInflater inflater = LayoutInflater.from( parent.getContext() );
         View v = inflater.inflate(R.layout.overview_budgets_card, parent, false);

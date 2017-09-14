@@ -12,7 +12,7 @@ import android.widget.TextView;
 import java.sql.Time;
 import java.util.ArrayList;
 
-public class Overview_Categories_Adapter extends RecyclerView.Adapter<Overview_Categories_Adapter.ViewHolder> {
+public class List_Adapter_Categories extends RecyclerView.Adapter<List_Adapter_Categories.ViewHolder> {
     private ArrayList<Category> values;
     CardView CategoryCard;
     Context context;
@@ -50,13 +50,13 @@ public class Overview_Categories_Adapter extends RecyclerView.Adapter<Overview_C
     }
 
     // Provide a suitable constructor (depends on the kind of dataset)
-    public Overview_Categories_Adapter(ArrayList<Category> myDataset) {
+    public List_Adapter_Categories(ArrayList<Category> myDataset) {
         values = myDataset;
     }
 
     // Create new views (invoked by the layout manager)
     @Override
-    public Overview_Categories_Adapter.ViewHolder onCreateViewHolder(ViewGroup parent, final int viewType) {
+    public List_Adapter_Categories.ViewHolder onCreateViewHolder(ViewGroup parent, final int viewType) {
         // create a new view
         LayoutInflater inflater = LayoutInflater.from( parent.getContext() );
         View v = inflater.inflate(R.layout.overview_categories_card, parent, false);
@@ -77,7 +77,7 @@ public class Overview_Categories_Adapter extends RecyclerView.Adapter<Overview_C
         holder.AmountText.setText( amountstring );
         String NumofUnitString = Integer.toString( category.getCounter() );
         holder.UsesAmount.setText( NumofUnitString );
-            }
+    }
 
 
 

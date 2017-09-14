@@ -9,12 +9,11 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import java.sql.Time;
 import java.util.ArrayList;
 
-public class Overview_Recurring_Adapter extends RecyclerView.Adapter<Overview_Recurring_Adapter.ViewHolder> {
-    private ArrayList<Recurring> values;
-    CardView RecurringCard;
+public class List_Adapter_Transactions extends RecyclerView.Adapter<List_Adapter_Transactions.ViewHolder> {
+    private ArrayList<Transaction> values;
+    CardView TransactionCard;
     Context context;
 
     // Provide a reference to the views for each data item
@@ -24,18 +23,17 @@ public class Overview_Recurring_Adapter extends RecyclerView.Adapter<Overview_Re
         // each data item is just a string in this case
         public TextView NameText;
         public TextView AmountText;
-        public TextView NumOfTypeText;
-        public TextView TimeTypeText;
-
+        public TextView CategoryText;
+        public TextView DateText;
 
         public ViewHolder(View v) {
             super(v);
             context = v.getContext();
             NameText = (TextView) v.findViewById(R.id.NameText);
             AmountText = (TextView) v.findViewById(R.id.AmountText);
-            NumOfTypeText = (TextView) v.findViewById(R.id.NumOfTypeText);
-            TimeTypeText = (TextView) v.findViewById(R.id.TimeTypeText);
-            RecurringCard = (CardView) v.findViewById(R.id.RecurringCard);
+            CategoryText = (TextView) v.findViewById(R.id.CategoryText);
+            DateText = (TextView) v.findViewById(R.id.DateText);
+            TransactionCard = (CardView) v.findViewById(R.id.TransactionCard);
 
             v.setOnClickListener(this);
         }
@@ -43,24 +41,24 @@ public class Overview_Recurring_Adapter extends RecyclerView.Adapter<Overview_Re
         @Override
         public void onClick(View v) {
             Intent intent = new Intent(context, Info_Activity.class);
-            Recurring recurring = values.get( getAdapterPosition() );
+            Transaction transaction = values.get( getAdapterPosition() );
 
-            intent.putExtra("Recurring",recurring.getID());
+            intent.putExtra("Transaction",transaction.getID());
             context.startActivity(intent);
         }
     }
 
     // Provide a suitable constructor (depends on the kind of dataset)
-    public Overview_Recurring_Adapter(ArrayList<Recurring> myDataset) {
+    public List_Adapter_Transactions(ArrayList<Transaction> myDataset) {
         values = myDataset;
     }
 
     // Create new views (invoked by the layout manager)
     @Override
-    public Overview_Recurring_Adapter.ViewHolder onCreateViewHolder(ViewGroup parent, final int viewType) {
+    public List_Adapter_Transactions.ViewHolder onCreateViewHolder(ViewGroup parent, final int viewType) {
         // create a new view
         LayoutInflater inflater = LayoutInflater.from( parent.getContext() );
-        View v = inflater.inflate(R.layout.overview_recurring_card, parent, false);
+        View v = inflater.inflate(R.layout.overview_transaction_card, parent, false);
         // set the view's size, margins, paddings and layout parameters
         ViewHolder vh = new ViewHolder(v);
 
@@ -72,34 +70,12 @@ public class Overview_Recurring_Adapter extends RecyclerView.Adapter<Overview_Re
     public void onBindViewHolder(ViewHolder holder, final int position) {
         // - get element from your dataset at this position
         // - replace the contents of the view with that element
-        final Recurring recurring = values.get(position);
-        holder.NameText.setText( recurring.getName() );
-        String amountstring = String.format("%1$,.2f", recurring.getAmount());
-        holder.AmountText.setText( amountstring );
-        String NumofUnitString = Integer.toString( recurring.getNumofUnit() );
-        holder.NumOfTypeText.setText( NumofUnitString );
-
-        // set type of Time
-        int TimeType = recurring.getTimeType();
-        String TimeTypeString = null;
-        switch (TimeType){
-            case 0:
-                TimeTypeString = " Days";
-                break;
-            case 1:
-                TimeTypeString = " Weeks";
-                break;
-            case 2:
-                TimeTypeString = " Months";
-                break;
-            case 3:
-                TimeTypeString = " Years";
-                break;
-
-        }
-        holder.TimeTypeText.setText( TimeTypeString );
-
-
+        final Transaction transaction = values.get(position);
+        holder.NameText.setText( transaction.getName() );
+        String teststring = String.format("%1$,.2f", transaction.getAmount());
+        holder.AmountText.setText( teststring );
+        holder.CategoryText.setText( transaction.getCategory() );
+        holder.DateText.setText( transaction.getDateString() );
     }
 
 

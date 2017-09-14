@@ -42,7 +42,7 @@ public class Overview_Budgets_Fragment extends Fragment implements View.OnClickL
 
 
         // Define and attach adapter
-        recyleAdapter = new Overview_Budgets_Adapter(BudgetList);
+        recyleAdapter = new List_Adapter_Budgets(BudgetList);
         recyclerView.setAdapter(recyleAdapter);
 
         return view;

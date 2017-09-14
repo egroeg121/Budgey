@@ -39,23 +39,31 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:gravity="center"
-            android:padding="@dimen/PagePadding"
+            android:padding="@dimen/ExtraPagePadding"
             android:text="Name:"
             android:textColor="@color/DarkGrey"
             android:textSize="@dimen/SearchBar"
             android:textStyle="bold"
-            android:layout_alignBaseline="@+id/NameEdit"
-            android:layout_alignBottom="@+id/NameEdit"
+            android:layout_below="@+id/TitleText"
             android:layout_alignParentStart="true" />
 
         <EditText
             android:id="@+id/NameEdit"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_below="@+id/TitleText"
+            android:layout_toEndOf="@+id/NameText"
             android:ems="10"
             android:inputType="textPersonName"
-            android:layout_below="@+id/TitleText"
-            android:layout_toEndOf="@+id/NameText" />
+            android:layout_alignBottom="@+id/NameText" />
+
+        <View
+            android:id="@+id/ListSeparatorBar"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_below="@+id/NameText"
+            android:layout_margin="10dp"
+            android:background="@android:color/darker_gray" />
 
         <LinearLayout
             android:id="@+id/DateBar"
@@ -80,6 +88,16 @@
             android:tint="@color/MainWhite"
             app:backgroundTint="@color/MainGreen"
             app:layout_anchorGravity="bottom|right" />
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/TransactionList"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_above="@+id/DateBar"
+            android:layout_alignParentStart="true"
+            android:layout_below="@+id/ListSeparatorBar"
+            android:background="@color/MainWhite"
+            android:scrollbars="vertical" />
 
     </RelativeLayout>
 

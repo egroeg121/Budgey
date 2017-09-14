@@ -171,7 +171,6 @@ public class Info_Recurring_Fragment extends Fragment implements View.OnClickLis
 
 
                 String RepeatString = RepeatsEdit.getText().toString();
-                if (!inputValidation.ValidateInt(RepeatString,"Number of Repeats")){break;}
                 if (RepeatString.isEmpty()){
                     repeats = -1;
                 }else {

@@ -5,11 +5,15 @@ import android.os.Bundle;
 import android.renderscript.ScriptGroup;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+
+import java.util.ArrayList;
 
 public class Info_Categories_Fragment extends Fragment implements View.OnClickListener{
 
@@ -17,11 +21,18 @@ public class Info_Categories_Fragment extends Fragment implements View.OnClickLi
     DateHandler dateHandler;
     DBHandler dbHandler;
     InputValidation inputValidation;
+
     Category category;
+    ArrayList<Transaction> TransactionList;
 
     // Layout Items
     FloatingActionButton DoneButton;
     EditText NameEdit;
+
+    // list
+    RecyclerView recyclerView;
+    RecyclerView.LayoutManager layoutManager;
+    RecyclerView.Adapter recyleAdapter;
 
     int ID;
     String name;
@@ -37,6 +48,15 @@ public class Info_Categories_Fragment extends Fragment implements View.OnClickLi
         DoneButton = (FloatingActionButton) view.findViewById(R.id.DoneButton);
         DoneButton.setOnClickListener(this);
         NameEdit = (EditText) view.findViewById(R.id.NameEdit);
+
+        // Set up RecyleView
+        recyclerView = (RecyclerView) view.findViewById(R.id.TransactionList);
+        recyclerView.setHasFixedSize(true);
+        layoutManager = new LinearLayoutManager( getActivity() );
+        recyclerView.setLayoutManager(layoutManager);
+
+        // Set up some varibles
+        TransactionList = new ArrayList<Transaction>();
 
         // If previous Category get info
         Intent intent = getActivity().getIntent();
@@ -65,9 +85,31 @@ public class Info_Categories_Fragment extends Fragment implements View.OnClickLi
             NameEdit.setText(name);
         }
 
+        recyleAdapter = new List_Adapter_Transactions(TransactionList);
+        recyclerView.setAdapter(recyleAdapter);
+
         return view;
     }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+
+        // Clear TransactionList
+        TransactionList.clear();
+
+        // Get Database values
+        dbHandler.OpenDatabase();
+        ArrayList<Transaction> dbList = dbHandler.getAllTransactionsCategoryLimited(category.getName());
+        dbHandler.CloseDatabase();
+        if ( !dbList.isEmpty() ){
+            TransactionList.addAll( dbList );
+        }
+        // Update Adapter
+        recyclerView.setAdapter( recyleAdapter );
+        recyleAdapter.notifyDataSetChanged();
+
+    }
 
     @Override
     public void onClick(View v) {

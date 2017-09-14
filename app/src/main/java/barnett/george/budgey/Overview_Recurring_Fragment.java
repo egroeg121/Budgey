@@ -42,7 +42,7 @@ public class Overview_Recurring_Fragment extends Fragment implements View.OnClic
 
 
         // Define and attach adapter
-        recyleAdapter = new Overview_Recurring_Adapter(RecurringList);
+        recyleAdapter = new List_Adapter_Recurring(RecurringList);
         recyclerView.setAdapter(recyleAdapter);
 
         return view;
