@@ -33,12 +33,12 @@
                 android:id="@+id/AmountText"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_alignParentEnd="true"
                 android:layout_alignWithParentIfMissing="true"
                 android:gravity="center_vertical"
                 android:text="000.00"
                 android:textAppearance="@style/TextAppearance.AppCompat.Large"
-                android:layout_alignParentTop="true" />
+                android:layout_alignParentTop="true"
+                android:layout_toStartOf="@+id/TotalAmountText" />
 
             <TextView
                 android:id="@+id/TimeTypeText"
@@ -49,14 +49,25 @@
                 android:text="@string/Amount"
                 android:textAppearance="@android:style/TextAppearance.Material.Medium"
                 android:layout_alignParentBottom="true"
-                android:layout_toEndOf="@+id/NumOfTypeText" />
+                android:layout_alignParentEnd="true" />
 
             <TextView
                 android:id="@+id/NumOfTypeText"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:ellipsize="marquee"
+                android:maxLines="1"
+                android:text="12"
+                android:textAppearance="@android:style/TextAppearance.Material.Medium"
                 android:layout_alignParentBottom="true"
-                android:layout_toEndOf="@+id/EveryText"
+                android:layout_toStartOf="@+id/TimeTypeText" />
+
+            <TextView
+                android:id="@+id/DaysToGoNum"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentBottom="true"
+                android:layout_alignParentStart="true"
                 android:ellipsize="marquee"
                 android:maxLines="1"
                 android:text="12"
@@ -71,7 +82,18 @@
                 android:text="@string/Every"
                 android:textAppearance="@android:style/TextAppearance.Material.Medium"
                 android:layout_alignParentBottom="true"
-                android:layout_toEndOf="@+id/NameText" />
+                android:layout_toStartOf="@+id/NumOfTypeText" />
+
+            <TextView
+                android:id="@+id/textView2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentBottom="true"
+                android:layout_toEndOf="@+id/DaysToGoNum"
+                android:ellipsize="marquee"
+                android:maxLines="1"
+                android:text="@string/DaysLeft"
+                android:textAppearance="@android:style/TextAppearance.Material.Medium" />
 
             <TextView
                 android:id="@+id/TotalAmountText"
@@ -81,7 +103,7 @@
                 android:gravity="center_vertical"
                 android:text="000.00"
                 android:textAppearance="@android:style/TextAppearance.Material.Small"
-                android:layout_alignParentBottom="true"
+                android:layout_alignParentTop="true"
                 android:layout_alignParentEnd="true" />
 
         </RelativeLayout>

@@ -18,6 +18,8 @@ public class Overview_Budgets_Adapter extends RecyclerView.Adapter<Overview_Budg
     CardView BudgetCard;
     Context context;
 
+    DateHandler dateHandler;
+
     // Provide a reference to the views for each data item
     // Complex data items may need more than one view per item, and
     // you provide access to all the views for a data item in a view holder
@@ -28,6 +30,8 @@ public class Overview_Budgets_Adapter extends RecyclerView.Adapter<Overview_Budg
         public TextView TotalAmountText;
         public TextView NumOfTypeText;
         public TextView TimeTypeText;
+        public TextView DaysToGoNum;
+
 
 
         public ViewHolder(View v) {
@@ -38,6 +42,7 @@ public class Overview_Budgets_Adapter extends RecyclerView.Adapter<Overview_Budg
             TotalAmountText = (TextView) v.findViewById(R.id.TotalAmountText);
             NumOfTypeText = (TextView) v.findViewById(R.id.NumOfTypeText);
             TimeTypeText = (TextView) v.findViewById(R.id.TimeTypeText);
+            DaysToGoNum = (TextView) v.findViewById(R.id.DaysToGoNum);
             BudgetCard = (CardView) v.findViewById(R.id.BudgetCard);
 
             v.setOnClickListener(this);
@@ -83,6 +88,11 @@ public class Overview_Budgets_Adapter extends RecyclerView.Adapter<Overview_Budg
         holder.TotalAmountText.setText( Totalamountstring );
         String NumofUnitString = Integer.toString( budget.getNumofUnit() );
         holder.NumOfTypeText.setText( NumofUnitString );
+
+        dateHandler = new DateHandler();
+        int daysdifference = dateHandler.DaysDifferenceBetweenMillis(dateHandler.currentDayMilli(),budget.getNextDate());
+        String daysdifferencestring = Integer.toString( daysdifference ) + " ";
+        holder.DaysToGoNum.setText( daysdifferencestring );
 
         // set type of Time
         int TimeType = budget.getTimeType();

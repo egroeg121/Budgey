@@ -7,6 +7,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.concurrent.TimeUnit;
 
 
 public class DateHandler {
@@ -142,5 +143,51 @@ public class DateHandler {
         }
 
         return false;
+    }
+
+    public long StartOfDay(long date){
+
+        String string = MillitoDateString(date);
+        date = DateStringtoMilli(string);
+
+        return date;
+    }
+
+    public long EndOfDay(long date){
+
+        date = AddNumDays(date,1) - 1;
+
+        return date;
+    }
+
+    public String MillitoDayOfWeek(long date) {
+        Date now = new Date(date);
+
+        SimpleDateFormat simpleDateformat = new SimpleDateFormat("EEEE"); // the day of the week abbreviated
+        String daystring = simpleDateformat.format(now);
+        return daystring;
+    }
+
+    public String MillitoMonthName(long date) {
+        Date now = new Date(date);
+
+        SimpleDateFormat simpleDateformat = new SimpleDateFormat("MMMM"); // the day of the week abbreviated
+        String daystring = simpleDateformat.format(now);
+        return daystring;
+    }
+
+    public String MillitoYear(long date) {
+        Date now = new Date(date);
+
+        SimpleDateFormat simpleDateformat = new SimpleDateFormat("yyyy"); // the day of the week abbreviated
+        String daystring = simpleDateformat.format(now);
+        return daystring;
+    }
+
+
+    public int DaysDifferenceBetweenMillis(long startdate, long enddate){
+        long daysDiff = TimeUnit.MILLISECONDS.toDays(enddate - startdate);
+
+        return (int) daysDiff;
     }
 }

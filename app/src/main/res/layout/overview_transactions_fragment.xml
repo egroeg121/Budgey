@@ -17,10 +17,10 @@
             android:layout_width="match_parent"
             android:layout_height="1dp"
             android:layout_alignParentStart="true"
+            android:layout_alignParentTop="true"
             android:background="@android:color/darker_gray"
-            android:paddingStart="20dp"
             android:paddingEnd="20dp"
-            android:layout_alignParentTop="true" />
+            android:paddingStart="20dp" />
 
         <TextView
             android:id="@+id/TitleText"
@@ -40,45 +40,46 @@
             android:layout_height="wrap_content"
             android:layout_alignParentStart="true"
             android:layout_below="@+id/TitleText"
+            android:layout_toStartOf="@+id/searchButton"
             android:backgroundTint="@color/MainWhite"
             android:hint="Search"
             android:padding="@dimen/PagePadding"
             android:textColor="@color/MainWhite"
             android:textColorHint="@color/MainWhite"
-            android:textSize="@dimen/SearchBar"
-            android:layout_toStartOf="@+id/searchButton" />
+            android:textSize="@dimen/SearchBar" />
 
         <ImageButton
             android:id="@+id/searchButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_above="@+id/TransactionList"
             android:layout_below="@+id/TitleText"
             android:layout_toStartOf="@+id/sortButton"
             android:background="@color/MainGreen"
             android:paddingLeft="@dimen/PagePadding"
             android:paddingRight="@dimen/PagePadding"
             android:src="@drawable/ic_search"
-            android:tint="@color/MainWhite"
-            android:layout_above="@+id/TransactionList" />
+            android:tint="@color/MainWhite" />
 
         <ImageButton
             android:id="@+id/sortButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_above="@+id/TransactionList"
             android:layout_alignParentEnd="true"
             android:layout_below="@+id/TitleText"
+            android:background="@color/MainGreen"
             android:paddingLeft="@dimen/PagePadding"
             android:paddingRight="@dimen/PagePadding"
             android:src="@drawable/ic_sort"
-            android:background="@color/MainGreen"
-            android:tint="@color/MainWhite"
-            android:layout_above="@+id/TransactionList" />
+            android:tint="@color/MainWhite" />
 
         <android.support.v7.widget.RecyclerView
             android:id="@+id/TransactionList"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_above="@+id/DateBar"
+            android:layout_above="@+id/linearLayout"
+            android:layout_alignParentStart="true"
             android:layout_below="@+id/searchText"
             android:background="@color/MainWhite"
             android:scrollbars="vertical" />
@@ -87,89 +88,64 @@
             android:id="@+id/AddButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_above="@+id/DateBar"
-            android:layout_alignParentEnd="true"
-            android:layout_margin="@dimen/PagePadding"
+            android:layout_marginLeft="@dimen/PagePadding"
+            android:layout_marginRight="@dimen/PagePadding"
             android:src="@drawable/ic_add"
             android:tint="@color/MainWhite"
             app:backgroundTint="@color/MainGreen"
-            app:layout_anchor="@id/RecurringList"
-            app:layout_anchorGravity="bottom|right" />
+            app:layout_anchor="@id/TransactionList"
+            app:layout_anchorGravity="bottom|right"
+            android:layout_alignBottom="@+id/TransactionList"
+            android:layout_alignEnd="@+id/linearLayout"
+            android:layout_marginBottom="12dp" />
 
         <LinearLayout
-            android:id="@+id/DateBar"
+            android:id="@+id/linearLayout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"
             android:layout_alignParentStart="true"
-            android:padding="@dimen/DateBarPadding">
-
-            <EditText
-                android:id="@+id/StartDateEdit"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentBottom="true"
-                android:layout_alignParentEnd="true"
-                android:layout_weight="1"
-                android:contextClickable="false"
-                android:editable="false"
-                android:ems="5"
-                android:hint="DD/MM/YY"
-                android:inputType="none"
-                android:maxLength="8"
-                android:textColor="@color/MainWhite"
-                android:textColorHint="@color/MainWhite"
-                android:textSize="@dimen/DateBar" />
+            android:layout_margin="@dimen/PagePadding"
+            android:orientation="horizontal">
 
             <ImageButton
                 android:id="@+id/PreviousDateButton"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
-                android:layout_above="@+id/RecurringList"
-                android:layout_below="@+id/TitleText"
-                android:layout_toStartOf="@+id/sortButton"
                 android:background="@color/MainGreen"
                 android:paddingLeft="@dimen/DateBarPadding"
                 android:paddingRight="@dimen/DateBarPadding"
                 android:src="@drawable/ic_arrow_left"
                 android:tint="@color/MainWhite" />
 
+            <TextView
+                android:id="@+id/DateText"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_alignParentStart="true"
+                android:layout_below="@+id/TransactionList"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:text="TextView"
+                android:textAppearance="@android:style/TextAppearance.Material.Medium"
+                android:textColor="@color/MainWhite" />
+
             <Spinner
                 android:id="@+id/UnitOfTimeSpinner"
-                android:layout_width="124dp"
-                android:layout_height="match_parent"
-                android:layout_weight="0.8"
-                android:backgroundTint="@color/MainWhite"
-                />
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:backgroundTint="@color/MainWhite" />
 
             <ImageButton
                 android:id="@+id/NextDateButton"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
-                android:layout_above="@+id/RecurringList"
-                android:layout_below="@+id/TitleText"
-                android:layout_toStartOf="@+id/sortButton"
                 android:background="@color/MainGreen"
                 android:paddingLeft="@dimen/DateBarPadding"
                 android:paddingRight="@dimen/DateBarPadding"
                 android:src="@drawable/ic_arrow_right"
                 android:tint="@color/MainWhite" />
-
-            <EditText
-                android:id="@+id/EndDateEdit"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentBottom="true"
-                android:layout_alignParentStart="true"
-                android:layout_weight="1"
-                android:ems="5"
-                android:hint="DD/MM/YY"
-                android:inputType="none"
-                android:maxLength="8"
-                android:textColor="@color/MainWhite"
-                android:textColorHint="@color/MainWhite"
-                android:textSize="@dimen/DateBar" />
-
         </LinearLayout>
 
     </RelativeLayout>

@@ -155,6 +155,12 @@ public class Info_Transactions_Fragment extends Fragment implements View.OnClick
                 Intent intent = new Intent(getActivity(), Category_Activity.class);
                 startActivityForResult(intent,1003);
                 break;
+            case R.id.DeleteButton:
+                dbHandler.OpenDatabase();
+                dbHandler.deleteTransaction(ID);
+                dbHandler.CloseDatabase();
+                getActivity().finish();
+                break;
         }
     }
 

@@ -15,6 +15,7 @@ import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.Spinner;
+import android.widget.TextView;
 
 import java.util.ArrayList;
 
@@ -22,23 +23,22 @@ public class Overview_Transactions_Fragment extends Fragment implements View.OnC
 
     DBHandler dbHandler;
     DateHandler dateHandler;
+    DateSelector dateSelector;
     ArrayList<Transaction> TransactionList;
 
     RecyclerView recyclerView;
     RecyclerView.LayoutManager layoutManager;
     RecyclerView.Adapter recyleAdapter;
 
-    EditText StartDateEdit;
-    EditText EndDateEdit;
+    TextView DateText;
 
     Spinner UnitOfTimeSpinner;
     ArrayAdapter<String> SpinnerAdapter;
 
     long StartDate;
     long EndDate;
-    String StartDateString;
-    String EndDateString;
-    int UnitOfTime;
+    String DateString;
+    int TimeType;
     String[] UnitsOfTimeArray;
 
     @Override
@@ -51,12 +51,7 @@ public class Overview_Transactions_Fragment extends Fragment implements View.OnC
         PreviousDateButton.setOnClickListener(this);
         ImageButton NextDateButton = (ImageButton) view.findViewById(R.id.NextDateButton);
         NextDateButton.setOnClickListener(this);
-
-
-        StartDateEdit = (EditText) view.findViewById(R.id.StartDateEdit);
-        StartDateEdit.setEnabled(false); // disables editing
-        EndDateEdit = (EditText) view.findViewById(R.id. EndDateEdit);
-        EndDateEdit.setEnabled(false);
+        DateText = (TextView) view.findViewById(R.id.DateText);
 
         // Set up RecyleView
         recyclerView = (RecyclerView) view.findViewById(R.id.TransactionList);
@@ -64,19 +59,16 @@ public class Overview_Transactions_Fragment extends Fragment implements View.OnC
         layoutManager = new LinearLayoutManager( getActivity() );
         recyclerView.setLayoutManager(layoutManager);
 
+        // On startup, start in month and on current date
+        TimeType=2;
+
         // Define Variables
         TransactionList = new ArrayList<Transaction>();
         dbHandler = new DBHandler(getActivity(),null,null,1);
         dateHandler = new DateHandler();
-
-        // Work out initial dates for Start and End
-        EndDate = dateHandler.currentDayMilli();
-        UnitOfTime=2;
+        dateSelector = new DateSelector(getContext(),0,TimeType); // Starts the bar on now, on months
 
 
-        // Automatically shows a month of dates
-        EndDateString = dateHandler.MillitoDateString(EndDate);
-        StartDateString = dateHandler.MillitoDateString(StartDate);
 
         // Define and attach adapter
         recyleAdapter = new Overview_Transaction_Adapter(TransactionList);
@@ -88,7 +80,7 @@ public class Overview_Transactions_Fragment extends Fragment implements View.OnC
         SpinnerAdapter= new ArrayAdapter<String>(getActivity(), R.layout.spinner_layout, UnitsOfTimeArray);
         SpinnerAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         UnitOfTimeSpinner.setAdapter(SpinnerAdapter);
-        UnitOfTimeSpinner.setSelection(UnitOfTime,false);
+        UnitOfTimeSpinner.setSelection(TimeType,false);
         UnitOfTimeSpinner.setOnItemSelectedListener(this);
 
 
@@ -98,13 +90,13 @@ public class Overview_Transactions_Fragment extends Fragment implements View.OnC
     @Override
     public void onResume() {
         super.onResume();
-        // Enter dates into date Edit slots
-        StartDate = dateHandler.nextDate(UnitOfTime,-1,EndDate);
-        EndDate -= 1; // This means End Date is the last millisecond on the day
-        EndDateString = dateHandler.MillitoDateString(EndDate);
-        StartDateString = dateHandler.MillitoDateString(StartDate);
-        StartDateEdit.setText( StartDateString );
-        EndDateEdit.setText( EndDateString );
+        dateSelector.CalcDates();
+
+        // Work out initial dates for Start and End
+        DateText.setText( dateSelector.getDateString() );
+        StartDate = dateSelector.getStartdate();
+        EndDate = dateSelector.getEnddate();
+
 
         // Clear TransactionList
         TransactionList.clear();
@@ -116,7 +108,6 @@ public class Overview_Transactions_Fragment extends Fragment implements View.OnC
         if ( !dbList.isEmpty() ){
             TransactionList.addAll( dbList );
         }
-        EndDate += 1; // Stops millisecond creeping down (probaly wouldn't matter
         // Update Adapter
         recyclerView.setAdapter( recyleAdapter );
         recyleAdapter.notifyDataSetChanged();
@@ -131,11 +122,11 @@ public class Overview_Transactions_Fragment extends Fragment implements View.OnC
                 startActivity(intent);
                 break;
             case R.id.NextDateButton:
-                EndDate = dateHandler.nextDate(UnitOfTime,1,EndDate);
+                dateSelector.NextDate();
                 onResume();
                 break;
             case R.id.PreviousDateButton:
-                EndDate = dateHandler.nextDate(UnitOfTime,-1,EndDate);
+                dateSelector.PreviousDate();
                 onResume();
                 break;
         }
@@ -144,7 +135,8 @@ public class Overview_Transactions_Fragment extends Fragment implements View.OnC
 
     @Override
     public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-        UnitOfTime = position;
+        TimeType = position;
+        dateSelector.setTimeType(TimeType);
         onResume();
     }
 

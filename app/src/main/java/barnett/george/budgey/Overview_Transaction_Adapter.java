@@ -76,7 +76,6 @@ public class Overview_Transaction_Adapter extends RecyclerView.Adapter<Overview_
         holder.AmountText.setText( teststring );
         holder.CategoryText.setText( transaction.getCategory() );
         holder.DateText.setText( transaction.getDateString() );
-
     }
 
 
