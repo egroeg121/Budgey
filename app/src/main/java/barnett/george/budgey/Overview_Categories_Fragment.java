@@ -10,10 +10,15 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
+import android.widget.Spinner;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 
-public class Overview_Categories_Fragment extends Fragment implements View.OnClickListener {
+public class Overview_Categories_Fragment extends Fragment implements View.OnClickListener, AdapterView.OnItemSelectedListener {
 
     DBHandler dbHandler;
     DateHandler dateHandler;
@@ -22,6 +27,12 @@ public class Overview_Categories_Fragment extends Fragment implements View.OnCli
     RecyclerView recyclerView;
     RecyclerView.LayoutManager layoutManager;
     RecyclerView.Adapter recyleAdapter;
+
+    Spinner SortSpinner;
+    ArrayAdapter<String> SortSpinnerAdapter;
+
+    int SortInt;
+    String[] SortOptionsArray;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -32,18 +43,26 @@ public class Overview_Categories_Fragment extends Fragment implements View.OnCli
 
         recyclerView = (RecyclerView) view.findViewById(R.id.CategoryList);
         recyclerView.setHasFixedSize(true);
-        layoutManager = new LinearLayoutManager( getActivity() );
+        layoutManager = new LinearLayoutManager(getActivity());
         recyclerView.setLayoutManager(layoutManager);
 
         // Define Variables
         CategoryList = new ArrayList<Category>();
-        dbHandler = new DBHandler(getActivity(),null,null,1);
+        dbHandler = new DBHandler(getActivity(), null, null, 1);
         dateHandler = new DateHandler();
-
 
         // Define and attach adapter
         recyleAdapter = new List_Adapter_Categories(CategoryList);
         recyclerView.setAdapter(recyleAdapter);
+
+        // Set up SortSpinner
+        SortSpinner = (Spinner) view.findViewById(R.id.SortSpinner);
+        SortOptionsArray = getResources().getStringArray(R.array.SortOptions);
+        SortSpinnerAdapter = new ArrayAdapter<>(getActivity(), R.layout.spinner_layout, SortOptionsArray);
+        SortSpinnerAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        SortSpinner.setAdapter(SortSpinnerAdapter);
+        SortSpinner.setSelection(SortInt, false);
+        SortSpinner.setOnItemSelectedListener(this);
 
         return view;
     }
@@ -59,12 +78,12 @@ public class Overview_Categories_Fragment extends Fragment implements View.OnCli
         dbHandler.OpenDatabase();
         ArrayList<Category> dbList = dbHandler.getAllCategory();
         dbHandler.CloseDatabase();
-        if ( !dbList.isEmpty() ){
-            CategoryList.addAll( dbList );
+        if (!dbList.isEmpty()) {
+            CategoryList.addAll(dbList);
         }
 
         // Update Adapter
-        recyclerView.setAdapter( recyleAdapter );
+        recyclerView.setAdapter(recyleAdapter);
         recyleAdapter.notifyDataSetChanged();
 
     }
@@ -77,5 +96,39 @@ public class Overview_Categories_Fragment extends Fragment implements View.OnCli
                 startActivity(intent);
                 break;
         }
+    }
+
+    // Spinner Methods
+    @Override
+    public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+        SortInt = position;
+
+        switch (SortInt){
+            case 0:
+                Collections.sort(CategoryList, new Comparator<Category>() {
+                    @Override
+                    public int compare(Category c1, Category c2) {
+                        return c1.getName().compareTo(c2.getName());
+                    }
+
+                });
+                break;
+            case 1:
+                Collections.sort(CategoryList, new Comparator<Category>() {
+                    @Override
+                    public int compare(Category c1, Category c2) {
+                        return Double.compare(c1.getAmount(), c2.getAmount());
+                    }
+
+                });
+                break;
+        }
+
+
+    }
+
+    @Override
+    public void onNothingSelected(AdapterView<?> parent) {
+
     }
 }

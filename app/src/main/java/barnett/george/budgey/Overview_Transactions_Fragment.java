@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.PopupMenu;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -18,6 +19,8 @@ import android.widget.Spinner;
 import android.widget.TextView;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 
 public class Overview_Transactions_Fragment extends Fragment implements View.OnClickListener,AdapterView.OnItemSelectedListener {
 
@@ -31,13 +34,13 @@ public class Overview_Transactions_Fragment extends Fragment implements View.OnC
     RecyclerView.Adapter recyleAdapter;
 
     TextView DateText;
+    ImageButton sortButton;
 
     Spinner UnitOfTimeSpinner;
     ArrayAdapter<String> SpinnerAdapter;
 
     long StartDate;
     long EndDate;
-    String DateString;
     int TimeType;
     String[] UnitsOfTimeArray;
 
@@ -51,7 +54,10 @@ public class Overview_Transactions_Fragment extends Fragment implements View.OnC
         PreviousDateButton.setOnClickListener(this);
         ImageButton NextDateButton = (ImageButton) view.findViewById(R.id.NextDateButton);
         NextDateButton.setOnClickListener(this);
+        ImageButton searchButton = (ImageButton) view.findViewById(R.id.searchButton);
+        searchButton.setOnClickListener(this);
         DateText = (TextView) view.findViewById(R.id.DateText);
+
 
         // Set up RecyleView
         recyclerView = (RecyclerView) view.findViewById(R.id.TransactionList);
