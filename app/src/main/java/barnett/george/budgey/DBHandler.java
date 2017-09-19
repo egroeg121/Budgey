@@ -473,7 +473,7 @@ public class DBHandler extends SQLiteOpenHelper {
         ArrayList<Category> CategoryList = new ArrayList<Category>();
 
         // Query Database (load in cursur)
-        Cursor cursor = db.query(TABLE_CATEGORIES,null,null,null,null,null, COLUMN_NAME + " ASC"); // Loads with Dates in descedning order
+        Cursor cursor = db.query(TABLE_CATEGORIES,null,null,null,null,null,null); // Loads with Dates in descedning order
 
         // Move to first row in cursor
         cursor.moveToFirst();

@@ -50,39 +50,27 @@
             android:id="@+id/searchText"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_alignParentStart="true"
-            android:layout_below="@+id/TitleText"
             android:backgroundTint="@color/MainWhite"
             android:hint="Search"
             android:padding="@dimen/PagePadding"
             android:textColor="@color/MainWhite"
             android:textColorHint="@color/MainWhite"
-            android:textSize="@dimen/SearchBar" />
+            android:textSize="@dimen/SearchBar"
+            android:layout_below="@+id/TitleText"
+            android:layout_alignParentStart="true"
+            android:layout_toStartOf="@+id/searchButton" />
 
         <ImageButton
             android:id="@+id/searchButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/TitleText"
-            android:layout_toStartOf="@+id/sortButton"
             android:background="@color/MainGreen"
             android:paddingLeft="@dimen/PagePadding"
             android:paddingRight="@dimen/PagePadding"
             android:src="@drawable/ic_search"
             android:tint="@color/MainWhite"
-            android:layout_above="@+id/RecurringList" />
-
-        <ImageButton
-            android:id="@+id/sortButton"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentEnd="true"
             android:layout_below="@+id/TitleText"
-            android:background="@color/MainGreen"
-            android:paddingLeft="@dimen/PagePadding"
-            android:paddingRight="@dimen/PagePadding"
-            android:src="@drawable/ic_sort"
-            android:tint="@color/MainWhite"
+            android:layout_toStartOf="@+id/SortSpinner"
             android:layout_above="@+id/RecurringList" />
 
         <android.support.v7.widget.RecyclerView
@@ -106,6 +94,19 @@
             app:backgroundTint="@color/MainGreen"
             app:layout_anchor="@id/RecurringList"
             app:layout_anchorGravity="bottom|right" />
+
+        <Spinner
+            android:id="@+id/SortSpinner"
+            android:layout_width="30dp"
+            android:layout_height="wrap_content"
+            android:layout_above="@+id/RecurringList"
+            android:layout_alignParentEnd="true"
+            android:layout_below="@+id/TitleText"
+            android:layout_margin="7dp"
+            android:background="@drawable/ic_sort"
+            android:backgroundTint="@color/MainWhite"
+            android:paddingLeft="@dimen/PagePadding"
+            android:paddingRight="@dimen/PagePadding" />
 
     </RelativeLayout>
 

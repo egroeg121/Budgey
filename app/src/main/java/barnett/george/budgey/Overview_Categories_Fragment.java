@@ -14,6 +14,7 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Spinner;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
@@ -71,16 +72,32 @@ public class Overview_Categories_Fragment extends Fragment implements View.OnCli
     public void onResume() {
         super.onResume();
 
-        // Clear Recurring List
+        // Clear Category List
         CategoryList.clear();
 
-        // Get Database value
+// Get Database values
         dbHandler.OpenDatabase();
         ArrayList<Category> dbList = dbHandler.getAllCategory();
         dbHandler.CloseDatabase();
-        if (!dbList.isEmpty()) {
-            CategoryList.addAll(dbList);
+        if ( !dbList.isEmpty() ){
+            CategoryList.addAll( dbList );
         }
+
+        // Sort Category List
+        Collections.sort(CategoryList, new Comparator<Category>() {
+            @Override
+            public int compare(Category c1, Category c2) {
+
+                switch (SortInt){
+                    case 0: // Sort by Aphebetical
+                        return c1.getName().compareTo(c2.getName());
+                    case 1: // Sort by Amount
+                        return  Double.compare(c1.getAmount(), c2.getAmount());
+                }
+                return 0; // Should never be reached, SortInt always has a value
+            }
+
+        });
 
         // Update Adapter
         recyclerView.setAdapter(recyleAdapter);
@@ -102,33 +119,13 @@ public class Overview_Categories_Fragment extends Fragment implements View.OnCli
     @Override
     public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
         SortInt = position;
-
-        switch (SortInt){
-            case 0:
-                Collections.sort(CategoryList, new Comparator<Category>() {
-                    @Override
-                    public int compare(Category c1, Category c2) {
-                        return c1.getName().compareTo(c2.getName());
-                    }
-
-                });
-                break;
-            case 1:
-                Collections.sort(CategoryList, new Comparator<Category>() {
-                    @Override
-                    public int compare(Category c1, Category c2) {
-                        return Double.compare(c1.getAmount(), c2.getAmount());
-                    }
-
-                });
-                break;
-        }
-
+        onResume();
 
     }
 
     @Override
     public void onNothingSelected(AdapterView<?> parent) {
-
     }
+
+
 }

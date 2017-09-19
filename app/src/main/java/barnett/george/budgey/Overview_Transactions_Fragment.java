@@ -22,27 +22,34 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 
-public class Overview_Transactions_Fragment extends Fragment implements View.OnClickListener,AdapterView.OnItemSelectedListener {
+public class Overview_Transactions_Fragment extends Fragment implements View.OnClickListener, AdapterView.OnItemSelectedListener {
 
     DBHandler dbHandler;
     DateHandler dateHandler;
     DateSelector dateSelector;
     ArrayList<Transaction> TransactionList;
 
+
     RecyclerView recyclerView;
     RecyclerView.LayoutManager layoutManager;
     RecyclerView.Adapter recyleAdapter;
 
     TextView DateText;
-    ImageButton sortButton;
 
     Spinner UnitOfTimeSpinner;
     ArrayAdapter<String> SpinnerAdapter;
 
+    Spinner SortSpinner;
+    ArrayAdapter<String> SortSpinnerAdapter;
+
     long StartDate;
     long EndDate;
+
     int TimeType;
     String[] UnitsOfTimeArray;
+
+    int SortInt;
+    String[] SortOptionsArray;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -62,33 +69,31 @@ public class Overview_Transactions_Fragment extends Fragment implements View.OnC
         // Set up RecyleView
         recyclerView = (RecyclerView) view.findViewById(R.id.TransactionList);
         recyclerView.setHasFixedSize(true);
-        layoutManager = new LinearLayoutManager( getActivity() );
+        layoutManager = new LinearLayoutManager(getActivity());
         recyclerView.setLayoutManager(layoutManager);
 
         // On startup, start in month and on current date
-        TimeType=2;
+        TimeType = 2;
 
         // Define Variables
         TransactionList = new ArrayList<Transaction>();
-        dbHandler = new DBHandler(getActivity(),null,null,1);
+        dbHandler = new DBHandler(getActivity(), null, null, 1);
         dateHandler = new DateHandler();
-        dateSelector = new DateSelector(getContext(),0,TimeType); // Starts the bar on now, on months
-
+        dateSelector = new DateSelector(getContext(), 0, TimeType); // Starts the bar on now, on months
 
 
         // Define and attach adapter
         recyleAdapter = new List_Adapter_Transactions(TransactionList);
         recyclerView.setAdapter(recyleAdapter);
 
-        // Set up Spinner
+        // Set up Unit of Time Type Spinner
         UnitOfTimeSpinner = (Spinner) view.findViewById(R.id.UnitOfTimeSpinner);
         UnitsOfTimeArray = getResources().getStringArray(R.array.UnitsOfTime);
-        SpinnerAdapter= new ArrayAdapter<String>(getActivity(), R.layout.spinner_layout, UnitsOfTimeArray);
+        SpinnerAdapter = new ArrayAdapter<String>(getActivity(), R.layout.spinner_layout, UnitsOfTimeArray);
         SpinnerAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         UnitOfTimeSpinner.setAdapter(SpinnerAdapter);
-        UnitOfTimeSpinner.setSelection(TimeType,false);
+        UnitOfTimeSpinner.setSelection(TimeType, false);
         UnitOfTimeSpinner.setOnItemSelectedListener(this);
-
 
         return view;
     }
@@ -99,23 +104,23 @@ public class Overview_Transactions_Fragment extends Fragment implements View.OnC
         dateSelector.CalcDates();
 
         // Work out initial dates for Start and End
-        DateText.setText( dateSelector.getDateString() );
+        DateText.setText(dateSelector.getDateString());
         StartDate = dateSelector.getStartdate();
         EndDate = dateSelector.getEnddate();
-
 
         // Clear TransactionList
         TransactionList.clear();
 
         // Get Database values
         dbHandler.OpenDatabase();
-        ArrayList<Transaction> dbList = dbHandler.getAllTransactionsDateLimited(StartDate,EndDate);
+        ArrayList<Transaction> dbList = dbHandler.getAllTransactionsDateLimited(StartDate, EndDate);
         dbHandler.CloseDatabase();
-        if ( !dbList.isEmpty() ){
-            TransactionList.addAll( dbList );
+        if (!dbList.isEmpty()) {
+            TransactionList.addAll(dbList);
         }
+        
         // Update Adapter
-        recyclerView.setAdapter( recyleAdapter );
+        recyclerView.setAdapter(recyleAdapter);
         recyleAdapter.notifyDataSetChanged();
 
     }
@@ -148,6 +153,5 @@ public class Overview_Transactions_Fragment extends Fragment implements View.OnC
 
     @Override
     public void onNothingSelected(AdapterView<?> parent) {
-
     }
 }
