@@ -89,10 +89,13 @@ public class Overview_Categories_Fragment extends Fragment implements View.OnCli
             public int compare(Category c1, Category c2) {
 
                 switch (SortInt){
-                    case 0: // Sort by Aphebetical
+                    case 0: // Sort by Name
                         return c1.getName().compareTo(c2.getName());
                     case 1: // Sort by Amount
                         return  Double.compare(c1.getAmount(), c2.getAmount());
+                    case 2:// Sort by Category
+                        return c1.getName().compareTo(c2.getName());
+
                 }
                 return 0; // Should never be reached, SortInt always has a value
             }

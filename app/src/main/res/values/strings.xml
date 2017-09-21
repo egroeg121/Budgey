@@ -11,8 +11,9 @@
     </string-array>
 
     <string-array name="SortOptions">
-        <item>Alphabetical</item>
+        <item>Name</item>
         <item>Amount</item>
+        <item>Category</item>
     </string-array>
 
     <string-array name="Days">

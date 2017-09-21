@@ -82,17 +82,17 @@ public class Overview_Recurring_Fragment extends Fragment implements View.OnClic
             RecurringList.addAll( dbList );
         }
 
-        // Sort Recurring List
-        // Sort Category List
         Collections.sort(RecurringList, new Comparator<Recurring>() {
             @Override
             public int compare(Recurring r1, Recurring r2) {
 
                 switch (SortInt){
-                    case 0: // Sort by Aphebetical
+                    case 0: // Sort by Name
                         return r1.getName().compareTo(r2.getName());
                     case 1: // Sort by Amount
                         return  Double.compare(r1.getAmount(), r2.getAmount());
+                    case 2:// Sort by Category
+                        return r1.getCategory().compareTo(r2.getCategory());
                 }
                 return 0; // Should never be reached, SortInt always has a value
             }
