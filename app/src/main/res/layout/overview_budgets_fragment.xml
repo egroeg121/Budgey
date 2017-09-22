@@ -52,26 +52,13 @@
             android:id="@+id/searchButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/TitleText"
-            android:layout_toStartOf="@+id/sortButton"
             android:background="@color/MainGreen"
             android:paddingLeft="@dimen/PagePadding"
             android:paddingRight="@dimen/PagePadding"
             android:src="@drawable/ic_search"
             android:tint="@color/MainWhite"
-            android:layout_above="@+id/BudgetsList" />
-
-        <ImageButton
-            android:id="@+id/sortButton"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:background="@color/MainGreen"
-            android:paddingLeft="@dimen/PagePadding"
-            android:paddingRight="@dimen/PagePadding"
-            android:src="@drawable/ic_sort"
-            android:tint="@color/MainWhite"
             android:layout_below="@+id/TitleText"
-            android:layout_alignParentEnd="true"
+            android:layout_toStartOf="@+id/SortSpinner"
             android:layout_above="@+id/BudgetsList" />
 
         <android.support.v7.widget.RecyclerView
@@ -96,6 +83,19 @@
             app:backgroundTint="@color/MainGreen"
             app:layout_anchor="@id/BudgetsList"
             app:layout_anchorGravity="bottom|right" />
+
+        <Spinner
+            android:id="@+id/SortSpinner"
+            android:layout_width="30dp"
+            android:layout_height="wrap_content"
+            android:layout_above="@+id/BudgetsList"
+            android:layout_alignParentEnd="true"
+            android:layout_below="@+id/TitleText"
+            android:layout_margin="7dp"
+            android:background="@drawable/ic_sort"
+            android:backgroundTint="@color/MainWhite"
+            android:paddingLeft="@dimen/PagePadding"
+            android:paddingRight="@dimen/PagePadding" />
 
     </RelativeLayout>
 

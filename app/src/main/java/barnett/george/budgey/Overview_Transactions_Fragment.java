@@ -39,8 +39,6 @@ public class Overview_Transactions_Fragment extends Fragment implements View.OnC
     Spinner UnitOfTimeSpinner;
     ArrayAdapter<String> SpinnerAdapter;
 
-    Spinner SortSpinner;
-    ArrayAdapter<String> SortSpinnerAdapter;
 
     long StartDate;
     long EndDate;
@@ -48,6 +46,8 @@ public class Overview_Transactions_Fragment extends Fragment implements View.OnC
     int TimeType;
     String[] UnitsOfTimeArray;
 
+    Spinner SortSpinner;
+    ArrayAdapter<String> SortSpinnerAdapter;
     int SortInt;
     String[] SortOptionsArray;
 
@@ -95,6 +95,15 @@ public class Overview_Transactions_Fragment extends Fragment implements View.OnC
         UnitOfTimeSpinner.setSelection(TimeType, false);
         UnitOfTimeSpinner.setOnItemSelectedListener(this);
 
+        // Set up SortSpinner
+        SortSpinner = (Spinner) view.findViewById(R.id.SortSpinner);
+        SortOptionsArray = getResources().getStringArray(R.array.SortOptions);
+        SortSpinnerAdapter = new ArrayAdapter<>(getActivity(), R.layout.spinner_layout, SortOptionsArray);
+        SortSpinnerAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        SortSpinner.setAdapter(SortSpinnerAdapter);
+        SortSpinner.setSelection(SortInt, false);
+        SortSpinner.setOnItemSelectedListener(this);
+
         return view;
     }
 
@@ -115,10 +124,27 @@ public class Overview_Transactions_Fragment extends Fragment implements View.OnC
         dbHandler.OpenDatabase();
         ArrayList<Transaction> dbList = dbHandler.getAllTransactionsDateLimited(StartDate, EndDate);
         dbHandler.CloseDatabase();
-        if (!dbList.isEmpty()) {
+        if (dbList != null && !dbList.isEmpty()) {
             TransactionList.addAll(dbList);
         }
-        
+
+        Collections.sort(TransactionList, new Comparator<Transaction>() {
+            @Override
+            public int compare(Transaction t1, Transaction t2) {
+
+                switch (SortInt){
+                    case 0: // Sort by Name
+                        return t1.getName().compareTo(t2.getName());
+                    case 1: // Sort by Amount
+                        return  Double.compare(t1.getAmount(), t2.getAmount());
+                    case 2:// Sort by Category
+                        return t1.getCategory().compareTo(t2.getCategory());
+                }
+                return 0; // Should never be reached, SortInt always has a value
+            }
+
+        });
+
         // Update Adapter
         recyclerView.setAdapter(recyleAdapter);
         recyleAdapter.notifyDataSetChanged();
@@ -146,9 +172,17 @@ public class Overview_Transactions_Fragment extends Fragment implements View.OnC
 
     @Override
     public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-        TimeType = position;
-        dateSelector.setTimeType(TimeType);
-        onResume();
+        switch(parent.getId()){
+            case R.id.UnitOfTimeSpinner:
+                TimeType = position;
+                dateSelector.setTimeType(TimeType);
+                onResume();
+                break;
+            case R.id.SortSpinner:
+                SortInt = position;
+                onResume();
+                break;
+        }
     }
 
     @Override

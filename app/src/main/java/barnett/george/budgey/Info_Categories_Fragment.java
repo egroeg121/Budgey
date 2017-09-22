@@ -39,6 +39,7 @@ public class Info_Categories_Fragment extends Fragment implements View.OnClickLi
     double amount;
     int counter;
     String oldname;
+    String categorytofind = null;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -80,6 +81,8 @@ public class Info_Categories_Fragment extends Fragment implements View.OnClickLi
             counter = category.getCounter();
             oldname = name;
 
+            // Get category Transactions
+            categorytofind = category.getName();
 
             // put transaction values into EditTexts
             NameEdit.setText(name);
@@ -97,12 +100,16 @@ public class Info_Categories_Fragment extends Fragment implements View.OnClickLi
 
         // Clear TransactionList
         TransactionList.clear();
+        ArrayList<Transaction> dbList = null;
 
         // Get Database values
         dbHandler.OpenDatabase();
-        ArrayList<Transaction> dbList = dbHandler.getAllTransactionsCategoryLimited(category.getName());
+        if(categorytofind != null ){
+            dbList = dbHandler.getAllTransactionsCategoryLimited(categorytofind);
+        }
+
         dbHandler.CloseDatabase();
-        if ( !dbList.isEmpty() ){
+        if ( dbList != null && !dbList.isEmpty()){
             TransactionList.addAll( dbList );
         }
         // Update Adapter

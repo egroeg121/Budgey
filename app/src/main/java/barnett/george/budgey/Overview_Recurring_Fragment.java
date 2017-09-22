@@ -78,7 +78,7 @@ public class Overview_Recurring_Fragment extends Fragment implements View.OnClic
         dbHandler.OpenDatabase();
         ArrayList<Recurring> dbList = dbHandler.getAllRecurring();
         dbHandler.CloseDatabase();
-        if ( !dbList.isEmpty() ){
+        if (dbList != null && !dbList.isEmpty()){
             RecurringList.addAll( dbList );
         }
 
@@ -118,8 +118,13 @@ public class Overview_Recurring_Fragment extends Fragment implements View.OnClic
 
     @Override
     public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-        SortInt = position;
-        onResume();
+        switch(parent.getId()){
+            case R.id.SortSpinner:
+                SortInt = position;
+                onResume();
+                break;
+        }
+
     }
 
     @Override
