@@ -25,6 +25,9 @@
         <activity android:name=".Category_Activity">
             android:windowSoftInputMode="stateHidden"
         </activity>
+        <activity android:name=".Developer_Activity">
+            android:windowSoftInputMode="stateHidden"
+        </activity>
 
         <activity android:name="barnett.george.budgey.AndroidDatabaseManager"
             android:theme="@style/Theme.AppCompat.Light"/>

@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <Button
+        android:id="@+id/DeveloperControls"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="database"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentStart="true" />
+
+    <Button
+        android:id="@+id/AddTransactions"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Add Transactions"
+        android:layout_below="@+id/deletebutton"
+        android:layout_alignParentStart="true" />
+
+    <Button
+        android:id="@+id/AddRecurring"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_below="@+id/AddTransactions"
+        android:text="Add Recurring" />
+
+    <Button
+        android:id="@+id/CheckRecurring"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Check Recurring"
+        android:layout_below="@+id/AddBudgets"
+        android:layout_alignParentStart="true" />
+
+    <Button
+        android:id="@+id/AddBudgets"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Add Budgets"
+        android:layout_below="@+id/AddRecurring"
+        android:layout_alignParentStart="true" />
+
+    <Button
+        android:id="@+id/UpdateCategories"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Update Categories"
+        android:layout_below="@+id/CheckRecurring"
+        android:layout_alignParentStart="true" />
+
+    <Button
+        android:id="@+id/UpdateBudgets"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_below="@+id/UpdateCategories"
+        android:text="Update Budgets" />
+
+    <Button
+        android:id="@+id/deletebutton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_below="@+id/DeveloperControls"
+        android:text="Delete" />
+</RelativeLayout>

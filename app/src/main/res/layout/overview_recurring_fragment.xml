@@ -32,7 +32,9 @@
             android:layout_alignParentTop="true"
             android:background="@android:color/darker_gray"
             android:paddingEnd="20dp"
-            android:paddingStart="20dp" />
+            android:paddingStart="20dp"
+            android:focusable="true"
+            android:focusableInTouchMode="true"/>
 
         <TextView
             android:id="@+id/TitleText"

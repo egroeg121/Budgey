@@ -8,6 +8,7 @@ import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
+import android.preference.PreferenceFragment;
 
 public class Overview_Activity extends FragmentActivity {
 
@@ -45,20 +46,21 @@ class OverviewAdapter extends FragmentPagerAdapter {
     public Fragment getItem(int pageposition) {
         Fragment fragment=null; // Fragment Object
         switch (pageposition){
+
             case 0:
-                fragment = new Settings_Fragment();
-                break;
-            case 1:
                 fragment = new Overview_Categories_Fragment();
                 break;
-            case 2:
+            case 1:
                 fragment = new Overview_Budgets_Fragment();
                 break;
-            case 3:
+            case 2:
                 fragment = new Overview_Transactions_Fragment();
                 break;
-            case 4:
+            case 3:
                 fragment = new Overview_Recurring_Fragment();
+                break;
+            case 4:
+                fragment = new Settings_Fragment();
                 break;
         }
 
@@ -77,19 +79,19 @@ class OverviewAdapter extends FragmentPagerAdapter {
         String title = null;
         switch (pageposition){
             case 0:
-                title = context.getResources().getString(R.string.Settings);
-                break;
-            case 1:
                 title = context.getResources().getString(R.string.Categories);
                 break;
-            case 2:
+            case 1:
                 title = context.getResources().getString(R.string.Budgets);
                 break;
-            case 3:
+            case 2:
                 title = context.getResources().getString(R.string.Transactions);
                 break;
-            case 4:
+            case 3:
                 title = context.getResources().getString(R.string.Recurring);
+                break;
+            case 4:
+                title = context.getResources().getString(R.string.Settings);
                 break;
         }
         return title;
