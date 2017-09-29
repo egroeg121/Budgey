@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
+import android.support.v4.content.ContextCompat;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -12,6 +13,7 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.Spinner;
 
 import java.util.Date;
@@ -29,6 +31,7 @@ public class Info_Recurring_Fragment extends Fragment implements View.OnClickLis
     InputValidation inputValidation;
 
     Button TodayDateButton;
+    ImageButton DeleteButton;
     EditText NameEdit;
     EditText AmountEdit;
     EditText CategoryEdit;
@@ -68,6 +71,8 @@ public class Info_Recurring_Fragment extends Fragment implements View.OnClickLis
         DoneButton.setOnClickListener(this);
         TodayDateButton = (Button) view.findViewById(R.id.TodayDateButton);
         TodayDateButton.setOnClickListener(this);
+        DeleteButton = (ImageButton) view.findViewById(R.id.DeleteButton);
+        DeleteButton.setOnClickListener(this);
         NameEdit = (EditText) view.findViewById((R.id.NameEdit));
         AmountEdit = (EditText) view.findViewById((R.id.AmountEdit));
         CategoryEdit = (EditText) view.findViewById((R.id.CategoryEdit));
@@ -98,6 +103,10 @@ public class Info_Recurring_Fragment extends Fragment implements View.OnClickLis
 
         if (ID == -1){
             recurring = new Recurring(-1,null,0,0,0,null,0,0,-1,0);
+
+            // Hide Delete Button
+            DeleteButton.setEnabled(false);
+            DeleteButton.setColorFilter( ContextCompat.getColor(getContext(), R.color.MainGreen));
         }else{
             dbHandler.OpenDatabase();
             recurring = dbHandler.getRecurring(ID);
@@ -194,6 +203,13 @@ public class Info_Recurring_Fragment extends Fragment implements View.OnClickLis
             case R.id.CategoryEdit:
                 Intent intent = new Intent(getActivity(), Category_Activity.class);
                 startActivityForResult(intent,1004);
+                break;
+            case R.id.DeleteButton:
+                dbHandler.OpenDatabase();
+                dbHandler.deleteRecurring(ID);
+                dbHandler.deleteTransactionFromRecurring(ID);
+                dbHandler.CloseDatabase();
+                getActivity().finish();
                 break;
 
         }

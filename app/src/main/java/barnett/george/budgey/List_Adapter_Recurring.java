@@ -26,6 +26,7 @@ public class List_Adapter_Recurring extends RecyclerView.Adapter<List_Adapter_Re
         public TextView AmountText;
         public TextView NumOfTypeText;
         public TextView TimeTypeText;
+        public TextView DoneText;
 
 
         public ViewHolder(View v) {
@@ -35,6 +36,7 @@ public class List_Adapter_Recurring extends RecyclerView.Adapter<List_Adapter_Re
             AmountText = (TextView) v.findViewById(R.id.AmountText);
             NumOfTypeText = (TextView) v.findViewById(R.id.NumOfTypeText);
             TimeTypeText = (TextView) v.findViewById(R.id.TimeTypeText);
+            DoneText = (TextView) v.findViewById(R.id.DoneText);
             RecurringCard = (CardView) v.findViewById(R.id.RecurringCard);
 
             v.setOnClickListener(this);
@@ -78,7 +80,7 @@ public class List_Adapter_Recurring extends RecyclerView.Adapter<List_Adapter_Re
         holder.AmountText.setText( amountstring );
         String NumofUnitString = Integer.toString( recurring.getNumofUnit() );
         holder.NumOfTypeText.setText( NumofUnitString );
-
+        if (recurring.getCounter() != 0 ){ holder.DoneText.setVisibility(View.INVISIBLE); }
         // set type of Time
         int TimeType = recurring.getTimeType();
         String TimeTypeString = null;

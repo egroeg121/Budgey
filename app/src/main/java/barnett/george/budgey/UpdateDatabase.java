@@ -56,6 +56,12 @@ public class UpdateDatabase {
             recurring = recurringlist.get(i);
             nextdate = recurring.getNextDate();
 
+
+            if (recurring.getCounter() < 1){
+                break;
+            }
+
+
             // if nextdate < current date
             if (currentime > nextdate){
                 // add transaction (with recurring id different)
@@ -76,6 +82,7 @@ public class UpdateDatabase {
                 // recheck this recurring object
                 i--;
             }
+
 
         }
     }

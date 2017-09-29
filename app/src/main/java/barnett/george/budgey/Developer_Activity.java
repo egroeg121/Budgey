@@ -32,6 +32,8 @@ public class Developer_Activity extends Activity implements View.OnClickListener
         UpdateCategories.setOnClickListener(this);
         Button UpdateBudgets = (Button) findViewById(R.id.UpdateBudgets);
         UpdateBudgets.setOnClickListener(this);
+
+        updateDatabase = new UpdateDatabase(this);
     }
 
 

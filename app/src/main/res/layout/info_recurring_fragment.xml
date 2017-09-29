@@ -32,7 +32,8 @@
             android:text="@string/RecurringInfo"
             android:textColor="@color/MainWhite"
             android:textSize="@dimen/Title"
-            android:textStyle="bold" />
+            android:textStyle="bold"
+            android:layout_toStartOf="@+id/DeleteButton" />
 
         <TextView
             android:id="@+id/NameText"
@@ -260,6 +261,19 @@
             android:hint="∞"
             android:inputType="numberDecimal"
             android:textAlignment="center" />
+
+        <ImageButton
+            android:id="@+id/DeleteButton"
+            android:layout_width="50dp"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_below="@+id/TopGreyBar"
+            android:background="@color/MainGreen"
+            android:paddingLeft="@dimen/PagePadding"
+            android:paddingRight="@dimen/PagePadding"
+            android:src="@drawable/ic_delete"
+            android:tint="@color/MainWhite"
+            android:layout_above="@+id/NameEdit" />
 
     </RelativeLayout>
 

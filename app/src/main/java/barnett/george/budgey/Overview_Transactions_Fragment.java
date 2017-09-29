@@ -28,6 +28,7 @@ public class Overview_Transactions_Fragment extends Fragment implements View.OnC
     DateHandler dateHandler;
     DateSelector dateSelector;
     ArrayList<Transaction> TransactionList;
+    ArrayList<Transaction> displayList;
 
 
     RecyclerView recyclerView;
@@ -35,6 +36,8 @@ public class Overview_Transactions_Fragment extends Fragment implements View.OnC
     RecyclerView.Adapter recyleAdapter;
 
     TextView DateText;
+    EditText searchText;
+    ImageButton searchButton;
 
     Spinner UnitOfTimeSpinner;
     ArrayAdapter<String> SpinnerAdapter;
@@ -51,6 +54,8 @@ public class Overview_Transactions_Fragment extends Fragment implements View.OnC
     int SortInt;
     String[] SortOptionsArray;
 
+    boolean search;
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.overview_transactions_fragment, container, false);
@@ -61,9 +66,10 @@ public class Overview_Transactions_Fragment extends Fragment implements View.OnC
         PreviousDateButton.setOnClickListener(this);
         ImageButton NextDateButton = (ImageButton) view.findViewById(R.id.NextDateButton);
         NextDateButton.setOnClickListener(this);
-        ImageButton searchButton = (ImageButton) view.findViewById(R.id.searchButton);
+        searchButton = (ImageButton) view.findViewById(R.id.searchButton);
         searchButton.setOnClickListener(this);
         DateText = (TextView) view.findViewById(R.id.DateText);
+        searchText = (EditText) view.findViewById(R.id.searchText);
 
 
         // Set up RecyleView
@@ -75,15 +81,19 @@ public class Overview_Transactions_Fragment extends Fragment implements View.OnC
         // On startup, start in month and on current date
         TimeType = 2;
 
+        // set search to false
+        search = false;
+
         // Define Variables
         TransactionList = new ArrayList<Transaction>();
+        displayList = new ArrayList<Transaction>();
         dbHandler = new DBHandler(getActivity(), null, null, 1);
         dateHandler = new DateHandler();
         dateSelector = new DateSelector(getContext(), 0, TimeType); // Starts the bar on now, on months
 
 
         // Define and attach adapter
-        recyleAdapter = new List_Adapter_Transactions(TransactionList);
+        recyleAdapter = new List_Adapter_Transactions(displayList);
         recyclerView.setAdapter(recyleAdapter);
 
         // Set up Unit of Time Type Spinner
@@ -107,16 +117,48 @@ public class Overview_Transactions_Fragment extends Fragment implements View.OnC
         return view;
     }
 
+    /*
+    Notes: Chain of methods executed
+
+    This is so they can be jumped into at any point
+    getTransactionList
+    getDisplayList
+    sortDisplayList
+    showDisplayList
+     */
+
+    @Override
+    public void onStart() {
+        super.onStart();
+
+        if (search){searchButton.setImageResource(R.drawable.ic_cancel);}
+
+        getDates();
+        getTransactionList();
+        getDisplayList();
+
+    }
+
     @Override
     public void onResume() {
         super.onResume();
+
+        sortDisplayList();
+        showDisplayList();
+    }
+
+    // reset dates
+    public void getDates(){
         dateSelector.CalcDates();
 
         // Work out initial dates for Start and End
         DateText.setText(dateSelector.getDateString());
         StartDate = dateSelector.getStartdate();
         EndDate = dateSelector.getEnddate();
+    }
 
+    // get transactionlist
+    public void getTransactionList(){
         // Clear TransactionList
         TransactionList.clear();
 
@@ -124,11 +166,22 @@ public class Overview_Transactions_Fragment extends Fragment implements View.OnC
         dbHandler.OpenDatabase();
         ArrayList<Transaction> dbList = dbHandler.getAllTransactionsDateLimited(StartDate, EndDate);
         dbHandler.CloseDatabase();
+
         if (dbList != null && !dbList.isEmpty()) {
             TransactionList.addAll(dbList);
         }
+    }
 
-        Collections.sort(TransactionList, new Comparator<Transaction>() {
+    // turn transactionlist into displaylist
+    public void getDisplayList(){
+        displayList.clear();
+        displayList.addAll(TransactionList);
+
+    }
+
+    // sort displaylist
+    public void sortDisplayList(){
+        Collections.sort(displayList, new Comparator<Transaction>() {
             @Override
             public int compare(Transaction t1, Transaction t2) {
 
@@ -139,17 +192,23 @@ public class Overview_Transactions_Fragment extends Fragment implements View.OnC
                         return  Double.compare(t1.getAmount(), t2.getAmount());
                     case 2:// Sort by Category
                         return t1.getCategory().compareTo(t2.getCategory());
+                    case 3:// Sort by Date
+                        return  Long.compare(t1.getDate(), t2.getDate());
                 }
                 return 0; // Should never be reached, SortInt always has a value
             }
 
         });
 
+    }
+
+    // display displaylist
+    public void showDisplayList(){
         // Update Adapter
         recyclerView.setAdapter(recyleAdapter);
         recyleAdapter.notifyDataSetChanged();
-
     }
+
 
     @Override
     public void onClick(View v) {
@@ -160,12 +219,40 @@ public class Overview_Transactions_Fragment extends Fragment implements View.OnC
                 break;
             case R.id.NextDateButton:
                 dateSelector.NextDate();
+                onStart();
                 onResume();
                 break;
             case R.id.PreviousDateButton:
                 dateSelector.PreviousDate();
+                onStart();
                 onResume();
                 break;
+            case R.id.searchButton:
+
+                search = !search;
+
+                if (search){
+                    searchButton.setImageResource(R.drawable.ic_cancel);
+                    String searchString = searchText.getText().toString();
+
+                    displayList.clear();
+
+                    for(Transaction searchtransaction : TransactionList){
+                        if(searchtransaction.getName() != null && searchtransaction.getName().contains(searchString)){
+                            displayList.add(searchtransaction);
+                        }
+
+                        onResume();
+                    }
+                }else{
+                    searchButton.setImageResource(R.drawable.ic_search);
+                    searchText.setText("");
+
+                    getDisplayList();
+                    sortDisplayList();
+                    showDisplayList();
+                }
+
         }
     }
 
@@ -176,7 +263,8 @@ public class Overview_Transactions_Fragment extends Fragment implements View.OnC
             case R.id.UnitOfTimeSpinner:
                 TimeType = position;
                 dateSelector.setTimeType(TimeType);
-                onResume();
+                getDates();
+                getTransactionList();
                 break;
             case R.id.SortSpinner:
                 SortInt = position;
@@ -188,4 +276,6 @@ public class Overview_Transactions_Fragment extends Fragment implements View.OnC
     @Override
     public void onNothingSelected(AdapterView<?> parent) {
     }
+
+
 }

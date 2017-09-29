@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.renderscript.ScriptGroup;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -12,6 +13,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 
 import java.util.ArrayList;
 
@@ -28,6 +30,7 @@ public class Info_Categories_Fragment extends Fragment implements View.OnClickLi
     // Layout Items
     FloatingActionButton DoneButton;
     EditText NameEdit;
+    ImageButton DeleteButton;
 
     // list
     RecyclerView recyclerView;
@@ -49,6 +52,8 @@ public class Info_Categories_Fragment extends Fragment implements View.OnClickLi
         DoneButton = (FloatingActionButton) view.findViewById(R.id.DoneButton);
         DoneButton.setOnClickListener(this);
         NameEdit = (EditText) view.findViewById(R.id.NameEdit);
+        DeleteButton = (ImageButton) view.findViewById(R.id.DeleteButton);
+        DeleteButton.setOnClickListener(this);
 
         // Set up RecyleView
         recyclerView = (RecyclerView) view.findViewById(R.id.TransactionList);
@@ -68,8 +73,13 @@ public class Info_Categories_Fragment extends Fragment implements View.OnClickLi
 
         // Get previous transaction or setup new transaction
         if ( ID == -1 ){
-            // Set up Previous Transaction. Edit Texts look better blank
+            // New Category
             category = new Category(-1,null,0,0);
+
+            // Hide Delete Button
+            DeleteButton.setEnabled(false);
+            DeleteButton.setColorFilter( ContextCompat.getColor(getContext(), R.color.MainGreen));
+
         }else{
             // Get previous values and put them into Edit Texts.
             dbHandler.OpenDatabase();
@@ -145,8 +155,14 @@ public class Info_Categories_Fragment extends Fragment implements View.OnClickLi
 
                 }
                 dbHandler.CloseDatabase();
+                getActivity().finish();
+                break;
 
-
+            case R.id.DeleteButton:
+                dbHandler.OpenDatabase();
+                dbHandler.deleteCategory(ID);
+                dbHandler.editAllTransactionsCategory(category.getName(),"None");
+                dbHandler.CloseDatabase();
                 getActivity().finish();
                 break;
 

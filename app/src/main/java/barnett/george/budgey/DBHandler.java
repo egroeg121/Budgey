@@ -497,6 +497,10 @@ public class DBHandler extends SQLiteOpenHelper {
         return CategoryList;
     }
 
+    public void deleteCategory(int id){
+        db.delete(TABLE_CATEGORIES, COLUMN_ID + "=" + id, null);
+    }
+
     public void deleteAllCategory(){
         db.delete(TABLE_CATEGORIES, null,null);
         db.execSQL("DELETE FROM SQLITE_SEQUENCE WHERE NAME = '" + TABLE_CATEGORIES + "'");

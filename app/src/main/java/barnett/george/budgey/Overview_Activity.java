@@ -2,6 +2,7 @@ package barnett.george.budgey;
 
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
@@ -23,10 +24,14 @@ public class Overview_Activity extends FragmentActivity {
         viewPager = (ViewPager) findViewById(R.id.pager); // Find the ID of the ViewPage (The background page)
         FragmentManager fragmentManager=getSupportFragmentManager(); // Adapter needs fragment manager object
         viewPager.setAdapter( new OverviewAdapter(fragmentManager,this) );
-        viewPager.setCurrentItem( 3 );
+        viewPager.setCurrentItem( 2 ); // start on transactions page
 
         // Initiate the database so the oncreate is called
         dbHandler = new DBHandler(this,null,null,1);
+
+        Intent intent = new Intent(this, LoadingActivity.class);
+        startActivity(intent);
+
     }
 
 

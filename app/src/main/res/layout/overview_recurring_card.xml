@@ -63,6 +63,17 @@
                 android:layout_toEndOf="@+id/NameText" />
 
             <TextView
+                android:id="@+id/DoneText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentBottom="true"
+                android:layout_alignParentEnd="true"
+                android:ellipsize="marquee"
+                android:maxLines="1"
+                android:text="Done"
+                android:textAppearance="@android:style/TextAppearance.Material.Medium" />
+
+            <TextView
                 android:id="@+id/AmountText"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
