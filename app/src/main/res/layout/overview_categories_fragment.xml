@@ -46,10 +46,10 @@
             android:textSize="@dimen/SearchBar"
             android:layout_below="@+id/TitleText"
             android:layout_alignParentStart="true"
-            android:layout_toStartOf="@+id/SearchButton" />
+            android:layout_toStartOf="@+id/searchButton" />
 
         <ImageButton
-            android:id="@+id/SearchButton"
+            android:id="@+id/searchButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_above="@+id/CategoryList"
@@ -81,7 +81,7 @@
             android:layout_alignParentBottom="true"
             android:layout_alignParentEnd="true"
             android:layout_below="@+id/searchText"
-            android:layout_toStartOf="@+id/SearchButton"
+            android:layout_toStartOf="@+id/searchButton"
             android:background="@color/MainWhite"
             android:scrollbars="vertical" />
 

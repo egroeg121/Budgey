@@ -27,6 +27,8 @@ public class Overview_Transactions_Fragment extends Fragment implements View.OnC
     DBHandler dbHandler;
     DateHandler dateHandler;
     DateSelector dateSelector;
+    UpdateDatabase updateDatabase;
+
     ArrayList<Transaction> TransactionList;
     ArrayList<Transaction> displayList;
 
@@ -87,10 +89,12 @@ public class Overview_Transactions_Fragment extends Fragment implements View.OnC
         // Define Variables
         TransactionList = new ArrayList<Transaction>();
         displayList = new ArrayList<Transaction>();
+
+        // Set up separate classes
         dbHandler = new DBHandler(getActivity(), null, null, 1);
         dateHandler = new DateHandler();
         dateSelector = new DateSelector(getContext(), 0, TimeType); // Starts the bar on now, on months
-
+        updateDatabase = new UpdateDatabase(getContext());
 
         // Define and attach adapter
         recyleAdapter = new List_Adapter_Transactions(displayList);
@@ -117,21 +121,9 @@ public class Overview_Transactions_Fragment extends Fragment implements View.OnC
         return view;
     }
 
-    /*
-    Notes: Chain of methods executed
-
-    This is so they can be jumped into at any point
-    getTransactionList
-    getDisplayList
-    sortDisplayList
-    showDisplayList
-     */
-
     @Override
     public void onStart() {
         super.onStart();
-
-        if (search){searchButton.setImageResource(R.drawable.ic_cancel);}
 
         getDates();
         getTransactionList();
@@ -142,6 +134,9 @@ public class Overview_Transactions_Fragment extends Fragment implements View.OnC
     @Override
     public void onResume() {
         super.onResume();
+
+        search = false;
+        searchList();
 
         sortDisplayList();
         showDisplayList();
@@ -209,6 +204,30 @@ public class Overview_Transactions_Fragment extends Fragment implements View.OnC
         recyleAdapter.notifyDataSetChanged();
     }
 
+    public void searchList(){
+        if (search){
+            searchButton.setImageResource(R.drawable.ic_cancel);
+            String searchString = searchText.getText().toString().toLowerCase();
+
+            displayList.clear();
+
+            for(Transaction searchtransaction : TransactionList){
+                if(searchtransaction.getName() != null && searchtransaction.getName().toLowerCase().contains(searchString)){
+                    displayList.add(searchtransaction);
+                }
+
+                sortDisplayList();
+                showDisplayList();
+            }
+        }else{
+            searchButton.setImageResource(R.drawable.ic_search);
+            searchText.setText("");
+
+            getDisplayList();
+            sortDisplayList();
+            showDisplayList();
+        }
+    }
 
     @Override
     public void onClick(View v) {
@@ -228,31 +247,9 @@ public class Overview_Transactions_Fragment extends Fragment implements View.OnC
                 onResume();
                 break;
             case R.id.searchButton:
-
                 search = !search;
-
-                if (search){
-                    searchButton.setImageResource(R.drawable.ic_cancel);
-                    String searchString = searchText.getText().toString();
-
-                    displayList.clear();
-
-                    for(Transaction searchtransaction : TransactionList){
-                        if(searchtransaction.getName() != null && searchtransaction.getName().contains(searchString)){
-                            displayList.add(searchtransaction);
-                        }
-
-                        onResume();
-                    }
-                }else{
-                    searchButton.setImageResource(R.drawable.ic_search);
-                    searchText.setText("");
-
-                    getDisplayList();
-                    sortDisplayList();
-                    showDisplayList();
-                }
-
+                searchList();
+                break;
         }
     }
 

@@ -1,6 +1,7 @@
 package barnett.george.budgey;
 
 import android.content.Intent;
+import android.icu.text.TimeZoneFormat;
 import android.media.Image;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
@@ -119,7 +120,7 @@ public class Info_Budgets_Fragment extends Fragment implements View.OnClickListe
             timetype = budget.getTimeType();
             amount = budget.getAmount();
 
-            long startdate = dateHandler.nextDate(timetype,-1,nextdate);
+            long startdate = dateHandler.nextDate(timetype,-1*numofunit,nextdate);
             DateArray = dateHandler.DatetoStringArray(startdate);
             NameEdit.setText(name);
             TotalAmountEdit.setText( Double.toString(totalamount));
@@ -138,6 +139,11 @@ public class Info_Budgets_Fragment extends Fragment implements View.OnClickListe
         return view;
     }
 
+
+    @Override
+    public void onResume() {
+        super.onResume();
+    }
 
     @Override
     public void onClick(View v) {
@@ -159,12 +165,17 @@ public class Info_Budgets_Fragment extends Fragment implements View.OnClickListe
                 name = NameEdit.getText().toString();
                 if (!inputValidation.ValidateText(name,"Name")){break;}
                 String totalamountstring =  TotalAmountEdit.getText().toString();
+
                 if (!inputValidation.ValidateDouble(totalamountstring,"Total Amount")){break;}
                 totalamount = Double.valueOf(totalamountstring);
 
                 categorystring = CategoryStringEdit.getText().toString();
                 if (!inputValidation.ValidateEmpty(categorystring,"Category")){break;}
 
+                // timetype is set by spinner
+                String numofunitstring =  NumOfUnitEdit.getText().toString();
+                if (!inputValidation.ValidateInt(numofunitstring,"Number of " +  TimeTypeArray[timetype] + "s" )){break;}
+                numofunit = Integer.valueOf(numofunitstring);
 
                 DateArray = new String[3];
                 DateArray[0] = DateDayEdit.getText().toString();
@@ -172,13 +183,7 @@ public class Info_Budgets_Fragment extends Fragment implements View.OnClickListe
                 DateArray[2] = DateYearEdit.getText().toString();
                 if (!inputValidation.ValidateDate(DateArray,"Start Date")){break;}
                 nextdate = dateHandler.StringArraytoDate(DateArray);
-
-
-                // timetype is set by spinner
-                String numofunitstring =  NumOfUnitEdit.getText().toString();
-                if (!inputValidation.ValidateInt(numofunitstring,"Number of " +  TimeTypeArray[timetype] + "s" )){break;}
-                numofunit = Integer.valueOf(numofunitstring);
-
+                nextdate = dateHandler.nextDate(timetype,numofunit,nextdate);
 
                 budget = new Budget(ID,name,totalamount,categorystring,nextdate,numofunit,timetype,amount);
 

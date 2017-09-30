@@ -12,6 +12,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.Spinner;
 
 import java.lang.reflect.Array;
@@ -23,17 +25,25 @@ public class Overview_Categories_Fragment extends Fragment implements View.OnCli
 
     DBHandler dbHandler;
     DateHandler dateHandler;
+    UpdateDatabase updateDatabase;
+
     ArrayList<Category> CategoryList;
+    ArrayList<Category> DisplayList;
 
     RecyclerView recyclerView;
     RecyclerView.LayoutManager layoutManager;
     RecyclerView.Adapter recyleAdapter;
+
+    ImageButton searchButton;
+    EditText searchText;
 
     Spinner SortSpinner;
     ArrayAdapter<String> SortSpinnerAdapter;
 
     int SortInt;
     String[] SortOptionsArray;
+
+    boolean search; // If search is on or off
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -49,11 +59,18 @@ public class Overview_Categories_Fragment extends Fragment implements View.OnCli
 
         // Define Variables
         CategoryList = new ArrayList<Category>();
+        DisplayList = new ArrayList<Category>();
+
         dbHandler = new DBHandler(getActivity(), null, null, 1);
         dateHandler = new DateHandler();
+        updateDatabase = new UpdateDatabase(getContext());
+
+        searchText = (EditText) view.findViewById(R.id.searchText);
+        searchButton = (ImageButton) view.findViewById(R.id.searchButton);
+        searchButton.setOnClickListener(this);
 
         // Define and attach adapter
-        recyleAdapter = new List_Adapter_Categories(CategoryList);
+        recyleAdapter = new List_Adapter_Categories(DisplayList);
         recyclerView.setAdapter(recyleAdapter);
 
         // Set up SortSpinner
@@ -69,20 +86,47 @@ public class Overview_Categories_Fragment extends Fragment implements View.OnCli
     }
 
     @Override
+    public void onStart() {
+        super.onStart();
+
+        getCategoryList();
+        getDisplayList();
+
+    }
+
+    @Override
     public void onResume() {
         super.onResume();
 
+        updateDatabase.CheckRecurring();
+
+        search = false;
+        searchList();
+
+        sortDisplayList();
+        showDisplayList();
+
+    }
+
+    public void getCategoryList(){
         // Clear Category List
         CategoryList.clear();
 
-// Get Database values
+        // Get Database value
         dbHandler.OpenDatabase();
         ArrayList<Category> dbList = dbHandler.getAllCategory();
         dbHandler.CloseDatabase();
-        if ( dbList != null && !dbList.isEmpty() ){
+        if (dbList != null && !dbList.isEmpty() ){
             CategoryList.addAll( dbList );
         }
+    }
 
+    public void getDisplayList(){
+        DisplayList.clear();
+        DisplayList.addAll(CategoryList);
+    }
+
+    public void sortDisplayList(){
         // Sort Category List
         Collections.sort(CategoryList, new Comparator<Category>() {
             @Override
@@ -102,10 +146,39 @@ public class Overview_Categories_Fragment extends Fragment implements View.OnCli
 
         });
 
-        // Update Adapter
-        recyclerView.setAdapter(recyleAdapter);
-        recyleAdapter.notifyDataSetChanged();
+    }
 
+    public void showDisplayList(){
+        // Update Adapter
+        recyclerView.setAdapter( recyleAdapter );
+        recyleAdapter.notifyDataSetChanged();
+    }
+
+    public void searchList(){
+        if (search){
+            // If search is turned on
+            searchButton.setImageResource(R.drawable.ic_cancel);
+            String searchString = searchText.getText().toString().toLowerCase();
+
+            DisplayList.clear();
+
+            for(Category searchCategory : CategoryList){
+                if(searchCategory.getName() != null && searchCategory.getName().toLowerCase().contains(searchString)){
+                    DisplayList.add(searchCategory);
+                }
+
+                sortDisplayList();
+                showDisplayList();
+            }
+        }else{
+            // if search is turned off
+            searchButton.setImageResource(R.drawable.ic_search);
+            searchText.setText("");
+
+            getDisplayList();
+            sortDisplayList();
+            showDisplayList();
+        }
     }
 
     @Override
@@ -114,6 +187,10 @@ public class Overview_Categories_Fragment extends Fragment implements View.OnCli
             case R.id.AddButton:
                 Intent intent = new Intent(getActivity(), Info_Activity.class);
                 startActivity(intent);
+                break;
+            case R.id.searchButton:
+                search = !search;
+                searchList();
                 break;
         }
     }
@@ -126,6 +203,7 @@ public class Overview_Categories_Fragment extends Fragment implements View.OnCli
                 SortInt = position;
                 onResume();
                 break;
+
         }
 
     }

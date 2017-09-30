@@ -10,6 +10,7 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.preference.PreferenceFragment;
+import android.util.Log;
 
 public class Overview_Activity extends FragmentActivity {
 
@@ -33,7 +34,6 @@ public class Overview_Activity extends FragmentActivity {
         startActivity(intent);
 
     }
-
 
 }
 
