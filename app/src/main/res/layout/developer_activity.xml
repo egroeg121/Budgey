@@ -32,7 +32,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Check Recurring"
-        android:layout_below="@+id/AddBudgets"
+        android:layout_below="@+id/AddGeneral"
         android:layout_alignParentStart="true" />
 
     <Button
@@ -42,6 +42,14 @@
         android:text="Add Budgets"
         android:layout_below="@+id/AddRecurring"
         android:layout_alignParentStart="true" />
+
+    <Button
+        android:id="@+id/AddGeneral"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_below="@+id/AddBudgets"
+        android:text="Add General" />
 
     <Button
         android:id="@+id/UpdateCategories"

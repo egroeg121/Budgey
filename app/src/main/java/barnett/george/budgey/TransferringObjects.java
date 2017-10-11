@@ -1,5 +1,8 @@
 package barnett.george.budgey;
 
+import barnett.george.budgey.Objects.Recurring;
+import barnett.george.budgey.Objects.Transaction;
+
 public class TransferringObjects {
 
     /** Converts Recurring to a Transaction object. ID is -1, date = nextdate. */

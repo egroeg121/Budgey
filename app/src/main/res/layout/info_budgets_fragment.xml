@@ -36,7 +36,7 @@
             android:textStyle="bold" />
 
         <TextView
-            android:id="@+id/NameText"
+            android:id="@+id/StartText"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignEnd="@+id/TotalAmountText"
@@ -55,7 +55,7 @@
             android:layout_height="wrap_content"
             android:layout_alignEnd="@+id/CategoryText"
             android:layout_alignParentStart="true"
-            android:layout_below="@+id/NameText"
+            android:layout_below="@+id/StartText"
             android:gravity="center"
             android:padding="@dimen/PagePadding"
             android:text="@string/Total"
@@ -109,6 +109,7 @@
             android:id="@+id/DateDayEdit"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_above="@+id/UnitofTimeText"
             android:layout_below="@+id/CategoryText"
             android:layout_toEndOf="@+id/CategoryText"
             android:ems="2"
@@ -185,17 +186,17 @@
             android:layout_height="wrap_content"
             android:layout_alignBottom="@+id/CategoryEdit"
             android:layout_alignEnd="@+id/TotalAmountEdit"
+            android:layout_below="@+id/TotalAmountEdit"
             android:background="@color/MainWhite"
             android:text="Clear"
-            android:textColor="@color/DarkGrey"
-            android:layout_below="@+id/TotalAmountEdit" />
+            android:textColor="@color/DarkGrey" />
 
         <Spinner
             android:id="@+id/UnitOfTimeSpinner"
             android:layout_width="120dp"
             android:layout_height="wrap_content"
             android:layout_alignBottom="@+id/NumOfUnitEdit"
-            android:layout_below="@+id/DateDayEdit"
+            android:layout_alignTop="@+id/NumOfUnitEdit"
             android:layout_toEndOf="@+id/DateDayEdit"
             android:backgroundTint="@color/DarkGrey"
             android:focusable="false" />
@@ -205,7 +206,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_above="@+id/TotalAmountText"
-            android:layout_toEndOf="@+id/NameText"
+            android:layout_below="@+id/TitleText"
+            android:layout_toEndOf="@+id/StartText"
             android:ems="9"
             android:hint="Name"
             android:inputType="textPersonName" />
@@ -214,8 +216,9 @@
             android:id="@+id/CategoryEdit"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/TotalAmountEdit"
-            android:layout_toEndOf="@+id/CategoryText"
+            android:layout_above="@+id/DateText"
+            android:layout_below="@+id/TotalAmountText"
+            android:layout_toStartOf="@+id/ClearCategoryString"
             android:ems="6"
             android:focusable="false"
             android:hint="Categories"
@@ -225,8 +228,8 @@
             android:id="@+id/TotalAmountEdit"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignBaseline="@+id/TotalAmountText"
-            android:layout_alignBottom="@+id/TotalAmountText"
+            android:layout_above="@+id/CategoryText"
+            android:layout_below="@+id/StartText"
             android:layout_toEndOf="@+id/TotalAmountText"
             android:ems="9"
             android:hint="Total Amount"
@@ -248,15 +251,34 @@
             android:id="@+id/DeleteButton"
             android:layout_width="50dp"
             android:layout_height="wrap_content"
+            android:layout_alignBottom="@+id/TitleText"
+            android:layout_alignParentEnd="true"
+            android:layout_below="@+id/TopGreyBar"
+            android:layout_toEndOf="@+id/NameEdit"
             android:background="@color/MainGreen"
             android:paddingLeft="@dimen/PagePadding"
             android:paddingRight="@dimen/PagePadding"
             android:src="@drawable/ic_delete"
-            android:tint="@color/MainWhite"
-            android:layout_below="@+id/TopGreyBar"
-            android:layout_alignParentEnd="true"
-            android:layout_alignBottom="@+id/TitleText"
-            android:layout_toEndOf="@+id/NameEdit" />
+            android:tint="@color/MainWhite" />
+
+        <View
+            android:id="@+id/ListSeparatorBar"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_below="@+id/UnitofTimeText"
+            android:layout_margin="10dp"
+            android:background="@android:color/darker_gray" />
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/PreviousBudgetList"
+            android:layout_width="match_parent"
+            android:layout_height="200dp"
+            android:layout_above="@+id/DateBar"
+            android:layout_alignParentStart="true"
+            android:layout_below="@+id/ListSeparatorBar"
+            android:background="@color/MainWhite"
+            android:scrollbars="vertical" />
+
 
     </RelativeLayout>
 

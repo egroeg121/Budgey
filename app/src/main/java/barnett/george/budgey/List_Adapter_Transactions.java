@@ -11,6 +11,8 @@ import android.widget.TextView;
 
 import java.util.ArrayList;
 
+import barnett.george.budgey.Objects.Transaction;
+
 public class List_Adapter_Transactions extends RecyclerView.Adapter<List_Adapter_Transactions.ViewHolder> {
     private ArrayList<Transaction> values;
     CardView TransactionCard;
@@ -29,7 +31,7 @@ public class List_Adapter_Transactions extends RecyclerView.Adapter<List_Adapter
         public ViewHolder(View v) {
             super(v);
             context = v.getContext();
-            NameText = (TextView) v.findViewById(R.id.NameText);
+            NameText = (TextView) v.findViewById(R.id.StartText);
             AmountText = (TextView) v.findViewById(R.id.AmountText);
             CategoryText = (TextView) v.findViewById(R.id.CategoryText);
             DateText = (TextView) v.findViewById(R.id.DateText);

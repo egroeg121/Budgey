@@ -14,10 +14,11 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Spinner;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
+
+import barnett.george.budgey.Objects.Category;
 
 public class Overview_Categories_Fragment extends Fragment implements View.OnClickListener, AdapterView.OnItemSelectedListener {
 

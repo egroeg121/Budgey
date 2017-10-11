@@ -76,6 +76,6 @@
     <string name="LastMonth">Last Month</string>
     <string name="DaysLeft">\u0020Days Left</string>
 
-
+    <string name="DashSpace">\u0020-\u0020</string>
     <string name="Slash">\</string>
 </resources>

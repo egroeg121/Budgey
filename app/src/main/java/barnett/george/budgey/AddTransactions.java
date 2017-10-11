@@ -1,7 +1,8 @@
 package barnett.george.budgey;
 
 import android.content.Context;
-import android.provider.Settings;
+
+import barnett.george.budgey.Objects.Transaction;
 
 public class AddTransactions
 {
@@ -18,9 +19,9 @@ public class AddTransactions
 
         dbHandler.OpenDatabase();
 
-        // Add Transactions
+        // Add Transactions Today
         long currenttime = System.currentTimeMillis();
-        Transaction transaction1 = new Transaction(1,"Test1",5,currenttime,"Cat1",-1);
+        Transaction transaction1 = new Transaction(1,"Test1",5,currenttime,"Food",-1);
         dbHandler.addTransaction(transaction1);
 
         Transaction transaction2 = new Transaction(1,"Test2",5,currenttime,"Cat2",-1);

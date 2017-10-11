@@ -2,6 +2,8 @@ package barnett.george.budgey;
 
 import android.content.Context;
 
+import barnett.george.budgey.Objects.Budget;
+
 public class AddBudgets {
 
     Context context;

@@ -10,8 +10,9 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import java.io.File;
-import java.sql.Time;
 import java.util.ArrayList;
+
+import barnett.george.budgey.Objects.Budget;
 
 public class List_Adapter_Budgets extends RecyclerView.Adapter<List_Adapter_Budgets.ViewHolder> {
     private ArrayList<Budget> values;
@@ -37,7 +38,7 @@ public class List_Adapter_Budgets extends RecyclerView.Adapter<List_Adapter_Budg
         public ViewHolder(View v) {
             super(v);
             context = v.getContext();
-            NameText = (TextView) v.findViewById(R.id.NameText);
+            NameText = (TextView) v.findViewById(R.id.StartText);
             AmountText = (TextView) v.findViewById(R.id.AmountText);
             TotalAmountText = (TextView) v.findViewById(R.id.TotalAmountText);
             NumOfTypeText = (TextView) v.findViewById(R.id.NumOfTypeText);

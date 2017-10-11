@@ -10,13 +10,14 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Spinner;
 
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
+
+import barnett.george.budgey.Objects.Budget;
 
 public class Overview_Budgets_Fragment extends Fragment implements View.OnClickListener{
 

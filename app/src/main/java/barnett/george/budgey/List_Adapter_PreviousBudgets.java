@@ -9,58 +9,61 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import java.io.File;
 import java.util.ArrayList;
 
-import barnett.george.budgey.Objects.Category;
+import barnett.george.budgey.Objects.Budget;
+import barnett.george.budgey.Objects.BudgetOverviews;
 
-public class List_Adapter_Categories extends RecyclerView.Adapter<List_Adapter_Categories.ViewHolder> {
-    private ArrayList<Category> values;
-    CardView CategoryCard;
+public class List_Adapter_PreviousBudgets extends RecyclerView.Adapter<List_Adapter_PreviousBudgets.ViewHolder> {
+    private ArrayList<BudgetOverviews> values;
+    CardView BudgetCard;
     Context context;
+
+    DateHandler dateHandler;
 
     // Provide a reference to the views for each data item
     // Complex data items may need more than one view per item, and
     // you provide access to all the views for a data item in a view holder
     public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
         // each data item is just a string in this case
-        public TextView NameText;
+        public TextView StartText;
+        public TextView NextText;
         public TextView AmountText;
-        public TextView UsesAmount;
+        public TextView TotalAmountText;
+
 
 
         public ViewHolder(View v) {
             super(v);
             context = v.getContext();
-            NameText = (TextView) v.findViewById(R.id.StartText);
+            StartText = (TextView) v.findViewById(R.id.StartText);
+            NextText= (TextView) v.findViewById(R.id.NextText);
             AmountText = (TextView) v.findViewById(R.id.AmountText);
-            UsesAmount = (TextView) v.findViewById(R.id.UsesAmount);
-            CategoryCard = (CardView) v.findViewById(R.id.CategoryCard);
+            TotalAmountText = (TextView) v.findViewById(R.id.TotalAmountText);
+            BudgetCard = (CardView) v.findViewById(R.id.PreviousBudgetCard);
 
-            v.setOnClickListener(this);
+            //v.setOnClickListener(this);
         }
 
         @Override
         public void onClick(View v) {
             Intent intent = new Intent(context, Info_Activity.class);
-            Category category = values.get( getAdapterPosition() );
-
-            // onclick goes to category info
-            intent.putExtra("Category",category.getID());
-            context.startActivity(intent);
+            BudgetOverviews budgetOverview = values.get( getAdapterPosition() );
         }
     }
 
     // Provide a suitable constructor (depends on the kind of dataset)
-    public List_Adapter_Categories(ArrayList<Category> myDataset) {
+    public List_Adapter_PreviousBudgets(ArrayList<BudgetOverviews> myDataset) {
         values = myDataset;
     }
 
     // Create new views (invoked by the layout manager)
     @Override
-    public List_Adapter_Categories.ViewHolder onCreateViewHolder(ViewGroup parent, final int viewType) {
+    public List_Adapter_PreviousBudgets.ViewHolder onCreateViewHolder(ViewGroup parent, final int viewType) {
         // create a new view
         LayoutInflater inflater = LayoutInflater.from( parent.getContext() );
-        View v = inflater.inflate(R.layout.overview_categories_card, parent, false);
+        View v = inflater.inflate(R.layout.info_budgets_card, parent, false);
         // set the view's size, margins, paddings and layout parameters
         ViewHolder vh = new ViewHolder(v);
 
@@ -72,12 +75,17 @@ public class List_Adapter_Categories extends RecyclerView.Adapter<List_Adapter_C
     public void onBindViewHolder(ViewHolder holder, final int position) {
         // - get element from your dataset at this position
         // - replace the contents of the view with that element
-        final Category category = values.get(position);
-        holder.NameText.setText( category.getName() );
-        String amountstring = String.format("%1$,.2f", category.getAmount());
+        dateHandler = new DateHandler();
+
+        final BudgetOverviews budgetOverview = values.get(position);
+        String startString = dateHandler.MillitoDateString( budgetOverview.getStartdate() );
+        holder.StartText.setText( startString );
+        String nextString = dateHandler.MillitoDateString( budgetOverview.getNextdate() );
+        holder.StartText.setText( startString );
+        String amountstring = String.format("%1$,.2f", budgetOverview.getAmount());
         holder.AmountText.setText( amountstring );
-        String NumofUnitString = Integer.toString( category.getCounter() );
-        holder.UsesAmount.setText( NumofUnitString );
+        String Totalamountstring = File.separator + String.format("%1$,.2f", budgetOverview.getTotalamount());
+        holder.TotalAmountText.setText( Totalamountstring );
     }
 
 

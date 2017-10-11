@@ -26,6 +26,11 @@ public class DateHandler {
         return date;
     }
 
+    public long tomorrowDayMilli(){
+        long time= System.currentTimeMillis();
+        return AddNumDays(time,1);
+    }
+
     // Converts Milliseconds (long variable) to a date (String)
     public String MillitoDateString(long Millitime){
 

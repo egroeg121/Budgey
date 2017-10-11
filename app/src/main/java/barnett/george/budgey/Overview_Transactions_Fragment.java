@@ -6,7 +6,6 @@ import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.PopupMenu;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -22,6 +21,8 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 
+import barnett.george.budgey.Objects.Transaction;
+
 public class Overview_Transactions_Fragment extends Fragment implements View.OnClickListener, AdapterView.OnItemSelectedListener {
 
     DBHandler dbHandler;
@@ -29,7 +30,6 @@ public class Overview_Transactions_Fragment extends Fragment implements View.OnC
     DateSelector dateSelector;
     ArrayList<Transaction> TransactionList;
     ArrayList<Transaction> displayList;
-
 
     RecyclerView recyclerView;
     RecyclerView.LayoutManager layoutManager;
@@ -116,16 +116,6 @@ public class Overview_Transactions_Fragment extends Fragment implements View.OnC
 
         return view;
     }
-
-    /*
-    Notes: Chain of methods executed
-
-    This is so they can be jumped into at any point
-    getTransactionList
-    getDisplayList
-    sortDisplayList
-    showDisplayList
-     */
 
     @Override
     public void onStart() {

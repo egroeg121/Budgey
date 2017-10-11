@@ -9,8 +9,9 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import java.sql.Time;
 import java.util.ArrayList;
+
+import barnett.george.budgey.Objects.Recurring;
 
 public class List_Adapter_Recurring extends RecyclerView.Adapter<List_Adapter_Recurring.ViewHolder> {
     private ArrayList<Recurring> values;
@@ -32,7 +33,7 @@ public class List_Adapter_Recurring extends RecyclerView.Adapter<List_Adapter_Re
         public ViewHolder(View v) {
             super(v);
             context = v.getContext();
-            NameText = (TextView) v.findViewById(R.id.NameText);
+            NameText = (TextView) v.findViewById(R.id.StartText);
             AmountText = (TextView) v.findViewById(R.id.AmountText);
             NumOfTypeText = (TextView) v.findViewById(R.id.NumOfTypeText);
             TimeTypeText = (TextView) v.findViewById(R.id.TimeTypeText);

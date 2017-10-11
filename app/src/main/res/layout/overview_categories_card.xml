@@ -19,7 +19,7 @@
             android:padding="6dip">
 
             <TextView
-                android:id="@+id/NameText"
+                android:id="@+id/StartText"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignWithParentIfMissing="true"
@@ -50,7 +50,7 @@
                 android:text="@string/Uses"
                 android:textAppearance="@android:style/TextAppearance.Material.Medium"
                 android:layout_alignParentBottom="true"
-                android:layout_toEndOf="@+id/NameText" />
+                android:layout_toEndOf="@+id/StartText" />
 
             <TextView
                 android:id="@+id/AmountText"

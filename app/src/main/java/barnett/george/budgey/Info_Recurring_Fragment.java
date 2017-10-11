@@ -5,7 +5,6 @@ import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,13 +15,7 @@ import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.Spinner;
 
-import java.util.Date;
-
-import static barnett.george.budgey.R.id.AddButton;
-import static barnett.george.budgey.R.id.AmountEdit;
-import static barnett.george.budgey.R.id.DateDayEdit;
-import static barnett.george.budgey.R.id.RepeatsEdit;
-import static barnett.george.budgey.R.id.time;
+import barnett.george.budgey.Objects.Recurring;
 
 public class Info_Recurring_Fragment extends Fragment implements View.OnClickListener,AdapterView.OnItemSelectedListener {
 
@@ -122,6 +115,8 @@ public class Info_Recurring_Fragment extends Fragment implements View.OnClickLis
             timetype = recurring.getTimeType();
             repeats = recurring.getRepeats();
             counter = recurring.getCounter();
+
+
 
             DateArray = dateHandler.DatetoStringArray(startdate);
 

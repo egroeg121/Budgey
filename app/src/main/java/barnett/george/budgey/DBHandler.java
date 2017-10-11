@@ -8,13 +8,14 @@ import android.database.MatrixCursor;
 import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
-import android.graphics.Path;
-import android.os.Bundle;
 import android.util.Log;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
-import java.util.List;
+
+import barnett.george.budgey.Objects.Budget;
+import barnett.george.budgey.Objects.Category;
+import barnett.george.budgey.Objects.Recurring;
+import barnett.george.budgey.Objects.Transaction;
 
 public class DBHandler extends SQLiteOpenHelper {
 

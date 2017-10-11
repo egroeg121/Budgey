@@ -2,6 +2,8 @@ package barnett.george.budgey;
 
 import android.content.Context;
 
+import barnett.george.budgey.Objects.Recurring;
+
 public class AddRecurring {
 
     Context context;

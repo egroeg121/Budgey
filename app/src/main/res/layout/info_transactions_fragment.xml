@@ -53,7 +53,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentStart="true"
-            android:layout_below="@+id/NameText"
+            android:layout_below="@+id/StartText"
             android:gravity="center"
             android:minWidth="110dp"
             android:padding="@dimen/PagePadding"
@@ -68,7 +68,7 @@
             android:layout_height="wrap_content"
             android:layout_alignEnd="@+id/DateText"
             android:layout_alignParentStart="true"
-            android:layout_below="@+id/NameText"
+            android:layout_below="@+id/StartText"
             android:layout_marginTop="44dp"
             android:gravity="center"
             android:minWidth="110dp"
@@ -93,7 +93,7 @@
             android:textStyle="bold" />
 
         <TextView
-            android:id="@+id/NameText"
+            android:id="@+id/StartText"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignEnd="@+id/AmountText"
