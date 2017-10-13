@@ -30,7 +30,10 @@ public class AddTransactions
         Transaction transaction3 = new Transaction(1,"Test3",5,currenttime,"Cat2",-1);
         dbHandler.addTransaction(transaction3);
 
-
+        for (int i = 0; i < 1000; i++) {
+            Transaction transaction4 = new Transaction(1,"Test",5,currenttime,"Cat2",-1);
+            dbHandler.addTransaction(transaction4);
+        }
 
 
         dbHandler.CloseDatabase();

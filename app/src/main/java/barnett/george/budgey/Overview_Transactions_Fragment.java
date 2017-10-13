@@ -16,7 +16,9 @@ import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import java.sql.Time;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
@@ -42,7 +44,6 @@ public class Overview_Transactions_Fragment extends Fragment implements View.OnC
     Spinner UnitOfTimeSpinner;
     ArrayAdapter<String> SpinnerAdapter;
 
-
     long StartDate;
     long EndDate;
 
@@ -66,6 +67,8 @@ public class Overview_Transactions_Fragment extends Fragment implements View.OnC
         PreviousDateButton.setOnClickListener(this);
         ImageButton NextDateButton = (ImageButton) view.findViewById(R.id.NextDateButton);
         NextDateButton.setOnClickListener(this);
+        ImageButton TodayButton = (ImageButton) view.findViewById(R.id.TodayButton);
+        TodayButton.setOnClickListener(this);
         searchButton = (ImageButton) view.findViewById(R.id.searchButton);
         searchButton.setOnClickListener(this);
         DateText = (TextView) view.findViewById(R.id.DateText);
@@ -122,22 +125,19 @@ public class Overview_Transactions_Fragment extends Fragment implements View.OnC
         super.onStart();
 
         if (search){searchButton.setImageResource(R.drawable.ic_cancel);}
-
-        getDates();
-        getTransactionList();
-        getDisplayList();
-
     }
 
     @Override
     public void onResume() {
         super.onResume();
-
+        getDates();
+        getTransactionList();
+        getDisplayList();
         sortDisplayList();
         showDisplayList();
     }
 
-    // reset dates
+    // reset dates in date bar
     public void getDates(){
         dateSelector.CalcDates();
 
@@ -145,6 +145,8 @@ public class Overview_Transactions_Fragment extends Fragment implements View.OnC
         DateText.setText(dateSelector.getDateString());
         StartDate = dateSelector.getStartdate();
         EndDate = dateSelector.getEnddate();
+        String StartDateString = dateHandler.MillitoDateString(StartDate);
+        String EndDateString = dateHandler.MillitoDateString(EndDate);
     }
 
     // get transactionlist
@@ -155,6 +157,8 @@ public class Overview_Transactions_Fragment extends Fragment implements View.OnC
         // Get Database values
         dbHandler.OpenDatabase();
         ArrayList<Transaction> dbList = dbHandler.getAllTransactionsDateLimited(StartDate, EndDate);
+        String StartDateString = dateHandler.MillitoDateString(StartDate);
+        String EndDateString = dateHandler.MillitoDateString(EndDate);
         dbHandler.CloseDatabase();
 
         if (dbList != null && !dbList.isEmpty()) {
@@ -199,7 +203,6 @@ public class Overview_Transactions_Fragment extends Fragment implements View.OnC
         recyleAdapter.notifyDataSetChanged();
     }
 
-
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
@@ -214,6 +217,11 @@ public class Overview_Transactions_Fragment extends Fragment implements View.OnC
                 break;
             case R.id.PreviousDateButton:
                 dateSelector.PreviousDate();
+                onStart();
+                onResume();
+                break;
+            case R.id.TodayButton:
+                dateSelector = new DateSelector(getContext(), 0, TimeType);
                 onStart();
                 onResume();
                 break;
@@ -232,8 +240,11 @@ public class Overview_Transactions_Fragment extends Fragment implements View.OnC
                             displayList.add(searchtransaction);
                         }
 
-                        onResume();
                     }
+
+                    sortDisplayList();
+                    showDisplayList();
+
                 }else{
                     searchButton.setImageResource(R.drawable.ic_search);
                     searchText.setText("");
@@ -253,8 +264,9 @@ public class Overview_Transactions_Fragment extends Fragment implements View.OnC
             case R.id.UnitOfTimeSpinner:
                 TimeType = position;
                 dateSelector.setTimeType(TimeType);
-                getDates();
-                getTransactionList();
+                dateSelector.CalcDates();
+                onStart();
+                onResume();
                 break;
             case R.id.SortSpinner:
                 SortInt = position;

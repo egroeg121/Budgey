@@ -27,12 +27,12 @@ public class AddGeneral
         dbHandler.addCategory( new Category(2,"Snacks",0,0) );
 
         // Add Budgets Today
-        dbHandler.addBudget( new Budget(1,"Everything",100,"Food;Alcohol;Snacks",datehandler.DateStringtoMilli("11/11/17"),1,1,0));
+        dbHandler.addBudget( new Budget(1,"Everything",100,"Food;Alcohol;Snacks",datehandler.DateStringtoMilli("11/10/17"),1,1,0));
 
         // Add Transactions
-        dbHandler.addTransaction( new Transaction(1,"Lunch Hall",3.30, datehandler.DateStringtoMilli("10/11/17"),"Food",-1) );
-        dbHandler.addTransaction( new Transaction(2,"Coffee",1.45, datehandler.DateStringtoMilli("10/11/17"),"Snacks",-1) );
-        dbHandler.addTransaction( new Transaction(3,"Dinner",4, datehandler.DateStringtoMilli("9/11/17"),"Food",-1) );
+        dbHandler.addTransaction( new Transaction(1,"Lunch Hall",3.30, datehandler.DateStringtoMilli("10/10/17"),"Food",-1) );
+        dbHandler.addTransaction( new Transaction(2,"Coffee",1.45, datehandler.DateStringtoMilli("10/10/17"),"Snacks",-1) );
+        dbHandler.addTransaction( new Transaction(3,"Dinner",4, datehandler.DateStringtoMilli("9/10/17"),"Food",-1) );
 
         dbHandler.CloseDatabase();
     }

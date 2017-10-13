@@ -5,6 +5,7 @@
     <dimen name="DateBar">13sp</dimen>
     <dimen name="PagePadding">10dp</dimen>
     <dimen name="ExtraPagePadding">15dp</dimen>
+    <dimen name="SearchBarMargin">7dp</dimen>
     <dimen name="DateBarPadding">7dp</dimen>
     <dimen name="CardPadding">7dp</dimen>
 </resources>
