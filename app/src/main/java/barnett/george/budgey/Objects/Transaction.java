@@ -1,11 +1,13 @@
-package barnett.george.budgey;
+package barnett.george.budgey.Objects;
 
 import android.support.annotation.Nullable;
+
+import barnett.george.budgey.DateHandler;
 
 public class Transaction {
 
     /*     Main Variables      */
-    int id = 0;
+    int id;
     String name;
     double amount;
     long date;

@@ -26,6 +26,8 @@ public class Developer_Activity extends Activity implements View.OnClickListener
         AddRecurring.setOnClickListener(this);
         Button AddBudgets = (Button) findViewById(R.id.AddBudgets);
         AddBudgets.setOnClickListener(this);
+        Button AddGeneral = (Button) findViewById(R.id.AddGeneral);
+        AddGeneral.setOnClickListener(this);
         Button CheckRecurring = (Button) findViewById(R.id.CheckRecurring);
         CheckRecurring.setOnClickListener(this);
         Button UpdateCategories = (Button) findViewById(R.id.UpdateCategories);
@@ -56,6 +58,9 @@ public class Developer_Activity extends Activity implements View.OnClickListener
                 AddBudgets addBudgets = new AddBudgets( this );
                 addBudgets.add();
                 break;
+            case R.id.AddGeneral:
+                AddGeneral addGeneral = new AddGeneral( this );
+                addGeneral.add();
             case R.id.CheckRecurring:
                 updateDatabase.CheckRecurring();
                 break;

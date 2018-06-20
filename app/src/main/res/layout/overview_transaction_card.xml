@@ -19,7 +19,7 @@
             android:padding="6dip">
 
             <TextView
-                android:id="@+id/NameText"
+                android:id="@+id/StartText"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignWithParentIfMissing="true"
@@ -34,7 +34,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentBottom="true"
-                android:layout_toEndOf="@+id/NameText"
+                android:layout_toEndOf="@+id/StartText"
                 android:ellipsize="marquee"
                 android:maxLines="1"
                 android:text="@string/Category"

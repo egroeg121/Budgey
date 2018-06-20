@@ -20,6 +20,8 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 
+import barnett.george.budgey.Objects.Recurring;
+
 public class Overview_Recurring_Fragment extends Fragment implements View.OnClickListener, AdapterView.OnItemSelectedListener {
 
     DBHandler dbHandler;

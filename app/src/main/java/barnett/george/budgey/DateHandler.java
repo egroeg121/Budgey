@@ -26,6 +26,11 @@ public class DateHandler {
         return date;
     }
 
+    public long tomorrowDayMilli(){
+        long time= System.currentTimeMillis();
+        return AddNumDays(time,1);
+    }
+
     // Converts Milliseconds (long variable) to a date (String)
     public String MillitoDateString(long Millitime){
 
@@ -153,17 +158,69 @@ public class DateHandler {
         return date;
     }
 
-    public long EndOfDay(long date){
+    public long StartOfWeek(long millitime){
 
-        date = AddNumDays(date,1) - 1;
+        long testtime = millitime;
 
-        return date;
+        for (int i = 0; i < 7; i++) {
+
+            String teststring = MillitoDayOfWeek(testtime);
+            if (teststring.equals("Monday")){
+                return testtime;
+            }else{
+                testtime = AddNumDays(testtime,-1);
+            }
+
+        }
+        return millitime;
+    }
+
+    public long StartOfMonth(long millitime){
+
+       // convert milli to date format (month only)
+        SimpleDateFormat simpledate = new SimpleDateFormat("MMMM/yy");
+        Calendar calendar = Calendar.getInstance();
+
+        calendar.setTimeInMillis(millitime);
+        String string = simpledate.format( calendar.getTime() );
+
+        // convert date format to ( milli)
+        try {
+            Date date = (Date)simpledate.parse(string);
+            long MilliDate = date.getTime();
+            return MilliDate;
+        } catch (ParseException e) { return 0;}
+    }
+
+    public long StartOfYear(long millitime){
+
+        // convert milli to date format (month only)
+        SimpleDateFormat simpledate = new SimpleDateFormat("yy");
+        Calendar calendar = Calendar.getInstance();
+
+        calendar.setTimeInMillis(millitime);
+        String string = simpledate.format( calendar.getTime() );
+
+        // convert date format to ( milli)
+        try {
+            Date date = (Date)simpledate.parse(string);
+            long MilliDate = date.getTime();
+            return MilliDate;
+        } catch (ParseException e) { return 0;}
     }
 
     public String MillitoDayOfWeek(long date) {
         Date now = new Date(date);
 
         SimpleDateFormat simpleDateformat = new SimpleDateFormat("EEEE"); // the day of the week abbreviated
+        String daystring = simpleDateformat.format(now);
+        return daystring;
+    }
+
+    public String MillitoDayOfWeekShort(long date) {
+        Date now = new Date(date);
+
+        SimpleDateFormat simpleDateformat = new SimpleDateFormat("EE"); // the day of the week abbreviated
         String daystring = simpleDateformat.format(now);
         return daystring;
     }

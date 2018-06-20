@@ -36,7 +36,7 @@
             android:layout_toStartOf="@+id/DeleteButton" />
 
         <TextView
-            android:id="@+id/NameText"
+            android:id="@+id/StartText"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:gravity="center"
@@ -53,16 +53,16 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@+id/TitleText"
-            android:layout_toEndOf="@+id/NameText"
+            android:layout_toEndOf="@+id/StartText"
             android:ems="10"
             android:inputType="textPersonName"
-            android:layout_alignBottom="@+id/NameText" />
+            android:layout_alignBottom="@+id/StartText" />
 
         <View
             android:id="@+id/ListSeparatorBar"
             android:layout_width="match_parent"
             android:layout_height="1dp"
-            android:layout_below="@+id/NameText"
+            android:layout_below="@+id/StartText"
             android:layout_margin="10dp"
             android:background="@android:color/darker_gray" />
 

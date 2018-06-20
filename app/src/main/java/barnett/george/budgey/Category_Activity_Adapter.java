@@ -10,8 +10,9 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import java.sql.Time;
 import java.util.ArrayList;
+
+import barnett.george.budgey.Objects.Category;
 
 public class Category_Activity_Adapter extends RecyclerView.Adapter<Category_Activity_Adapter.ViewHolder> {
     private ArrayList<Category> values;
@@ -31,7 +32,7 @@ public class Category_Activity_Adapter extends RecyclerView.Adapter<Category_Act
         public ViewHolder(View v) {
             super(v);
             context = v.getContext();
-            NameText = (TextView) v.findViewById(R.id.NameText);
+            NameText = (TextView) v.findViewById(R.id.StartText);
             AmountText = (TextView) v.findViewById(R.id.AmountText);
             UsesAmount = (TextView) v.findViewById(R.id.UsesAmount);
             CategoryCard = (CardView) v.findViewById(R.id.CategoryCard);

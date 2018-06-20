@@ -78,18 +78,18 @@
             android:id="@+id/CategoryList"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_alignParentBottom="true"
             android:layout_alignParentEnd="true"
             android:layout_below="@+id/searchText"
             android:layout_toStartOf="@+id/searchButton"
             android:background="@color/MainWhite"
-            android:scrollbars="vertical" />
+            android:scrollbars="vertical"
+            android:layout_above="@+id/DateBar" />
 
         <android.support.design.widget.FloatingActionButton
             android:id="@+id/AddButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignParentBottom="true"
+            android:layout_above="@+id/DateBar"
             android:layout_alignParentEnd="true"
             android:layout_margin="@dimen/PagePadding"
             android:src="@drawable/ic_add"
@@ -97,6 +97,18 @@
             app:backgroundTint="@color/MainGreen"
             app:layout_anchor="@id/CategoryList"
             app:layout_anchorGravity="bottom|right" />
+
+        <LinearLayout
+            android:id="@+id/DateBar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentStart="true"
+            android:background="@color/MainGreen"
+            android:orientation="horizontal"
+            android:padding="@dimen/DateBarPadding">
+
+        </LinearLayout>
 
     </RelativeLayout>
 

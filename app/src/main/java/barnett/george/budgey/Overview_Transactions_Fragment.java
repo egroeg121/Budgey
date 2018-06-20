@@ -6,7 +6,6 @@ import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.PopupMenu;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -17,10 +16,14 @@ import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import java.sql.Time;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
+
+import barnett.george.budgey.Objects.Transaction;
 
 public class Overview_Transactions_Fragment extends Fragment implements View.OnClickListener, AdapterView.OnItemSelectedListener {
 
@@ -32,7 +35,6 @@ public class Overview_Transactions_Fragment extends Fragment implements View.OnC
     ArrayList<Transaction> TransactionList;
     ArrayList<Transaction> displayList;
 
-
     RecyclerView recyclerView;
     RecyclerView.LayoutManager layoutManager;
     RecyclerView.Adapter recyleAdapter;
@@ -43,7 +45,6 @@ public class Overview_Transactions_Fragment extends Fragment implements View.OnC
 
     Spinner UnitOfTimeSpinner;
     ArrayAdapter<String> SpinnerAdapter;
-
 
     long StartDate;
     long EndDate;
@@ -68,6 +69,8 @@ public class Overview_Transactions_Fragment extends Fragment implements View.OnC
         PreviousDateButton.setOnClickListener(this);
         ImageButton NextDateButton = (ImageButton) view.findViewById(R.id.NextDateButton);
         NextDateButton.setOnClickListener(this);
+        ImageButton TodayButton = (ImageButton) view.findViewById(R.id.TodayButton);
+        TodayButton.setOnClickListener(this);
         searchButton = (ImageButton) view.findViewById(R.id.searchButton);
         searchButton.setOnClickListener(this);
         DateText = (TextView) view.findViewById(R.id.DateText);
@@ -125,24 +128,20 @@ public class Overview_Transactions_Fragment extends Fragment implements View.OnC
     public void onStart() {
         super.onStart();
 
-        getDates();
-        getTransactionList();
-        getDisplayList();
-
+        if (search){searchButton.setImageResource(R.drawable.ic_cancel);}
     }
 
     @Override
     public void onResume() {
         super.onResume();
-
-        search = false;
-        searchList();
-
+        getDates();
+        getTransactionList();
+        getDisplayList();
         sortDisplayList();
         showDisplayList();
     }
 
-    // reset dates
+    // reset dates in date bar
     public void getDates(){
         dateSelector.CalcDates();
 
@@ -150,6 +149,8 @@ public class Overview_Transactions_Fragment extends Fragment implements View.OnC
         DateText.setText(dateSelector.getDateString());
         StartDate = dateSelector.getStartdate();
         EndDate = dateSelector.getEnddate();
+        String StartDateString = dateHandler.MillitoDateString(StartDate);
+        String EndDateString = dateHandler.MillitoDateString(EndDate);
     }
 
     // get transactionlist
@@ -160,6 +161,8 @@ public class Overview_Transactions_Fragment extends Fragment implements View.OnC
         // Get Database values
         dbHandler.OpenDatabase();
         ArrayList<Transaction> dbList = dbHandler.getAllTransactionsDateLimited(StartDate, EndDate);
+        String StartDateString = dateHandler.MillitoDateString(StartDate);
+        String EndDateString = dateHandler.MillitoDateString(EndDate);
         dbHandler.CloseDatabase();
 
         if (dbList != null && !dbList.isEmpty()) {
@@ -204,31 +207,6 @@ public class Overview_Transactions_Fragment extends Fragment implements View.OnC
         recyleAdapter.notifyDataSetChanged();
     }
 
-    public void searchList(){
-        if (search){
-            searchButton.setImageResource(R.drawable.ic_cancel);
-            String searchString = searchText.getText().toString().toLowerCase();
-
-            displayList.clear();
-
-            for(Transaction searchtransaction : TransactionList){
-                if(searchtransaction.getName() != null && searchtransaction.getName().toLowerCase().contains(searchString)){
-                    displayList.add(searchtransaction);
-                }
-
-                sortDisplayList();
-                showDisplayList();
-            }
-        }else{
-            searchButton.setImageResource(R.drawable.ic_search);
-            searchText.setText("");
-
-            getDisplayList();
-            sortDisplayList();
-            showDisplayList();
-        }
-    }
-
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
@@ -246,10 +224,39 @@ public class Overview_Transactions_Fragment extends Fragment implements View.OnC
                 onStart();
                 onResume();
                 break;
+            case R.id.TodayButton:
+                dateSelector = new DateSelector(getContext(), 0, TimeType);
+                onStart();
+                onResume();
+                break;
             case R.id.searchButton:
                 search = !search;
-                searchList();
-                break;
+
+                if (search){
+                    searchButton.setImageResource(R.drawable.ic_cancel);
+                    String searchString = searchText.getText().toString();
+
+                    displayList.clear();
+
+                    for(Transaction searchtransaction : TransactionList){
+                        if(searchtransaction.getName() != null && searchtransaction.getName().contains(searchString)){
+                            displayList.add(searchtransaction);
+                        }
+
+                    }
+
+                    sortDisplayList();
+                    showDisplayList();
+
+                }else{
+                    searchButton.setImageResource(R.drawable.ic_search);
+                    searchText.setText("");
+
+                    getDisplayList();
+                    sortDisplayList();
+                    showDisplayList();
+                }
+
         }
     }
 
@@ -260,8 +267,9 @@ public class Overview_Transactions_Fragment extends Fragment implements View.OnC
             case R.id.UnitOfTimeSpinner:
                 TimeType = position;
                 dateSelector.setTimeType(TimeType);
-                getDates();
-                getTransactionList();
+                dateSelector.CalcDates();
+                onStart();
+                onResume();
                 break;
             case R.id.SortSpinner:
                 SortInt = position;

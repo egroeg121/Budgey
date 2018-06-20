@@ -4,7 +4,11 @@ package barnett.george.budgey;
 import android.content.Context;
 
 import java.util.ArrayList;
-import java.util.Date;
+
+import barnett.george.budgey.Objects.Budget;
+import barnett.george.budgey.Objects.Category;
+import barnett.george.budgey.Objects.Recurring;
+import barnett.george.budgey.Objects.Transaction;
 
 /**
  * Deals with all the checking for transactions to be added or new budget sections to be made etc. ALso deals with counting up categories uses
