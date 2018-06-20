@@ -1,12 +1,13 @@
 package barnett.george.budgey;
 
 import android.content.Intent;
+import android.icu.text.TimeZoneFormat;
+import android.media.Image;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,15 +18,10 @@ import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.Spinner;
 
-import java.lang.reflect.Array;
+import java.sql.Time;
 import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
-
-import barnett.george.budgey.Objects.Budget;
-import barnett.george.budgey.Objects.BudgetOverviews;
-import barnett.george.budgey.Objects.Category;
-import barnett.george.budgey.Objects.Transaction;
+import java.util.Arrays;
+import java.util.List;
 
 public class Info_Budgets_Fragment extends Fragment implements View.OnClickListener,AdapterView.OnItemSelectedListener {
 
@@ -45,10 +41,6 @@ public class Info_Budgets_Fragment extends Fragment implements View.OnClickListe
     EditText DateMonthEdit;
     EditText DateYearEdit;
 
-    RecyclerView recyclerView;
-    RecyclerView.LayoutManager layoutManager;
-    RecyclerView.Adapter recyleAdapter;
-
     Spinner TimeTypeSpinner;
     ArrayAdapter<String> SpinnerAdapter;
 
@@ -57,15 +49,11 @@ public class Info_Budgets_Fragment extends Fragment implements View.OnClickListe
 
     Budget budget;
 
-    ArrayList<BudgetOverviews> PreviousBudgetsList;
-    ArrayList<BudgetOverviews> DisplayList;
-
     // budget object varibles
     int ID;
     String name;
     double totalamount;
     String categorystring ="";
-    String[] categories;
     long nextdate;
     int numofunit;
     int timetype;
@@ -74,9 +62,6 @@ public class Info_Budgets_Fragment extends Fragment implements View.OnClickListe
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.info_budgets_fragment, container, false);
-
-        PreviousBudgetsList = new ArrayList<BudgetOverviews>();
-        DisplayList = new ArrayList<BudgetOverviews>();
 
         // Initialising Layout Items
         FloatingActionButton DoneButton = (FloatingActionButton) view.findViewById(R.id.DoneButton);
@@ -96,17 +81,6 @@ public class Info_Budgets_Fragment extends Fragment implements View.OnClickListe
         DateMonthEdit = (EditText) view.findViewById((R.id.DateMonthEdit));
         DateYearEdit = (EditText) view.findViewById((R.id.DateYearEdit));
 
-        // Set up RecyleView
-        recyclerView = (RecyclerView) view.findViewById(R.id.PreviousBudgetList);
-        recyclerView.setHasFixedSize(true);
-        layoutManager = new LinearLayoutManager(getActivity());
-        recyclerView.setLayoutManager(layoutManager);
-
-
-        // Define and attach adapter
-        recyleAdapter = new List_Adapter_PreviousBudgets(DisplayList);
-        recyclerView.setAdapter(recyleAdapter);
-
         // Set up Spinner
         TimeTypeSpinner = (Spinner) view.findViewById(R.id.UnitOfTimeSpinner);
         TimeTypeArray = getResources().getStringArray(R.array.UnitsOfTime);
@@ -125,9 +99,6 @@ public class Info_Budgets_Fragment extends Fragment implements View.OnClickListe
         Intent intent =getActivity().getIntent();
         ID = intent.getIntExtra("Budget",-1);
 
-
-
-
         if (ID == -1){
             budget = new Budget(ID,name,totalamount,categorystring,nextdate,numofunit,timetype,amount);
 
@@ -144,7 +115,6 @@ public class Info_Budgets_Fragment extends Fragment implements View.OnClickListe
             name = budget.getName();
             totalamount = budget.getTotalAmount();
             categorystring = budget.getCategoryString();
-            categories = budget.getCategoryList();
             nextdate = budget.getNextDate();
             numofunit = budget.getNumofUnit();
             timetype = budget.getTimeType();
@@ -169,22 +139,10 @@ public class Info_Budgets_Fragment extends Fragment implements View.OnClickListe
         return view;
     }
 
-    @Override
-    public void onStart() {
-        super.onStart();
-
-        //getPreviousBudgetsList();
-        testPreviousBudgetsList();
-        getDisplayList();
-
-    }
 
     @Override
     public void onResume() {
         super.onResume();
-
-        showDisplayList();
-
     }
 
     @Override
@@ -265,74 +223,6 @@ public class Info_Budgets_Fragment extends Fragment implements View.OnClickListe
             }
             CategoryStringEdit.setText(categorystring);
         }
-    }
-
-    public void testPreviousBudgetsList(){
-    }
-
-    public void getPreviousBudgetsList(){
-        // create overall transaction arraylist
-        int numofpreviusbudgets = 10;
-        ArrayList<Transaction> OverallTransactionList = new ArrayList<Transaction>();
-
-        // add each category to overall transactionlist
-        for (int i = 0; i < categories.length; i++) {
-            OverallTransactionList.addAll( dbHandler.getAllTransactionsCategoryLimited(categories[0]) );
-        }
-
-        // sort overall transactionlist by date
-        Collections.sort(OverallTransactionList, new Comparator<Transaction>() {
-            @Override
-            public int compare(Transaction t1, Transaction t2) {
-                return  Long.compare(t1.getDate(), t2.getDate());
-            }
-
-        });
-
-
-        // set a 'focus budget' hold nextdate and startdate
-        long startdate = dateHandler.nextDate(timetype,-1*numofunit,nextdate);
-        String testdate = dateHandler.MillitoDateString(startdate);
-        BudgetOverviews focusbudget = new BudgetOverviews(0,totalamount, startdate ,nextdate); // creates a budget starting at the info budgets nextdate, with one set of dates before
-
-        // cycle through transactionlist
-        for (int i = 0; i < OverallTransactionList.size(); i++) {
-            // compare transaction date with current previous budget
-
-            // if less than startdate
-            if (OverallTransactionList.get(i).getDate() < startdate ){
-                // add current budget to budgets arraylist
-                PreviousBudgetsList.add(focusbudget);
-                // create new budget as the focus
-                nextdate = startdate;
-                startdate = dateHandler.nextDate(timetype,-1*numofunit,nextdate);
-
-                String starttest = dateHandler.MillitoDateString(startdate);
-                String nexttest = dateHandler.MillitoDateString(nextdate);
-                focusbudget = new BudgetOverviews(0,totalamount,startdate,nextdate);
-                // refresh recylerview
-
-
-
-            }
-
-
-            // if >startdate and <nextdate add to current budget amount
-        }
-
-    }
-
-    // turn previousbudgetlist into displaylist
-    public void getDisplayList(){
-        DisplayList.clear();
-        DisplayList.addAll(PreviousBudgetsList);
-    }
-
-    // display displaylist
-    public void showDisplayList(){
-        // Update Adapter
-        recyclerView.setAdapter(recyleAdapter);
-        recyleAdapter.notifyDataSetChanged();
     }
 
     @Override
